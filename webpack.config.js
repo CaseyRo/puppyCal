@@ -42,6 +42,7 @@ module.exports = {
         dataPolicyUrl: process.env.DATA_POLICY_URL || '',
         privacyUrl: process.env.PRIVACY_URL || '',
         impressumUrl: process.env.IMPRESSUM_URL || '',
+        repoUrl: process.env.REPO_URL || 'https://github.com/CaseyRo/puppyCal',
       }),
     }),
     new HtmlWebpackPlugin({
@@ -51,7 +52,10 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({ filename: 'main.css' }),
     new CopyWebpackPlugin({
-      patterns: [{ from: 'i18n', to: 'i18n' }],
+      patterns: [
+        { from: 'i18n', to: 'i18n' },
+        { from: 'public', to: '.' },
+      ],
     }),
     new (class UmamiInjectPlugin {
       apply(compiler) {

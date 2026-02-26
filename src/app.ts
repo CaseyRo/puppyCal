@@ -21,6 +21,41 @@ import {
   resetForProfileSwitch,
   toDisplayedAge,
 } from './food/profile';
+import { ANALYTICS_EVENTS, trackEvent } from './analytics';
+import { applyPlannerMetadata } from './metadata';
+import { buildShareTarget, SHARE_PLATFORMS, type SharePlatform } from './sharing';
+
+const BUY_ME_A_COFFEE_URL = 'https://buymeacoffee.com/caseyberlin';
+const CASEY_DIT_URL = 'https://casey.berlin/DIT';
+const DEFAULT_REPO_URL = __CONFIG__.repoUrl || 'https://github.com/CaseyRo/puppyCal';
+const SOCIAL_SHARE_TEXT = 'Plan your puppy walkies and food schedule';
+
+function currentCanonicalUrl(): string {
+  return `${window.location.origin}${window.location.pathname}${window.location.search}`;
+}
+
+function mailtoWithContext(to: string, subject: string, intro: string): string {
+  const body = `${intro}\n\nPage reference: ${window.location.href}`;
+  return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
+async function fallbackShare(url: string): Promise<boolean> {
+  if (navigator.share) {
+    try {
+      await navigator.share({ url, text: SOCIAL_SHARE_TEXT });
+      return true;
+    } catch {
+      // ignore and continue to clipboard fallback
+    }
+  }
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    await navigator.clipboard.writeText(url);
+    return true;
+  }
+
+  return false;
+}
 
 function applyPlannerStateToUrl(
   config: Config,
@@ -140,6 +175,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
 
   let feedback: string | null = null;
   let feedbackTimer: ReturnType<typeof setTimeout> | null = null;
+  let sharePickerOpen = false;
 
   function showFeedback(msg: string): void {
     if (feedbackTimer) clearTimeout(feedbackTimer);
@@ -156,9 +192,27 @@ export async function runApp(container: HTMLElement): Promise<void> {
     const infoIcon = (text: string): string =>
       `<span class="inline-flex items-center justify-center w-4 h-4 rounded-full border border-gray-300 text-[10px] text-gray-500 ml-1" title="${text}" aria-label="${text}">i</span>`;
 
+    const sharePicker = `
+      <div id="social-share-picker" class="${sharePickerOpen ? '' : 'hidden '}mt-2">
+        <p class="text-xs text-gray-600 mb-2">${t('share_platform_prompt')}</p>
+        <div class="flex flex-wrap gap-2">
+          ${SHARE_PLATFORMS.map(
+            (platform) => `
+              <button type="button"
+                class="share-platform px-2 py-1 text-sm rounded border border-gray-300 bg-white hover:bg-gray-50"
+                data-platform="${platform.id}"
+                aria-label="${t('share_on', { platform: platform.label })}">
+                <span aria-hidden="true">${platform.icon}</span> ${platform.label}
+              </button>`
+          ).join('')}
+        </div>
+      </div>
+    `;
+
     return `
+      <section aria-label="${t('section_walkies')}">
       <h2 class="text-lg font-semibold mb-4">${t('section_walkies')}</h2>
-      <form id="walkies-form" class="space-y-4" novalidate>
+      <form id="walkies-form" class="space-y-4" novalidate data-surface="walkies-form">
         <div>
           <label for="dob" class="block text-sm font-medium mb-1">${t('label_dob')} ${infoIcon(
             t('hint_dob')
@@ -216,11 +270,13 @@ export async function runApp(container: HTMLElement): Promise<void> {
           class="px-4 py-3 rounded font-medium bg-primary text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
           ${t('download')}
         </button>
-        <button type="button" id="btn-copy"
+        <button type="button" id="btn-share"
           class="px-4 py-3 rounded font-medium border border-gray-300 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
-          ${t('copy_link')}
+          ${t('share_social')}
         </button>
       </div>
+      ${sharePicker}
+      </section>
     `;
   }
 
@@ -249,6 +305,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
       `<span class="inline-flex items-center justify-center w-4 h-4 rounded-full border border-gray-300 text-[10px] text-gray-500 ml-1" title="${text}" aria-label="${text}">i</span>`;
 
     return `
+      <section aria-label="${t('section_food')}">
       <h2 class="text-lg font-semibold mb-4">${t('section_food')}</h2>
       ${
         catalogValidation.errors.length
@@ -354,12 +411,33 @@ export async function runApp(container: HTMLElement): Promise<void> {
             </div>`
           : ''
       }
+      </section>
     `;
   }
 
   function render(): void {
     const valid = isValid(errors);
     const titleText = config.name ? t('title_for', { name: config.name }) : t('title');
+    const generalEmailHref = mailtoWithContext(
+      'DIT@casey.berlin',
+      'Hey Casey lets talk',
+      'Hey Casey lets talk'
+    );
+    const foodDataEmailHref = mailtoWithContext(
+      'DIT@casey.berlin',
+      'Add your food data to our widget',
+      'Hey Casey, I want to add food data to your widget.'
+    );
+    const middleCta =
+      activeTab === 'walkies'
+        ? `<a id="footer-repo-link" href="${DEFAULT_REPO_URL}" target="_blank" rel="noreferrer"
+             class="text-gray-600 hover:text-primary underline text-[11px]">
+             Open source collaboration: star the repo and join in.
+           </a>`
+        : `<a id="footer-food-data-link" href="${foodDataEmailHref}"
+             class="text-gray-600 hover:text-primary underline text-[11px]">
+             Add your food data to our widget.
+           </a>`;
 
     container.innerHTML = `
       <div class="min-h-screen bg-background text-gray-800 font-sans px-4 py-6 max-w-lg mx-auto">
@@ -379,25 +457,62 @@ export async function runApp(container: HTMLElement): Promise<void> {
 
         ${activeTab === 'walkies' ? renderWalkies(valid) : renderFood()}
 
-        <footer class="mt-6 border-t border-gray-200 pt-4 space-y-2 text-xs text-gray-600">
-          <p>${t('footer_about_1')}</p>
-          <p>${t('footer_about_2')}</p>
+        <footer class="mt-6 border-t border-gray-200 pt-4 space-y-2 text-xs text-gray-600" aria-label="${t(
+          'footer_label'
+        )}">
           <p class="text-gray-700 font-medium text-xs">${t('footer_disclaimer')}</p>
+          <a id="footer-coffee-link" href="${BUY_ME_A_COFFEE_URL}" target="_blank" rel="noreferrer"
+            class="inline-flex items-center rounded border border-gray-300 px-3 py-1 hover:bg-gray-50">${t(
+              'footer_buy_coffee'
+            )}</a>
+          <div>${middleCta}</div>
+          <a id="footer-brand-link" href="${CASEY_DIT_URL}" target="_blank" rel="noreferrer"
+            class="text-[11px] text-gray-500 hover:text-primary">
+            Next to :dog:, Casey does IT
+          </a>
+          <a id="footer-email-link" href="${generalEmailHref}" class="inline-flex items-center gap-2 text-[11px] text-gray-500 hover:text-primary">
+            <i class="fa-solid fa-envelope" aria-hidden="true"></i><span>${t('footer_email_cta')}</span>
+          </a>
         </footer>
 
         ${feedback ? `<p class="mt-4 text-primary font-medium" role="status">${feedback}</p>` : ''}
       </div>
     `;
+    applyPlannerMetadata({
+      activeTab,
+      canonicalUrl: currentCanonicalUrl(),
+    });
 
     container.querySelector('#tab-walkies')?.addEventListener('click', () => {
       activeTab = 'walkies';
+      sharePickerOpen = false;
       applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
       render();
     });
     container.querySelector('#tab-food')?.addEventListener('click', () => {
       activeTab = 'food';
+      sharePickerOpen = false;
       applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
       render();
+    });
+
+    container.querySelector('#footer-coffee-link')?.addEventListener('click', () => {
+      trackEvent(ANALYTICS_EVENTS.CTA_BUY_ME_A_COFFEE_CLICK, { tab: activeTab, surface: 'footer' });
+    });
+    container.querySelector('#footer-brand-link')?.addEventListener('click', () => {
+      trackEvent(ANALYTICS_EVENTS.CTA_ATTRIBUTION_LINK_CLICK, {
+        tab: activeTab,
+        surface: 'footer',
+      });
+    });
+    container.querySelector('#footer-email-link')?.addEventListener('click', () => {
+      trackEvent(ANALYTICS_EVENTS.CTA_GENERAL_EMAIL_CLICK, { tab: activeTab, surface: 'footer' });
+    });
+    container.querySelector('#footer-repo-link')?.addEventListener('click', () => {
+      trackEvent(ANALYTICS_EVENTS.CTA_REPO_COLLAB_CLICK, { tab: activeTab, surface: 'footer' });
+    });
+    container.querySelector('#footer-food-data-link')?.addEventListener('click', () => {
+      trackEvent(ANALYTICS_EVENTS.CTA_FOOD_DATA_EMAIL_CLICK, { tab: activeTab, surface: 'footer' });
     });
 
     if (activeTab === 'walkies') {
@@ -455,9 +570,53 @@ export async function runApp(container: HTMLElement): Promise<void> {
         );
       });
 
-      container.querySelector('#btn-copy')?.addEventListener('click', () => {
-        window.navigator.clipboard.writeText(window.location.href).then(() => {
-          showFeedback(t('link_copied'));
+      container.querySelector('#btn-share')?.addEventListener('click', () => {
+        sharePickerOpen = !sharePickerOpen;
+        trackEvent(ANALYTICS_EVENTS.SHARE_OPENED, { tab: activeTab, surface: 'walkies' });
+        render();
+      });
+
+      container.querySelectorAll('.share-platform').forEach((button) => {
+        button.addEventListener('click', async () => {
+          const platform = (button as HTMLElement).getAttribute(
+            'data-platform'
+          ) as SharePlatform | null;
+          if (!platform) {
+            return;
+          }
+          const url = currentCanonicalUrl();
+          trackEvent(ANALYTICS_EVENTS.SHARE_PLATFORM_SELECTED, {
+            tab: activeTab,
+            platform,
+            surface: 'walkies',
+          });
+          const target = buildShareTarget(platform, url, SOCIAL_SHARE_TEXT);
+          const popup = window.open(target, '_blank', 'noopener,noreferrer');
+          if (popup) {
+            trackEvent(ANALYTICS_EVENTS.SHARE_SENT, {
+              tab: activeTab,
+              platform,
+              surface: 'walkies',
+            });
+            showFeedback(t('share_sent'));
+            sharePickerOpen = false;
+            render();
+            return;
+          }
+
+          const fallbackOk = await fallbackShare(url);
+          if (fallbackOk) {
+            trackEvent(ANALYTICS_EVENTS.SHARE_SENT, {
+              tab: activeTab,
+              platform,
+              surface: 'walkies',
+            });
+            showFeedback(t('link_copied'));
+          } else {
+            showFeedback(t('share_failed'));
+          }
+          sharePickerOpen = false;
+          render();
         });
       });
     } else {

@@ -3,13 +3,63 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PuppyCal – Walking schedule</title>
+    <title>Puppy planner - walkies</title>
+    <meta
+      name="description"
+      content="Puppy planner for walkies and food with SEO + GEO structure, share-ready pages, and machine-readable guidance."
+    />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Puppy planner (walkies)" />
+    <meta
+      property="og:description"
+      content="Puppy planner for walkies and food with SEO + GEO structure, share-ready pages, and machine-readable guidance."
+    />
+    <meta property="og:url" content="/" />
+    <meta name="twitter:card" content="summary" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600&family=Fraunces:opsz,wght@9..144,600&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      as="style"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      "
     />
+    <link
+      rel="preload"
+      as="style"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      "
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600&family=Fraunces:opsz,wght@9..144,600&display=swap"
+      />
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      />
+    </noscript>
+    <script type="application/ld+json" id="planner-jsonld">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Puppy planner",
+        "description": "Puppy planner for walkies and food with SEO + GEO structure, share-ready pages, and machine-readable guidance.",
+        "applicationCategory": "LifestyleApplication",
+        "operatingSystem": "Web",
+        "url": "/",
+        "potentialAction": { "@type": "UseAction", "name": "Generate walk schedule" }
+      }
+    </script>
     <script type="text/placeholder" id="umami-inject"></script>
   </head>
   <body>

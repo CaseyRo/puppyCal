@@ -48,6 +48,18 @@ Copy `.env.example` to `.env` and set values as needed. The web app reads these 
 
 See `.env.example` for all keys (including optional Umami analytics).
 
+### Marketing/discoverability additions
+
+- The app now renders explicit SEO + GEO metadata, including JSON-LD (`WebApplication`) for machine-readable indexing.
+- Walkies tab uses a social sharing flow (WhatsApp, Telegram, Facebook, iMessage, Signal) with fallback to native share/copy.
+- Footer CTAs are shown on both tabs:
+  - Buy Me a Coffee
+  - Casey does IT attribution
+  - Email CTA
+  - Walkies-only open source collaboration CTA (repo link)
+  - Food-only "add your food data" email CTA
+- New interactions are tracked with Umami custom events using non-PII payload keys only (`tab`, `platform`, `surface`).
+
 ## Food planning catalog (JSON)
 
 Food planning uses supplier-scoped JSON files under `src/data/foods/` to keep updates small and git-friendly.
