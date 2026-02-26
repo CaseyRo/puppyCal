@@ -1,0 +1,3889 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Fimme Stabyhoun Schedule//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20251226
+DTEND;VALUE=DATE:20251227
+SUMMARY:Fimme is geboren!
+DESCRIPTION:Fimme de Stabyhoun is op deze dag geboren.
+COMMENT:Fimme de Stabyhoun is op deze dag geboren.
+UID:20251226-birth@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260221
+DTEND;VALUE=DATE:20260222
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Stabyhoun-feit: De naam 'Stabyhoun' vertaalt uit het Fries ongeveer naar 'sta mij bij hond'.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Stabyhoun-feit: De naam 'Stabyhoun' vertaalt uit het Fries ongeveer naar 'sta mij bij hond'.
+UID:20260221-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260222
+DTEND;VALUE=DATE:20260223
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Stabyhoun-feit: Ze behoren tot de 5 zeldzaamste hondenrassen ter wereld.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Stabyhoun-feit: Ze behoren tot de 5 zeldzaamste hondenrassen ter wereld.
+UID:20260222-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260223
+DTEND;VALUE=DATE:20260224
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Stabyhouns komen oorspronkelijk uit de provincie Friesland in Nederland.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Stabyhouns komen oorspronkelijk uit de provincie Friesland in Nederland.
+UID:20260223-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260223
+DTEND;VALUE=DATE:20260224
+SUMMARY:Fimme is vandaag 8 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 8 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 8 weken oud.
+UID:20260223-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260224
+DTEND;VALUE=DATE:20260225
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Historisch stonden ze bekend als de 'hond van de arme man'\, geschikt voor jacht\, bewaking en het vangen van mollen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Historisch stonden ze bekend als de 'hond van de arme man'\, geschikt voor jacht\, bewaking en het vangen van mollen.
+UID:20260224-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260225
+DTEND;VALUE=DATE:20260226
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Stabyhouns hebben een 'zachte bek'\, waardoor ze wild kunnen apporteren zonder het te beschadigen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Stabyhouns hebben een 'zachte bek'\, waardoor ze wild kunnen apporteren zonder het te beschadigen.
+UID:20260225-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260226
+DTEND;VALUE=DATE:20260227
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: In tegenstelling tot veel jachtrassen is de Stabyhoun een zelfstandige denker en kan hij koppig zijn.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: In tegenstelling tot veel jachtrassen is de Stabyhoun een zelfstandige denker en kan hij koppig zijn.
+UID:20260226-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260227
+DTEND;VALUE=DATE:20260228
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Met 8 weken zitten pups in een 'angst-inprentfase'. Positieve ervaringen zijn nu heel belangrijk.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Met 8 weken zitten pups in een 'angst-inprentfase'. Positieve ervaringen zijn nu heel belangrijk.
+UID:20260227-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260228
+DTEND;VALUE=DATE:20260301
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Gezondheid: De groeischijven van een pup zijn zacht en sluiten pas rond 12-18 maanden. Daarom beperken we wandeltijd.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Gezondheid: De groeischijven van een pup zijn zacht en sluiten pas rond 12-18 maanden. Daarom beperken we wandeltijd.
+UID:20260228-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260301
+DTEND;VALUE=DATE:20260302
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: Stabyhouns houden van water! Ze werden vaak gebruikt om eenden te apporteren.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: Stabyhouns houden van water! Ze werden vaak gebruikt om eenden te apporteren.
+UID:20260301-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260302
+DTEND;VALUE=DATE:20260303
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Vachtverzorging: De Stabyhoun-vacht is 'zelfreinigend'. Vuil valt meestal vanzelf van de vacht zodra die droog is.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Vachtverzorging: De Stabyhoun-vacht is 'zelfreinigend'. Vuil valt meestal vanzelf van de vacht zodra die droog is.
+UID:20260302-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260302
+DTEND;VALUE=DATE:20260303
+SUMMARY:Fimme is vandaag 9 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 9 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 9 weken oud.
+UID:20260302-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260303
+DTEND;VALUE=DATE:20260304
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De oorpunten van een Stabyhoun hebben onderaan vaak korter haar dan bij andere spaniels.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De oorpunten van een Stabyhoun hebben onderaan vaak korter haar dan bij andere spaniels.
+UID:20260303-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260304
+DTEND;VALUE=DATE:20260305
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Training: Stabyhouns reageren slecht op harde correcties. Ze leren het best met positieve\, vrolijke begeleiding.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Training: Stabyhouns reageren slecht op harde correcties. Ze leren het best met positieve\, vrolijke begeleiding.
+UID:20260304-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260305
+DTEND;VALUE=DATE:20260306
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Mentale uitdaging (snuffelen\, puzzels) maakt een pup ongeveer 3x sneller moe dan alleen fysiek wandelen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Mentale uitdaging (snuffelen\, puzzels) maakt een pup ongeveer 3x sneller moe dan alleen fysiek wandelen.
+UID:20260305-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260306
+DTEND;VALUE=DATE:20260307
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Geschiedenis: Tijdens WOII werd het ras beschermd door Friese boeren en in 1942 officieel erkend.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Geschiedenis: Tijdens WOII werd het ras beschermd door Friese boeren en in 1942 officieel erkend.
+UID:20260306-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260307
+DTEND;VALUE=DATE:20260308
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Rond 12 weken beginnen de blijvende tanden de melktanden te verdringen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Rond 12 weken beginnen de blijvende tanden de melktanden te verdringen.
+UID:20260307-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260308
+DTEND;VALUE=DATE:20260309
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: 'Stabij' is de veelgebruikte bijnaam van het ras in Nederland.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: 'Stabij' is de veelgebruikte bijnaam van het ras in Nederland.
+UID:20260308-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260309
+DTEND;VALUE=DATE:20260310
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Slaap: Pups van deze leeftijd hebben 18-20 uur slaap per dag nodig voor gezonde groei.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Slaap: Pups van deze leeftijd hebben 18-20 uur slaap per dag nodig voor gezonde groei.
+UID:20260309-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260309
+DTEND;VALUE=DATE:20260310
+SUMMARY:Fimme is vandaag 10 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 10 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 10 weken oud.
+UID:20260309-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260310
+DTEND;VALUE=DATE:20260311
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De meeste Stabyhouns zijn zwart-wit\, maar bruin-wit bestaat ook en is vrij zeldzaam.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De meeste Stabyhouns zijn zwart-wit\, maar bruin-wit bestaat ook en is vrij zeldzaam.
+UID:20260310-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260311
+DTEND;VALUE=DATE:20260312
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Oranje-witte Stabyhouns zijn bijna uitgestorven.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Oranje-witte Stabyhouns zijn bijna uitgestorven.
+UID:20260311-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260312
+DTEND;VALUE=DATE:20260313
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Socialisatie: De 'Rule of 12' adviseert om voor 12 weken kennis te maken met 12 nieuwe mensen\, ondergronden en geluiden.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Socialisatie: De 'Rule of 12' adviseert om voor 12 weken kennis te maken met 12 nieuwe mensen\, ondergronden en geluiden.
+UID:20260312-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260313
+DTEND;VALUE=DATE:20260314
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Geschiedenis: Stabyhouns werden vroeger soms gebruikt om boter te karnen via een loopbandconstructie.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Geschiedenis: Stabyhouns werden vroeger soms gebruikt om boter te karnen via een loopbandconstructie.
+UID:20260313-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260314
+DTEND;VALUE=DATE:20260315
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Karakter: Stabyhouns staan bekend als heel goed met kinderen en andere huisdieren.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Karakter: Stabyhouns staan bekend als heel goed met kinderen en andere huisdieren.
+UID:20260314-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260315
+DTEND;VALUE=DATE:20260316
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Anatomie: Ze zijn iets langer dan dat ze hoog zijn.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Anatomie: Ze zijn iets langer dan dat ze hoog zijn.
+UID:20260315-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260316
+DTEND;VALUE=DATE:20260317
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: De Stabyhoun heeft een zeer scherpe neus en werd vroeger gebruikt om ondergrondse mollen op te sporen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: De Stabyhoun heeft een zeer scherpe neus en werd vroeger gebruikt om ondergrondse mollen op te sporen.
+UID:20260316-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260316
+DTEND;VALUE=DATE:20260317
+SUMMARY:Fimme is vandaag 11 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 11 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 11 weken oud.
+UID:20260316-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260317
+DTEND;VALUE=DATE:20260318
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Training: Recall-training begint nu! Gebruik zijn naam en beloningen van hoge waarde.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Training: Recall-training begint nu! Gebruik zijn naam en beloningen van hoge waarde.
+UID:20260317-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260318
+DTEND;VALUE=DATE:20260319
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Gezondheid: Vermijd traplopen en in/uit de auto springen om de gewrichten te beschermen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Gezondheid: Vermijd traplopen en in/uit de auto springen om de gewrichten te beschermen.
+UID:20260318-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260319
+DTEND;VALUE=DATE:20260320
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Feit: Honden hebben zweetklieren alleen in hun voetzolen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Feit: Honden hebben zweetklieren alleen in hun voetzolen.
+UID:20260319-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260320
+DTEND;VALUE=DATE:20260321
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Feit: De neusafdruk van een hond is net zo uniek als een menselijke vingerafdruk.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Feit: De neusafdruk van een hond is net zo uniek als een menselijke vingerafdruk.
+UID:20260320-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260321
+DTEND;VALUE=DATE:20260322
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Rond 16 weken begint het kritieke socialisatievenster te sluiten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Rond 16 weken begint het kritieke socialisatievenster te sluiten.
+UID:20260321-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260322
+DTEND;VALUE=DATE:20260323
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: In Nederland worden Stabyhouns vaak gezien als nationale schatten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: In Nederland worden Stabyhouns vaak gezien als nationale schatten.
+UID:20260322-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260323
+DTEND;VALUE=DATE:20260324
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: Stabyhouns blaffen meestal niet veel\, maar ze waarschuwen wel als er iets niet klopt.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: Stabyhouns blaffen meestal niet veel\, maar ze waarschuwen wel als er iets niet klopt.
+UID:20260323-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260323
+DTEND;VALUE=DATE:20260324
+SUMMARY:Fimme is vandaag 12 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 12 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 12 weken oud.
+UID:20260323-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260324
+DTEND;VALUE=DATE:20260325
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Een snuffelwandeling van 10 minuten is voor een pup vaak beter dan een powerwalk van 20 minuten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Een snuffelwandeling van 10 minuten is voor een pup vaak beter dan een powerwalk van 20 minuten.
+UID:20260324-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260325
+DTEND;VALUE=DATE:20260326
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Voeding: Pups groeien snel! Controleer wekelijks het gewicht om porties goed af te stemmen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Voeding: Pups groeien snel! Controleer wekelijks het gewicht om porties goed af te stemmen.
+UID:20260325-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260326
+DTEND;VALUE=DATE:20260327
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Band opbouwen: Met de hand voeren kan helpen om bezitsagressie rond voer te voorkomen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Band opbouwen: Met de hand voeren kan helpen om bezitsagressie rond voer te voorkomen.
+UID:20260326-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260327
+DTEND;VALUE=DATE:20260328
+SUMMARY:Fimme - Wandeling: 10 min (x2)
+DESCRIPTION:Regel: 10 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De staart van een Stabyhoun heeft meestal een witte punt.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De staart van een Stabyhoun heeft meestal een witte punt.
+UID:20260327-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260328
+DTEND;VALUE=DATE:20260329
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Zwemmen is een goede\, gewrichtsvriendelijke training voor Stabyhouns zodra het water warm genoeg is.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Zwemmen is een goede\, gewrichtsvriendelijke training voor Stabyhouns zodra het water warm genoeg is.
+UID:20260328-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260329
+DTEND;VALUE=DATE:20260330
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Stabyhoun-feit: De naam 'Stabyhoun' vertaalt uit het Fries ongeveer naar 'sta mij bij hond'.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Stabyhoun-feit: De naam 'Stabyhoun' vertaalt uit het Fries ongeveer naar 'sta mij bij hond'.
+UID:20260329-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260330
+DTEND;VALUE=DATE:20260331
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Stabyhoun-feit: Ze behoren tot de 5 zeldzaamste hondenrassen ter wereld.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Stabyhoun-feit: Ze behoren tot de 5 zeldzaamste hondenrassen ter wereld.
+UID:20260330-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260330
+DTEND;VALUE=DATE:20260331
+SUMMARY:Fimme is vandaag 13 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 13 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 13 weken oud.
+UID:20260330-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260331
+DTEND;VALUE=DATE:20260401
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Stabyhouns komen oorspronkelijk uit de provincie Friesland in Nederland.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Stabyhouns komen oorspronkelijk uit de provincie Friesland in Nederland.
+UID:20260331-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260401
+DTEND;VALUE=DATE:20260402
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Historisch stonden ze bekend als de 'hond van de arme man'\, geschikt voor jacht\, bewaking en het vangen van mollen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Historisch stonden ze bekend als de 'hond van de arme man'\, geschikt voor jacht\, bewaking en het vangen van mollen.
+UID:20260401-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260402
+DTEND;VALUE=DATE:20260403
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Stabyhouns hebben een 'zachte bek'\, waardoor ze wild kunnen apporteren zonder het te beschadigen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Stabyhouns hebben een 'zachte bek'\, waardoor ze wild kunnen apporteren zonder het te beschadigen.
+UID:20260402-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260403
+DTEND;VALUE=DATE:20260404
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: In tegenstelling tot veel jachtrassen is de Stabyhoun een zelfstandige denker en kan hij koppig zijn.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: In tegenstelling tot veel jachtrassen is de Stabyhoun een zelfstandige denker en kan hij koppig zijn.
+UID:20260403-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260404
+DTEND;VALUE=DATE:20260405
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Met 8 weken zitten pups in een 'angst-inprentfase'. Positieve ervaringen zijn nu heel belangrijk.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Met 8 weken zitten pups in een 'angst-inprentfase'. Positieve ervaringen zijn nu heel belangrijk.
+UID:20260404-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260405
+DTEND;VALUE=DATE:20260406
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Gezondheid: De groeischijven van een pup zijn zacht en sluiten pas rond 12-18 maanden. Daarom beperken we wandeltijd.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Gezondheid: De groeischijven van een pup zijn zacht en sluiten pas rond 12-18 maanden. Daarom beperken we wandeltijd.
+UID:20260405-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260406
+DTEND;VALUE=DATE:20260407
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: Stabyhouns houden van water! Ze werden vaak gebruikt om eenden te apporteren.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: Stabyhouns houden van water! Ze werden vaak gebruikt om eenden te apporteren.
+UID:20260406-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260406
+DTEND;VALUE=DATE:20260407
+SUMMARY:Fimme is vandaag 14 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 14 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 14 weken oud.
+UID:20260406-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260407
+DTEND;VALUE=DATE:20260408
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Vachtverzorging: De Stabyhoun-vacht is 'zelfreinigend'. Vuil valt meestal vanzelf van de vacht zodra die droog is.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Vachtverzorging: De Stabyhoun-vacht is 'zelfreinigend'. Vuil valt meestal vanzelf van de vacht zodra die droog is.
+UID:20260407-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260408
+DTEND;VALUE=DATE:20260409
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De oorpunten van een Stabyhoun hebben onderaan vaak korter haar dan bij andere spaniels.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De oorpunten van een Stabyhoun hebben onderaan vaak korter haar dan bij andere spaniels.
+UID:20260408-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260409
+DTEND;VALUE=DATE:20260410
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Training: Stabyhouns reageren slecht op harde correcties. Ze leren het best met positieve\, vrolijke begeleiding.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Training: Stabyhouns reageren slecht op harde correcties. Ze leren het best met positieve\, vrolijke begeleiding.
+UID:20260409-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260410
+DTEND;VALUE=DATE:20260411
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Mentale uitdaging (snuffelen\, puzzels) maakt een pup ongeveer 3x sneller moe dan alleen fysiek wandelen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Mentale uitdaging (snuffelen\, puzzels) maakt een pup ongeveer 3x sneller moe dan alleen fysiek wandelen.
+UID:20260410-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260411
+DTEND;VALUE=DATE:20260412
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Geschiedenis: Tijdens WOII werd het ras beschermd door Friese boeren en in 1942 officieel erkend.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Geschiedenis: Tijdens WOII werd het ras beschermd door Friese boeren en in 1942 officieel erkend.
+UID:20260411-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260412
+DTEND;VALUE=DATE:20260413
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Rond 12 weken beginnen de blijvende tanden de melktanden te verdringen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Rond 12 weken beginnen de blijvende tanden de melktanden te verdringen.
+UID:20260412-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260413
+DTEND;VALUE=DATE:20260414
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: 'Stabij' is de veelgebruikte bijnaam van het ras in Nederland.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: 'Stabij' is de veelgebruikte bijnaam van het ras in Nederland.
+UID:20260413-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260413
+DTEND;VALUE=DATE:20260414
+SUMMARY:Fimme is vandaag 15 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 15 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 15 weken oud.
+UID:20260413-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260414
+DTEND;VALUE=DATE:20260415
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Slaap: Pups van deze leeftijd hebben 18-20 uur slaap per dag nodig voor gezonde groei.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Slaap: Pups van deze leeftijd hebben 18-20 uur slaap per dag nodig voor gezonde groei.
+UID:20260414-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260415
+DTEND;VALUE=DATE:20260416
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De meeste Stabyhouns zijn zwart-wit\, maar bruin-wit bestaat ook en is vrij zeldzaam.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De meeste Stabyhouns zijn zwart-wit\, maar bruin-wit bestaat ook en is vrij zeldzaam.
+UID:20260415-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260416
+DTEND;VALUE=DATE:20260417
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Oranje-witte Stabyhouns zijn bijna uitgestorven.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Oranje-witte Stabyhouns zijn bijna uitgestorven.
+UID:20260416-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260417
+DTEND;VALUE=DATE:20260418
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Socialisatie: De 'Rule of 12' adviseert om voor 12 weken kennis te maken met 12 nieuwe mensen\, ondergronden en geluiden.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Socialisatie: De 'Rule of 12' adviseert om voor 12 weken kennis te maken met 12 nieuwe mensen\, ondergronden en geluiden.
+UID:20260417-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260418
+DTEND;VALUE=DATE:20260419
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Geschiedenis: Stabyhouns werden vroeger soms gebruikt om boter te karnen via een loopbandconstructie.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Geschiedenis: Stabyhouns werden vroeger soms gebruikt om boter te karnen via een loopbandconstructie.
+UID:20260418-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260419
+DTEND;VALUE=DATE:20260420
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Karakter: Stabyhouns staan bekend als heel goed met kinderen en andere huisdieren.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Karakter: Stabyhouns staan bekend als heel goed met kinderen en andere huisdieren.
+UID:20260419-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260420
+DTEND;VALUE=DATE:20260421
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Anatomie: Ze zijn iets langer dan dat ze hoog zijn.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Anatomie: Ze zijn iets langer dan dat ze hoog zijn.
+UID:20260420-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260420
+DTEND;VALUE=DATE:20260421
+SUMMARY:Fimme is vandaag 16 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 16 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 16 weken oud.
+UID:20260420-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260421
+DTEND;VALUE=DATE:20260422
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: De Stabyhoun heeft een zeer scherpe neus en werd vroeger gebruikt om ondergrondse mollen op te sporen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: De Stabyhoun heeft een zeer scherpe neus en werd vroeger gebruikt om ondergrondse mollen op te sporen.
+UID:20260421-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260422
+DTEND;VALUE=DATE:20260423
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Training: Recall-training begint nu! Gebruik zijn naam en beloningen van hoge waarde.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Training: Recall-training begint nu! Gebruik zijn naam en beloningen van hoge waarde.
+UID:20260422-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260423
+DTEND;VALUE=DATE:20260424
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Gezondheid: Vermijd traplopen en in/uit de auto springen om de gewrichten te beschermen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Gezondheid: Vermijd traplopen en in/uit de auto springen om de gewrichten te beschermen.
+UID:20260423-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260424
+DTEND;VALUE=DATE:20260425
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Feit: Honden hebben zweetklieren alleen in hun voetzolen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Feit: Honden hebben zweetklieren alleen in hun voetzolen.
+UID:20260424-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260425
+DTEND;VALUE=DATE:20260426
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Feit: De neusafdruk van een hond is net zo uniek als een menselijke vingerafdruk.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Feit: De neusafdruk van een hond is net zo uniek als een menselijke vingerafdruk.
+UID:20260425-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260426
+DTEND;VALUE=DATE:20260427
+SUMMARY:Fimme - Wandeling: 15 min (x2)
+DESCRIPTION:Regel: 15 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Rond 16 weken begint het kritieke socialisatievenster te sluiten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Rond 16 weken begint het kritieke socialisatievenster te sluiten.
+UID:20260426-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260427
+DTEND;VALUE=DATE:20260428
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: In Nederland worden Stabyhouns vaak gezien als nationale schatten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: In Nederland worden Stabyhouns vaak gezien als nationale schatten.
+UID:20260427-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260427
+DTEND;VALUE=DATE:20260428
+SUMMARY:Fimme is vandaag 17 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 17 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 17 weken oud.
+UID:20260427-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260428
+DTEND;VALUE=DATE:20260429
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: Stabyhouns blaffen meestal niet veel\, maar ze waarschuwen wel als er iets niet klopt.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: Stabyhouns blaffen meestal niet veel\, maar ze waarschuwen wel als er iets niet klopt.
+UID:20260428-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260429
+DTEND;VALUE=DATE:20260430
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Een snuffelwandeling van 10 minuten is voor een pup vaak beter dan een powerwalk van 20 minuten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Een snuffelwandeling van 10 minuten is voor een pup vaak beter dan een powerwalk van 20 minuten.
+UID:20260429-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260430
+DTEND;VALUE=DATE:20260501
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Voeding: Pups groeien snel! Controleer wekelijks het gewicht om porties goed af te stemmen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Voeding: Pups groeien snel! Controleer wekelijks het gewicht om porties goed af te stemmen.
+UID:20260430-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260501
+DTEND;VALUE=DATE:20260502
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Band opbouwen: Met de hand voeren kan helpen om bezitsagressie rond voer te voorkomen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Band opbouwen: Met de hand voeren kan helpen om bezitsagressie rond voer te voorkomen.
+UID:20260501-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260502
+DTEND;VALUE=DATE:20260503
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De staart van een Stabyhoun heeft meestal een witte punt.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De staart van een Stabyhoun heeft meestal een witte punt.
+UID:20260502-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260503
+DTEND;VALUE=DATE:20260504
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Zwemmen is een goede\, gewrichtsvriendelijke training voor Stabyhouns zodra het water warm genoeg is.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Zwemmen is een goede\, gewrichtsvriendelijke training voor Stabyhouns zodra het water warm genoeg is.
+UID:20260503-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260504
+DTEND;VALUE=DATE:20260505
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Stabyhoun-feit: De naam 'Stabyhoun' vertaalt uit het Fries ongeveer naar 'sta mij bij hond'.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Stabyhoun-feit: De naam 'Stabyhoun' vertaalt uit het Fries ongeveer naar 'sta mij bij hond'.
+UID:20260504-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260504
+DTEND;VALUE=DATE:20260505
+SUMMARY:Fimme is vandaag 18 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 18 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 18 weken oud.
+UID:20260504-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260505
+DTEND;VALUE=DATE:20260506
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Stabyhoun-feit: Ze behoren tot de 5 zeldzaamste hondenrassen ter wereld.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Stabyhoun-feit: Ze behoren tot de 5 zeldzaamste hondenrassen ter wereld.
+UID:20260505-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260506
+DTEND;VALUE=DATE:20260507
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Stabyhouns komen oorspronkelijk uit de provincie Friesland in Nederland.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Stabyhouns komen oorspronkelijk uit de provincie Friesland in Nederland.
+UID:20260506-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260507
+DTEND;VALUE=DATE:20260508
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Historisch stonden ze bekend als de 'hond van de arme man'\, geschikt voor jacht\, bewaking en het vangen van mollen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Historisch stonden ze bekend als de 'hond van de arme man'\, geschikt voor jacht\, bewaking en het vangen van mollen.
+UID:20260507-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260508
+DTEND;VALUE=DATE:20260509
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Stabyhouns hebben een 'zachte bek'\, waardoor ze wild kunnen apporteren zonder het te beschadigen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Stabyhouns hebben een 'zachte bek'\, waardoor ze wild kunnen apporteren zonder het te beschadigen.
+UID:20260508-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260509
+DTEND;VALUE=DATE:20260510
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: In tegenstelling tot veel jachtrassen is de Stabyhoun een zelfstandige denker en kan hij koppig zijn.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: In tegenstelling tot veel jachtrassen is de Stabyhoun een zelfstandige denker en kan hij koppig zijn.
+UID:20260509-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260510
+DTEND;VALUE=DATE:20260511
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Met 8 weken zitten pups in een 'angst-inprentfase'. Positieve ervaringen zijn nu heel belangrijk.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Met 8 weken zitten pups in een 'angst-inprentfase'. Positieve ervaringen zijn nu heel belangrijk.
+UID:20260510-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260511
+DTEND;VALUE=DATE:20260512
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Gezondheid: De groeischijven van een pup zijn zacht en sluiten pas rond 12-18 maanden. Daarom beperken we wandeltijd.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Gezondheid: De groeischijven van een pup zijn zacht en sluiten pas rond 12-18 maanden. Daarom beperken we wandeltijd.
+UID:20260511-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260511
+DTEND;VALUE=DATE:20260512
+SUMMARY:Fimme is vandaag 19 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 19 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 19 weken oud.
+UID:20260511-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260512
+DTEND;VALUE=DATE:20260513
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: Stabyhouns houden van water! Ze werden vaak gebruikt om eenden te apporteren.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: Stabyhouns houden van water! Ze werden vaak gebruikt om eenden te apporteren.
+UID:20260512-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260513
+DTEND;VALUE=DATE:20260514
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Vachtverzorging: De Stabyhoun-vacht is 'zelfreinigend'. Vuil valt meestal vanzelf van de vacht zodra die droog is.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Vachtverzorging: De Stabyhoun-vacht is 'zelfreinigend'. Vuil valt meestal vanzelf van de vacht zodra die droog is.
+UID:20260513-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260514
+DTEND;VALUE=DATE:20260515
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De oorpunten van een Stabyhoun hebben onderaan vaak korter haar dan bij andere spaniels.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De oorpunten van een Stabyhoun hebben onderaan vaak korter haar dan bij andere spaniels.
+UID:20260514-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260515
+DTEND;VALUE=DATE:20260516
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Training: Stabyhouns reageren slecht op harde correcties. Ze leren het best met positieve\, vrolijke begeleiding.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Training: Stabyhouns reageren slecht op harde correcties. Ze leren het best met positieve\, vrolijke begeleiding.
+UID:20260515-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260516
+DTEND;VALUE=DATE:20260517
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Mentale uitdaging (snuffelen\, puzzels) maakt een pup ongeveer 3x sneller moe dan alleen fysiek wandelen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Mentale uitdaging (snuffelen\, puzzels) maakt een pup ongeveer 3x sneller moe dan alleen fysiek wandelen.
+UID:20260516-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260517
+DTEND;VALUE=DATE:20260518
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Geschiedenis: Tijdens WOII werd het ras beschermd door Friese boeren en in 1942 officieel erkend.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Geschiedenis: Tijdens WOII werd het ras beschermd door Friese boeren en in 1942 officieel erkend.
+UID:20260517-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260518
+DTEND;VALUE=DATE:20260519
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Rond 12 weken beginnen de blijvende tanden de melktanden te verdringen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Rond 12 weken beginnen de blijvende tanden de melktanden te verdringen.
+UID:20260518-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260518
+DTEND;VALUE=DATE:20260519
+SUMMARY:Fimme is vandaag 20 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 20 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 20 weken oud.
+UID:20260518-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260519
+DTEND;VALUE=DATE:20260520
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: 'Stabij' is de veelgebruikte bijnaam van het ras in Nederland.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: 'Stabij' is de veelgebruikte bijnaam van het ras in Nederland.
+UID:20260519-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260520
+DTEND;VALUE=DATE:20260521
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Slaap: Pups van deze leeftijd hebben 18-20 uur slaap per dag nodig voor gezonde groei.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Slaap: Pups van deze leeftijd hebben 18-20 uur slaap per dag nodig voor gezonde groei.
+UID:20260520-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260521
+DTEND;VALUE=DATE:20260522
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De meeste Stabyhouns zijn zwart-wit\, maar bruin-wit bestaat ook en is vrij zeldzaam.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De meeste Stabyhouns zijn zwart-wit\, maar bruin-wit bestaat ook en is vrij zeldzaam.
+UID:20260521-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260522
+DTEND;VALUE=DATE:20260523
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Oranje-witte Stabyhouns zijn bijna uitgestorven.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Oranje-witte Stabyhouns zijn bijna uitgestorven.
+UID:20260522-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260523
+DTEND;VALUE=DATE:20260524
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Socialisatie: De 'Rule of 12' adviseert om voor 12 weken kennis te maken met 12 nieuwe mensen\, ondergronden en geluiden.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Socialisatie: De 'Rule of 12' adviseert om voor 12 weken kennis te maken met 12 nieuwe mensen\, ondergronden en geluiden.
+UID:20260523-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260524
+DTEND;VALUE=DATE:20260525
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Geschiedenis: Stabyhouns werden vroeger soms gebruikt om boter te karnen via een loopbandconstructie.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Geschiedenis: Stabyhouns werden vroeger soms gebruikt om boter te karnen via een loopbandconstructie.
+UID:20260524-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260525
+DTEND;VALUE=DATE:20260526
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Karakter: Stabyhouns staan bekend als heel goed met kinderen en andere huisdieren.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Karakter: Stabyhouns staan bekend als heel goed met kinderen en andere huisdieren.
+UID:20260525-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260525
+DTEND;VALUE=DATE:20260526
+SUMMARY:Fimme is vandaag 21 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 21 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 21 weken oud.
+UID:20260525-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260526
+DTEND;VALUE=DATE:20260527
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Anatomie: Ze zijn iets langer dan dat ze hoog zijn.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Anatomie: Ze zijn iets langer dan dat ze hoog zijn.
+UID:20260526-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260527
+DTEND;VALUE=DATE:20260528
+SUMMARY:Fimme - Wandeling: 20 min (x2)
+DESCRIPTION:Regel: 20 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: De Stabyhoun heeft een zeer scherpe neus en werd vroeger gebruikt om ondergrondse mollen op te sporen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: De Stabyhoun heeft een zeer scherpe neus en werd vroeger gebruikt om ondergrondse mollen op te sporen.
+UID:20260527-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260528
+DTEND;VALUE=DATE:20260529
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Training: Recall-training begint nu! Gebruik zijn naam en beloningen van hoge waarde.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Training: Recall-training begint nu! Gebruik zijn naam en beloningen van hoge waarde.
+UID:20260528-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260529
+DTEND;VALUE=DATE:20260530
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Gezondheid: Vermijd traplopen en in/uit de auto springen om de gewrichten te beschermen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Gezondheid: Vermijd traplopen en in/uit de auto springen om de gewrichten te beschermen.
+UID:20260529-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260530
+DTEND;VALUE=DATE:20260531
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Feit: Honden hebben zweetklieren alleen in hun voetzolen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Feit: Honden hebben zweetklieren alleen in hun voetzolen.
+UID:20260530-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260531
+DTEND;VALUE=DATE:20260601
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Feit: De neusafdruk van een hond is net zo uniek als een menselijke vingerafdruk.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Feit: De neusafdruk van een hond is net zo uniek als een menselijke vingerafdruk.
+UID:20260531-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260601
+DTEND;VALUE=DATE:20260602
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Rond 16 weken begint het kritieke socialisatievenster te sluiten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Rond 16 weken begint het kritieke socialisatievenster te sluiten.
+UID:20260601-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260601
+DTEND;VALUE=DATE:20260602
+SUMMARY:Fimme is vandaag 22 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 22 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 22 weken oud.
+UID:20260601-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260602
+DTEND;VALUE=DATE:20260603
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: In Nederland worden Stabyhouns vaak gezien als nationale schatten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: In Nederland worden Stabyhouns vaak gezien als nationale schatten.
+UID:20260602-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260603
+DTEND;VALUE=DATE:20260604
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: Stabyhouns blaffen meestal niet veel\, maar ze waarschuwen wel als er iets niet klopt.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: Stabyhouns blaffen meestal niet veel\, maar ze waarschuwen wel als er iets niet klopt.
+UID:20260603-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260604
+DTEND;VALUE=DATE:20260605
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Een snuffelwandeling van 10 minuten is voor een pup vaak beter dan een powerwalk van 20 minuten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Een snuffelwandeling van 10 minuten is voor een pup vaak beter dan een powerwalk van 20 minuten.
+UID:20260604-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260605
+DTEND;VALUE=DATE:20260606
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Voeding: Pups groeien snel! Controleer wekelijks het gewicht om porties goed af te stemmen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Voeding: Pups groeien snel! Controleer wekelijks het gewicht om porties goed af te stemmen.
+UID:20260605-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260606
+DTEND;VALUE=DATE:20260607
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Band opbouwen: Met de hand voeren kan helpen om bezitsagressie rond voer te voorkomen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Band opbouwen: Met de hand voeren kan helpen om bezitsagressie rond voer te voorkomen.
+UID:20260606-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260607
+DTEND;VALUE=DATE:20260608
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De staart van een Stabyhoun heeft meestal een witte punt.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De staart van een Stabyhoun heeft meestal een witte punt.
+UID:20260607-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260608
+DTEND;VALUE=DATE:20260609
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Zwemmen is een goede\, gewrichtsvriendelijke training voor Stabyhouns zodra het water warm genoeg is.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Zwemmen is een goede\, gewrichtsvriendelijke training voor Stabyhouns zodra het water warm genoeg is.
+UID:20260608-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260608
+DTEND;VALUE=DATE:20260609
+SUMMARY:Fimme is vandaag 23 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 23 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 23 weken oud.
+UID:20260608-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260609
+DTEND;VALUE=DATE:20260610
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Stabyhoun-feit: De naam 'Stabyhoun' vertaalt uit het Fries ongeveer naar 'sta mij bij hond'.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Stabyhoun-feit: De naam 'Stabyhoun' vertaalt uit het Fries ongeveer naar 'sta mij bij hond'.
+UID:20260609-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260610
+DTEND;VALUE=DATE:20260611
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Stabyhoun-feit: Ze behoren tot de 5 zeldzaamste hondenrassen ter wereld.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Stabyhoun-feit: Ze behoren tot de 5 zeldzaamste hondenrassen ter wereld.
+UID:20260610-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260611
+DTEND;VALUE=DATE:20260612
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Stabyhouns komen oorspronkelijk uit de provincie Friesland in Nederland.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Stabyhouns komen oorspronkelijk uit de provincie Friesland in Nederland.
+UID:20260611-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260612
+DTEND;VALUE=DATE:20260613
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Historisch stonden ze bekend als de 'hond van de arme man'\, geschikt voor jacht\, bewaking en het vangen van mollen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Historisch stonden ze bekend als de 'hond van de arme man'\, geschikt voor jacht\, bewaking en het vangen van mollen.
+UID:20260612-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260613
+DTEND;VALUE=DATE:20260614
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Stabyhouns hebben een 'zachte bek'\, waardoor ze wild kunnen apporteren zonder het te beschadigen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Stabyhouns hebben een 'zachte bek'\, waardoor ze wild kunnen apporteren zonder het te beschadigen.
+UID:20260613-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260614
+DTEND;VALUE=DATE:20260615
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: In tegenstelling tot veel jachtrassen is de Stabyhoun een zelfstandige denker en kan hij koppig zijn.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: In tegenstelling tot veel jachtrassen is de Stabyhoun een zelfstandige denker en kan hij koppig zijn.
+UID:20260614-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260615
+DTEND;VALUE=DATE:20260616
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Met 8 weken zitten pups in een 'angst-inprentfase'. Positieve ervaringen zijn nu heel belangrijk.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Met 8 weken zitten pups in een 'angst-inprentfase'. Positieve ervaringen zijn nu heel belangrijk.
+UID:20260615-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260615
+DTEND;VALUE=DATE:20260616
+SUMMARY:Fimme is vandaag 24 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 24 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 24 weken oud.
+UID:20260615-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260616
+DTEND;VALUE=DATE:20260617
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Gezondheid: De groeischijven van een pup zijn zacht en sluiten pas rond 12-18 maanden. Daarom beperken we wandeltijd.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Gezondheid: De groeischijven van een pup zijn zacht en sluiten pas rond 12-18 maanden. Daarom beperken we wandeltijd.
+UID:20260616-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260617
+DTEND;VALUE=DATE:20260618
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: Stabyhouns houden van water! Ze werden vaak gebruikt om eenden te apporteren.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: Stabyhouns houden van water! Ze werden vaak gebruikt om eenden te apporteren.
+UID:20260617-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260618
+DTEND;VALUE=DATE:20260619
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Vachtverzorging: De Stabyhoun-vacht is 'zelfreinigend'. Vuil valt meestal vanzelf van de vacht zodra die droog is.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Vachtverzorging: De Stabyhoun-vacht is 'zelfreinigend'. Vuil valt meestal vanzelf van de vacht zodra die droog is.
+UID:20260618-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260619
+DTEND;VALUE=DATE:20260620
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De oorpunten van een Stabyhoun hebben onderaan vaak korter haar dan bij andere spaniels.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De oorpunten van een Stabyhoun hebben onderaan vaak korter haar dan bij andere spaniels.
+UID:20260619-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260620
+DTEND;VALUE=DATE:20260621
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Training: Stabyhouns reageren slecht op harde correcties. Ze leren het best met positieve\, vrolijke begeleiding.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Training: Stabyhouns reageren slecht op harde correcties. Ze leren het best met positieve\, vrolijke begeleiding.
+UID:20260620-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260621
+DTEND;VALUE=DATE:20260622
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Mentale uitdaging (snuffelen\, puzzels) maakt een pup ongeveer 3x sneller moe dan alleen fysiek wandelen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Mentale uitdaging (snuffelen\, puzzels) maakt een pup ongeveer 3x sneller moe dan alleen fysiek wandelen.
+UID:20260621-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260622
+DTEND;VALUE=DATE:20260623
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Geschiedenis: Tijdens WOII werd het ras beschermd door Friese boeren en in 1942 officieel erkend.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Geschiedenis: Tijdens WOII werd het ras beschermd door Friese boeren en in 1942 officieel erkend.
+UID:20260622-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260622
+DTEND;VALUE=DATE:20260623
+SUMMARY:Fimme is vandaag 25 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 25 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 25 weken oud.
+UID:20260622-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260623
+DTEND;VALUE=DATE:20260624
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Rond 12 weken beginnen de blijvende tanden de melktanden te verdringen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Rond 12 weken beginnen de blijvende tanden de melktanden te verdringen.
+UID:20260623-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260624
+DTEND;VALUE=DATE:20260625
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: 'Stabij' is de veelgebruikte bijnaam van het ras in Nederland.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: 'Stabij' is de veelgebruikte bijnaam van het ras in Nederland.
+UID:20260624-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260625
+DTEND;VALUE=DATE:20260626
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Slaap: Pups van deze leeftijd hebben 18-20 uur slaap per dag nodig voor gezonde groei.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Slaap: Pups van deze leeftijd hebben 18-20 uur slaap per dag nodig voor gezonde groei.
+UID:20260625-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260626
+DTEND;VALUE=DATE:20260627
+SUMMARY:Fimme - Wandeling: 25 min (x2)
+DESCRIPTION:Regel: 25 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De meeste Stabyhouns zijn zwart-wit\, maar bruin-wit bestaat ook en is vrij zeldzaam.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De meeste Stabyhouns zijn zwart-wit\, maar bruin-wit bestaat ook en is vrij zeldzaam.
+UID:20260626-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260627
+DTEND;VALUE=DATE:20260628
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Oranje-witte Stabyhouns zijn bijna uitgestorven.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Oranje-witte Stabyhouns zijn bijna uitgestorven.
+UID:20260627-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260628
+DTEND;VALUE=DATE:20260629
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Socialisatie: De 'Rule of 12' adviseert om voor 12 weken kennis te maken met 12 nieuwe mensen\, ondergronden en geluiden.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Socialisatie: De 'Rule of 12' adviseert om voor 12 weken kennis te maken met 12 nieuwe mensen\, ondergronden en geluiden.
+UID:20260628-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260629
+DTEND;VALUE=DATE:20260630
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Geschiedenis: Stabyhouns werden vroeger soms gebruikt om boter te karnen via een loopbandconstructie.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Geschiedenis: Stabyhouns werden vroeger soms gebruikt om boter te karnen via een loopbandconstructie.
+UID:20260629-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260629
+DTEND;VALUE=DATE:20260630
+SUMMARY:Fimme is vandaag 26 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 26 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 26 weken oud.
+UID:20260629-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260630
+DTEND;VALUE=DATE:20260701
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Karakter: Stabyhouns staan bekend als heel goed met kinderen en andere huisdieren.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Karakter: Stabyhouns staan bekend als heel goed met kinderen en andere huisdieren.
+UID:20260630-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260701
+DTEND;VALUE=DATE:20260702
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Anatomie: Ze zijn iets langer dan dat ze hoog zijn.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Anatomie: Ze zijn iets langer dan dat ze hoog zijn.
+UID:20260701-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260702
+DTEND;VALUE=DATE:20260703
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: De Stabyhoun heeft een zeer scherpe neus en werd vroeger gebruikt om ondergrondse mollen op te sporen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: De Stabyhoun heeft een zeer scherpe neus en werd vroeger gebruikt om ondergrondse mollen op te sporen.
+UID:20260702-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260703
+DTEND;VALUE=DATE:20260704
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Training: Recall-training begint nu! Gebruik zijn naam en beloningen van hoge waarde.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Training: Recall-training begint nu! Gebruik zijn naam en beloningen van hoge waarde.
+UID:20260703-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260704
+DTEND;VALUE=DATE:20260705
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Gezondheid: Vermijd traplopen en in/uit de auto springen om de gewrichten te beschermen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Gezondheid: Vermijd traplopen en in/uit de auto springen om de gewrichten te beschermen.
+UID:20260704-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260705
+DTEND;VALUE=DATE:20260706
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Feit: Honden hebben zweetklieren alleen in hun voetzolen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Feit: Honden hebben zweetklieren alleen in hun voetzolen.
+UID:20260705-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260706
+DTEND;VALUE=DATE:20260707
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Feit: De neusafdruk van een hond is net zo uniek als een menselijke vingerafdruk.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Feit: De neusafdruk van een hond is net zo uniek als een menselijke vingerafdruk.
+UID:20260706-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260706
+DTEND;VALUE=DATE:20260707
+SUMMARY:Fimme is vandaag 27 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 27 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 27 weken oud.
+UID:20260706-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260707
+DTEND;VALUE=DATE:20260708
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Rond 16 weken begint het kritieke socialisatievenster te sluiten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Rond 16 weken begint het kritieke socialisatievenster te sluiten.
+UID:20260707-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260708
+DTEND;VALUE=DATE:20260709
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: In Nederland worden Stabyhouns vaak gezien als nationale schatten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: In Nederland worden Stabyhouns vaak gezien als nationale schatten.
+UID:20260708-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260709
+DTEND;VALUE=DATE:20260710
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: Stabyhouns blaffen meestal niet veel\, maar ze waarschuwen wel als er iets niet klopt.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: Stabyhouns blaffen meestal niet veel\, maar ze waarschuwen wel als er iets niet klopt.
+UID:20260709-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260710
+DTEND;VALUE=DATE:20260711
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Een snuffelwandeling van 10 minuten is voor een pup vaak beter dan een powerwalk van 20 minuten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Een snuffelwandeling van 10 minuten is voor een pup vaak beter dan een powerwalk van 20 minuten.
+UID:20260710-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260711
+DTEND;VALUE=DATE:20260712
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Voeding: Pups groeien snel! Controleer wekelijks het gewicht om porties goed af te stemmen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Voeding: Pups groeien snel! Controleer wekelijks het gewicht om porties goed af te stemmen.
+UID:20260711-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260712
+DTEND;VALUE=DATE:20260713
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Band opbouwen: Met de hand voeren kan helpen om bezitsagressie rond voer te voorkomen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Band opbouwen: Met de hand voeren kan helpen om bezitsagressie rond voer te voorkomen.
+UID:20260712-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260713
+DTEND;VALUE=DATE:20260714
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De staart van een Stabyhoun heeft meestal een witte punt.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De staart van een Stabyhoun heeft meestal een witte punt.
+UID:20260713-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260713
+DTEND;VALUE=DATE:20260714
+SUMMARY:Fimme is vandaag 28 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 28 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 28 weken oud.
+UID:20260713-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260714
+DTEND;VALUE=DATE:20260715
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Zwemmen is een goede\, gewrichtsvriendelijke training voor Stabyhouns zodra het water warm genoeg is.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Zwemmen is een goede\, gewrichtsvriendelijke training voor Stabyhouns zodra het water warm genoeg is.
+UID:20260714-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260715
+DTEND;VALUE=DATE:20260716
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Stabyhoun-feit: De naam 'Stabyhoun' vertaalt uit het Fries ongeveer naar 'sta mij bij hond'.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Stabyhoun-feit: De naam 'Stabyhoun' vertaalt uit het Fries ongeveer naar 'sta mij bij hond'.
+UID:20260715-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260716
+DTEND;VALUE=DATE:20260717
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Stabyhoun-feit: Ze behoren tot de 5 zeldzaamste hondenrassen ter wereld.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Stabyhoun-feit: Ze behoren tot de 5 zeldzaamste hondenrassen ter wereld.
+UID:20260716-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260717
+DTEND;VALUE=DATE:20260718
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Stabyhouns komen oorspronkelijk uit de provincie Friesland in Nederland.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Stabyhouns komen oorspronkelijk uit de provincie Friesland in Nederland.
+UID:20260717-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260718
+DTEND;VALUE=DATE:20260719
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Historisch stonden ze bekend als de 'hond van de arme man'\, geschikt voor jacht\, bewaking en het vangen van mollen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Historisch stonden ze bekend als de 'hond van de arme man'\, geschikt voor jacht\, bewaking en het vangen van mollen.
+UID:20260718-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260719
+DTEND;VALUE=DATE:20260720
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Stabyhouns hebben een 'zachte bek'\, waardoor ze wild kunnen apporteren zonder het te beschadigen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Stabyhouns hebben een 'zachte bek'\, waardoor ze wild kunnen apporteren zonder het te beschadigen.
+UID:20260719-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260720
+DTEND;VALUE=DATE:20260721
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: In tegenstelling tot veel jachtrassen is de Stabyhoun een zelfstandige denker en kan hij koppig zijn.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: In tegenstelling tot veel jachtrassen is de Stabyhoun een zelfstandige denker en kan hij koppig zijn.
+UID:20260720-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260720
+DTEND;VALUE=DATE:20260721
+SUMMARY:Fimme is vandaag 29 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 29 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 29 weken oud.
+UID:20260720-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260721
+DTEND;VALUE=DATE:20260722
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Met 8 weken zitten pups in een 'angst-inprentfase'. Positieve ervaringen zijn nu heel belangrijk.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Met 8 weken zitten pups in een 'angst-inprentfase'. Positieve ervaringen zijn nu heel belangrijk.
+UID:20260721-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260722
+DTEND;VALUE=DATE:20260723
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Gezondheid: De groeischijven van een pup zijn zacht en sluiten pas rond 12-18 maanden. Daarom beperken we wandeltijd.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Gezondheid: De groeischijven van een pup zijn zacht en sluiten pas rond 12-18 maanden. Daarom beperken we wandeltijd.
+UID:20260722-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260723
+DTEND;VALUE=DATE:20260724
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: Stabyhouns houden van water! Ze werden vaak gebruikt om eenden te apporteren.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: Stabyhouns houden van water! Ze werden vaak gebruikt om eenden te apporteren.
+UID:20260723-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260724
+DTEND;VALUE=DATE:20260725
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Vachtverzorging: De Stabyhoun-vacht is 'zelfreinigend'. Vuil valt meestal vanzelf van de vacht zodra die droog is.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Vachtverzorging: De Stabyhoun-vacht is 'zelfreinigend'. Vuil valt meestal vanzelf van de vacht zodra die droog is.
+UID:20260724-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260725
+DTEND;VALUE=DATE:20260726
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De oorpunten van een Stabyhoun hebben onderaan vaak korter haar dan bij andere spaniels.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De oorpunten van een Stabyhoun hebben onderaan vaak korter haar dan bij andere spaniels.
+UID:20260725-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260726
+DTEND;VALUE=DATE:20260727
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Training: Stabyhouns reageren slecht op harde correcties. Ze leren het best met positieve\, vrolijke begeleiding.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Training: Stabyhouns reageren slecht op harde correcties. Ze leren het best met positieve\, vrolijke begeleiding.
+UID:20260726-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260727
+DTEND;VALUE=DATE:20260728
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Mentale uitdaging (snuffelen\, puzzels) maakt een pup ongeveer 3x sneller moe dan alleen fysiek wandelen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Mentale uitdaging (snuffelen\, puzzels) maakt een pup ongeveer 3x sneller moe dan alleen fysiek wandelen.
+UID:20260727-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260727
+DTEND;VALUE=DATE:20260728
+SUMMARY:Fimme is vandaag 30 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 30 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 30 weken oud.
+UID:20260727-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260728
+DTEND;VALUE=DATE:20260729
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Geschiedenis: Tijdens WOII werd het ras beschermd door Friese boeren en in 1942 officieel erkend.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Geschiedenis: Tijdens WOII werd het ras beschermd door Friese boeren en in 1942 officieel erkend.
+UID:20260728-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260729
+DTEND;VALUE=DATE:20260730
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Rond 12 weken beginnen de blijvende tanden de melktanden te verdringen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Rond 12 weken beginnen de blijvende tanden de melktanden te verdringen.
+UID:20260729-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260730
+DTEND;VALUE=DATE:20260731
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: 'Stabij' is de veelgebruikte bijnaam van het ras in Nederland.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: 'Stabij' is de veelgebruikte bijnaam van het ras in Nederland.
+UID:20260730-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260731
+DTEND;VALUE=DATE:20260801
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Slaap: Pups van deze leeftijd hebben 18-20 uur slaap per dag nodig voor gezonde groei.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Slaap: Pups van deze leeftijd hebben 18-20 uur slaap per dag nodig voor gezonde groei.
+UID:20260731-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260801
+DTEND;VALUE=DATE:20260802
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De meeste Stabyhouns zijn zwart-wit\, maar bruin-wit bestaat ook en is vrij zeldzaam.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De meeste Stabyhouns zijn zwart-wit\, maar bruin-wit bestaat ook en is vrij zeldzaam.
+UID:20260801-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260802
+DTEND;VALUE=DATE:20260803
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Oranje-witte Stabyhouns zijn bijna uitgestorven.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Oranje-witte Stabyhouns zijn bijna uitgestorven.
+UID:20260802-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260803
+DTEND;VALUE=DATE:20260804
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Socialisatie: De 'Rule of 12' adviseert om voor 12 weken kennis te maken met 12 nieuwe mensen\, ondergronden en geluiden.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Socialisatie: De 'Rule of 12' adviseert om voor 12 weken kennis te maken met 12 nieuwe mensen\, ondergronden en geluiden.
+UID:20260803-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260803
+DTEND;VALUE=DATE:20260804
+SUMMARY:Fimme is vandaag 31 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 31 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 31 weken oud.
+UID:20260803-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260804
+DTEND;VALUE=DATE:20260805
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Geschiedenis: Stabyhouns werden vroeger soms gebruikt om boter te karnen via een loopbandconstructie.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Geschiedenis: Stabyhouns werden vroeger soms gebruikt om boter te karnen via een loopbandconstructie.
+UID:20260804-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260805
+DTEND;VALUE=DATE:20260806
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Karakter: Stabyhouns staan bekend als heel goed met kinderen en andere huisdieren.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Karakter: Stabyhouns staan bekend als heel goed met kinderen en andere huisdieren.
+UID:20260805-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260806
+DTEND;VALUE=DATE:20260807
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Anatomie: Ze zijn iets langer dan dat ze hoog zijn.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Anatomie: Ze zijn iets langer dan dat ze hoog zijn.
+UID:20260806-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260807
+DTEND;VALUE=DATE:20260808
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: De Stabyhoun heeft een zeer scherpe neus en werd vroeger gebruikt om ondergrondse mollen op te sporen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: De Stabyhoun heeft een zeer scherpe neus en werd vroeger gebruikt om ondergrondse mollen op te sporen.
+UID:20260807-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260808
+DTEND;VALUE=DATE:20260809
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Training: Recall-training begint nu! Gebruik zijn naam en beloningen van hoge waarde.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Training: Recall-training begint nu! Gebruik zijn naam en beloningen van hoge waarde.
+UID:20260808-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260809
+DTEND;VALUE=DATE:20260810
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Gezondheid: Vermijd traplopen en in/uit de auto springen om de gewrichten te beschermen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Gezondheid: Vermijd traplopen en in/uit de auto springen om de gewrichten te beschermen.
+UID:20260809-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260810
+DTEND;VALUE=DATE:20260811
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Feit: Honden hebben zweetklieren alleen in hun voetzolen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Feit: Honden hebben zweetklieren alleen in hun voetzolen.
+UID:20260810-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260810
+DTEND;VALUE=DATE:20260811
+SUMMARY:Fimme is vandaag 32 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 32 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 32 weken oud.
+UID:20260810-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260811
+DTEND;VALUE=DATE:20260812
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Feit: De neusafdruk van een hond is net zo uniek als een menselijke vingerafdruk.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Feit: De neusafdruk van een hond is net zo uniek als een menselijke vingerafdruk.
+UID:20260811-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260812
+DTEND;VALUE=DATE:20260813
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Rond 16 weken begint het kritieke socialisatievenster te sluiten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Rond 16 weken begint het kritieke socialisatievenster te sluiten.
+UID:20260812-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260813
+DTEND;VALUE=DATE:20260814
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: In Nederland worden Stabyhouns vaak gezien als nationale schatten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: In Nederland worden Stabyhouns vaak gezien als nationale schatten.
+UID:20260813-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260814
+DTEND;VALUE=DATE:20260815
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: Stabyhouns blaffen meestal niet veel\, maar ze waarschuwen wel als er iets niet klopt.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: Stabyhouns blaffen meestal niet veel\, maar ze waarschuwen wel als er iets niet klopt.
+UID:20260814-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260815
+DTEND;VALUE=DATE:20260816
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Een snuffelwandeling van 10 minuten is voor een pup vaak beter dan een powerwalk van 20 minuten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Een snuffelwandeling van 10 minuten is voor een pup vaak beter dan een powerwalk van 20 minuten.
+UID:20260815-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260816
+DTEND;VALUE=DATE:20260817
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Voeding: Pups groeien snel! Controleer wekelijks het gewicht om porties goed af te stemmen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Voeding: Pups groeien snel! Controleer wekelijks het gewicht om porties goed af te stemmen.
+UID:20260816-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260817
+DTEND;VALUE=DATE:20260818
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Band opbouwen: Met de hand voeren kan helpen om bezitsagressie rond voer te voorkomen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Band opbouwen: Met de hand voeren kan helpen om bezitsagressie rond voer te voorkomen.
+UID:20260817-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260817
+DTEND;VALUE=DATE:20260818
+SUMMARY:Fimme is vandaag 33 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 33 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 33 weken oud.
+UID:20260817-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260818
+DTEND;VALUE=DATE:20260819
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De staart van een Stabyhoun heeft meestal een witte punt.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De staart van een Stabyhoun heeft meestal een witte punt.
+UID:20260818-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260819
+DTEND;VALUE=DATE:20260820
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Zwemmen is een goede\, gewrichtsvriendelijke training voor Stabyhouns zodra het water warm genoeg is.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Zwemmen is een goede\, gewrichtsvriendelijke training voor Stabyhouns zodra het water warm genoeg is.
+UID:20260819-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260820
+DTEND;VALUE=DATE:20260821
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Stabyhoun-feit: De naam 'Stabyhoun' vertaalt uit het Fries ongeveer naar 'sta mij bij hond'.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Stabyhoun-feit: De naam 'Stabyhoun' vertaalt uit het Fries ongeveer naar 'sta mij bij hond'.
+UID:20260820-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260821
+DTEND;VALUE=DATE:20260822
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Stabyhoun-feit: Ze behoren tot de 5 zeldzaamste hondenrassen ter wereld.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Stabyhoun-feit: Ze behoren tot de 5 zeldzaamste hondenrassen ter wereld.
+UID:20260821-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260822
+DTEND;VALUE=DATE:20260823
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Stabyhouns komen oorspronkelijk uit de provincie Friesland in Nederland.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Stabyhouns komen oorspronkelijk uit de provincie Friesland in Nederland.
+UID:20260822-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260823
+DTEND;VALUE=DATE:20260824
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Historisch stonden ze bekend als de 'hond van de arme man'\, geschikt voor jacht\, bewaking en het vangen van mollen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Historisch stonden ze bekend als de 'hond van de arme man'\, geschikt voor jacht\, bewaking en het vangen van mollen.
+UID:20260823-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260824
+DTEND;VALUE=DATE:20260825
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Stabyhouns hebben een 'zachte bek'\, waardoor ze wild kunnen apporteren zonder het te beschadigen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Stabyhouns hebben een 'zachte bek'\, waardoor ze wild kunnen apporteren zonder het te beschadigen.
+UID:20260824-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260824
+DTEND;VALUE=DATE:20260825
+SUMMARY:Fimme is vandaag 34 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 34 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 34 weken oud.
+UID:20260824-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260825
+DTEND;VALUE=DATE:20260826
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: In tegenstelling tot veel jachtrassen is de Stabyhoun een zelfstandige denker en kan hij koppig zijn.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: In tegenstelling tot veel jachtrassen is de Stabyhoun een zelfstandige denker en kan hij koppig zijn.
+UID:20260825-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260826
+DTEND;VALUE=DATE:20260827
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Met 8 weken zitten pups in een 'angst-inprentfase'. Positieve ervaringen zijn nu heel belangrijk.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Met 8 weken zitten pups in een 'angst-inprentfase'. Positieve ervaringen zijn nu heel belangrijk.
+UID:20260826-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260827
+DTEND;VALUE=DATE:20260828
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Gezondheid: De groeischijven van een pup zijn zacht en sluiten pas rond 12-18 maanden. Daarom beperken we wandeltijd.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Gezondheid: De groeischijven van een pup zijn zacht en sluiten pas rond 12-18 maanden. Daarom beperken we wandeltijd.
+UID:20260827-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260828
+DTEND;VALUE=DATE:20260829
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: Stabyhouns houden van water! Ze werden vaak gebruikt om eenden te apporteren.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: Stabyhouns houden van water! Ze werden vaak gebruikt om eenden te apporteren.
+UID:20260828-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260829
+DTEND;VALUE=DATE:20260830
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Vachtverzorging: De Stabyhoun-vacht is 'zelfreinigend'. Vuil valt meestal vanzelf van de vacht zodra die droog is.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Vachtverzorging: De Stabyhoun-vacht is 'zelfreinigend'. Vuil valt meestal vanzelf van de vacht zodra die droog is.
+UID:20260829-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260830
+DTEND;VALUE=DATE:20260831
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De oorpunten van een Stabyhoun hebben onderaan vaak korter haar dan bij andere spaniels.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De oorpunten van een Stabyhoun hebben onderaan vaak korter haar dan bij andere spaniels.
+UID:20260830-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260831
+DTEND;VALUE=DATE:20260901
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Training: Stabyhouns reageren slecht op harde correcties. Ze leren het best met positieve\, vrolijke begeleiding.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Training: Stabyhouns reageren slecht op harde correcties. Ze leren het best met positieve\, vrolijke begeleiding.
+UID:20260831-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260831
+DTEND;VALUE=DATE:20260901
+SUMMARY:Fimme is vandaag 35 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 35 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 35 weken oud.
+UID:20260831-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260901
+DTEND;VALUE=DATE:20260902
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Mentale uitdaging (snuffelen\, puzzels) maakt een pup ongeveer 3x sneller moe dan alleen fysiek wandelen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Mentale uitdaging (snuffelen\, puzzels) maakt een pup ongeveer 3x sneller moe dan alleen fysiek wandelen.
+UID:20260901-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260902
+DTEND;VALUE=DATE:20260903
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Geschiedenis: Tijdens WOII werd het ras beschermd door Friese boeren en in 1942 officieel erkend.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Geschiedenis: Tijdens WOII werd het ras beschermd door Friese boeren en in 1942 officieel erkend.
+UID:20260902-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260903
+DTEND;VALUE=DATE:20260904
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Rond 12 weken beginnen de blijvende tanden de melktanden te verdringen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Rond 12 weken beginnen de blijvende tanden de melktanden te verdringen.
+UID:20260903-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260904
+DTEND;VALUE=DATE:20260905
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: 'Stabij' is de veelgebruikte bijnaam van het ras in Nederland.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: 'Stabij' is de veelgebruikte bijnaam van het ras in Nederland.
+UID:20260904-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260905
+DTEND;VALUE=DATE:20260906
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Slaap: Pups van deze leeftijd hebben 18-20 uur slaap per dag nodig voor gezonde groei.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Slaap: Pups van deze leeftijd hebben 18-20 uur slaap per dag nodig voor gezonde groei.
+UID:20260905-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260906
+DTEND;VALUE=DATE:20260907
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De meeste Stabyhouns zijn zwart-wit\, maar bruin-wit bestaat ook en is vrij zeldzaam.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De meeste Stabyhouns zijn zwart-wit\, maar bruin-wit bestaat ook en is vrij zeldzaam.
+UID:20260906-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260907
+DTEND;VALUE=DATE:20260908
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Oranje-witte Stabyhouns zijn bijna uitgestorven.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Oranje-witte Stabyhouns zijn bijna uitgestorven.
+UID:20260907-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260907
+DTEND;VALUE=DATE:20260908
+SUMMARY:Fimme is vandaag 36 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 36 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 36 weken oud.
+UID:20260907-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260908
+DTEND;VALUE=DATE:20260909
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Socialisatie: De 'Rule of 12' adviseert om voor 12 weken kennis te maken met 12 nieuwe mensen\, ondergronden en geluiden.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Socialisatie: De 'Rule of 12' adviseert om voor 12 weken kennis te maken met 12 nieuwe mensen\, ondergronden en geluiden.
+UID:20260908-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260909
+DTEND;VALUE=DATE:20260910
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Geschiedenis: Stabyhouns werden vroeger soms gebruikt om boter te karnen via een loopbandconstructie.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Geschiedenis: Stabyhouns werden vroeger soms gebruikt om boter te karnen via een loopbandconstructie.
+UID:20260909-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260910
+DTEND;VALUE=DATE:20260911
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Karakter: Stabyhouns staan bekend als heel goed met kinderen en andere huisdieren.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Karakter: Stabyhouns staan bekend als heel goed met kinderen en andere huisdieren.
+UID:20260910-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260911
+DTEND;VALUE=DATE:20260912
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Anatomie: Ze zijn iets langer dan dat ze hoog zijn.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Anatomie: Ze zijn iets langer dan dat ze hoog zijn.
+UID:20260911-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260912
+DTEND;VALUE=DATE:20260913
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: De Stabyhoun heeft een zeer scherpe neus en werd vroeger gebruikt om ondergrondse mollen op te sporen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: De Stabyhoun heeft een zeer scherpe neus en werd vroeger gebruikt om ondergrondse mollen op te sporen.
+UID:20260912-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260913
+DTEND;VALUE=DATE:20260914
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Training: Recall-training begint nu! Gebruik zijn naam en beloningen van hoge waarde.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Training: Recall-training begint nu! Gebruik zijn naam en beloningen van hoge waarde.
+UID:20260913-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260914
+DTEND;VALUE=DATE:20260915
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Gezondheid: Vermijd traplopen en in/uit de auto springen om de gewrichten te beschermen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Gezondheid: Vermijd traplopen en in/uit de auto springen om de gewrichten te beschermen.
+UID:20260914-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260914
+DTEND;VALUE=DATE:20260915
+SUMMARY:Fimme is vandaag 37 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 37 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 37 weken oud.
+UID:20260914-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260915
+DTEND;VALUE=DATE:20260916
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Feit: Honden hebben zweetklieren alleen in hun voetzolen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Feit: Honden hebben zweetklieren alleen in hun voetzolen.
+UID:20260915-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260916
+DTEND;VALUE=DATE:20260917
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Feit: De neusafdruk van een hond is net zo uniek als een menselijke vingerafdruk.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Feit: De neusafdruk van een hond is net zo uniek als een menselijke vingerafdruk.
+UID:20260916-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260917
+DTEND;VALUE=DATE:20260918
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Rond 16 weken begint het kritieke socialisatievenster te sluiten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Rond 16 weken begint het kritieke socialisatievenster te sluiten.
+UID:20260917-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260918
+DTEND;VALUE=DATE:20260919
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: In Nederland worden Stabyhouns vaak gezien als nationale schatten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: In Nederland worden Stabyhouns vaak gezien als nationale schatten.
+UID:20260918-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260919
+DTEND;VALUE=DATE:20260920
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: Stabyhouns blaffen meestal niet veel\, maar ze waarschuwen wel als er iets niet klopt.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: Stabyhouns blaffen meestal niet veel\, maar ze waarschuwen wel als er iets niet klopt.
+UID:20260919-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260920
+DTEND;VALUE=DATE:20260921
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Een snuffelwandeling van 10 minuten is voor een pup vaak beter dan een powerwalk van 20 minuten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Een snuffelwandeling van 10 minuten is voor een pup vaak beter dan een powerwalk van 20 minuten.
+UID:20260920-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260921
+DTEND;VALUE=DATE:20260922
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Voeding: Pups groeien snel! Controleer wekelijks het gewicht om porties goed af te stemmen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Voeding: Pups groeien snel! Controleer wekelijks het gewicht om porties goed af te stemmen.
+UID:20260921-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260921
+DTEND;VALUE=DATE:20260922
+SUMMARY:Fimme is vandaag 38 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 38 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 38 weken oud.
+UID:20260921-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260922
+DTEND;VALUE=DATE:20260923
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Band opbouwen: Met de hand voeren kan helpen om bezitsagressie rond voer te voorkomen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Band opbouwen: Met de hand voeren kan helpen om bezitsagressie rond voer te voorkomen.
+UID:20260922-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260923
+DTEND;VALUE=DATE:20260924
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De staart van een Stabyhoun heeft meestal een witte punt.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De staart van een Stabyhoun heeft meestal een witte punt.
+UID:20260923-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260924
+DTEND;VALUE=DATE:20260925
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Zwemmen is een goede\, gewrichtsvriendelijke training voor Stabyhouns zodra het water warm genoeg is.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Zwemmen is een goede\, gewrichtsvriendelijke training voor Stabyhouns zodra het water warm genoeg is.
+UID:20260924-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260925
+DTEND;VALUE=DATE:20260926
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Stabyhoun-feit: De naam 'Stabyhoun' vertaalt uit het Fries ongeveer naar 'sta mij bij hond'.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Stabyhoun-feit: De naam 'Stabyhoun' vertaalt uit het Fries ongeveer naar 'sta mij bij hond'.
+UID:20260925-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260926
+DTEND;VALUE=DATE:20260927
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Stabyhoun-feit: Ze behoren tot de 5 zeldzaamste hondenrassen ter wereld.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Stabyhoun-feit: Ze behoren tot de 5 zeldzaamste hondenrassen ter wereld.
+UID:20260926-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260927
+DTEND;VALUE=DATE:20260928
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Stabyhouns komen oorspronkelijk uit de provincie Friesland in Nederland.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Stabyhouns komen oorspronkelijk uit de provincie Friesland in Nederland.
+UID:20260927-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260928
+DTEND;VALUE=DATE:20260929
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Historisch stonden ze bekend als de 'hond van de arme man'\, geschikt voor jacht\, bewaking en het vangen van mollen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Historisch stonden ze bekend als de 'hond van de arme man'\, geschikt voor jacht\, bewaking en het vangen van mollen.
+UID:20260928-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260928
+DTEND;VALUE=DATE:20260929
+SUMMARY:Fimme is vandaag 39 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 39 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 39 weken oud.
+UID:20260928-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260929
+DTEND;VALUE=DATE:20260930
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Stabyhouns hebben een 'zachte bek'\, waardoor ze wild kunnen apporteren zonder het te beschadigen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Stabyhouns hebben een 'zachte bek'\, waardoor ze wild kunnen apporteren zonder het te beschadigen.
+UID:20260929-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20260930
+DTEND;VALUE=DATE:20261001
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: In tegenstelling tot veel jachtrassen is de Stabyhoun een zelfstandige denker en kan hij koppig zijn.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: In tegenstelling tot veel jachtrassen is de Stabyhoun een zelfstandige denker en kan hij koppig zijn.
+UID:20260930-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261001
+DTEND;VALUE=DATE:20261002
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Met 8 weken zitten pups in een 'angst-inprentfase'. Positieve ervaringen zijn nu heel belangrijk.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Met 8 weken zitten pups in een 'angst-inprentfase'. Positieve ervaringen zijn nu heel belangrijk.
+UID:20261001-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261002
+DTEND;VALUE=DATE:20261003
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Gezondheid: De groeischijven van een pup zijn zacht en sluiten pas rond 12-18 maanden. Daarom beperken we wandeltijd.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Gezondheid: De groeischijven van een pup zijn zacht en sluiten pas rond 12-18 maanden. Daarom beperken we wandeltijd.
+UID:20261002-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261003
+DTEND;VALUE=DATE:20261004
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: Stabyhouns houden van water! Ze werden vaak gebruikt om eenden te apporteren.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: Stabyhouns houden van water! Ze werden vaak gebruikt om eenden te apporteren.
+UID:20261003-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261004
+DTEND;VALUE=DATE:20261005
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Vachtverzorging: De Stabyhoun-vacht is 'zelfreinigend'. Vuil valt meestal vanzelf van de vacht zodra die droog is.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Vachtverzorging: De Stabyhoun-vacht is 'zelfreinigend'. Vuil valt meestal vanzelf van de vacht zodra die droog is.
+UID:20261004-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261005
+DTEND;VALUE=DATE:20261006
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De oorpunten van een Stabyhoun hebben onderaan vaak korter haar dan bij andere spaniels.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De oorpunten van een Stabyhoun hebben onderaan vaak korter haar dan bij andere spaniels.
+UID:20261005-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261005
+DTEND;VALUE=DATE:20261006
+SUMMARY:Fimme is vandaag 40 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 40 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 40 weken oud.
+UID:20261005-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261006
+DTEND;VALUE=DATE:20261007
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Training: Stabyhouns reageren slecht op harde correcties. Ze leren het best met positieve\, vrolijke begeleiding.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Training: Stabyhouns reageren slecht op harde correcties. Ze leren het best met positieve\, vrolijke begeleiding.
+UID:20261006-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261007
+DTEND;VALUE=DATE:20261008
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Mentale uitdaging (snuffelen\, puzzels) maakt een pup ongeveer 3x sneller moe dan alleen fysiek wandelen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Mentale uitdaging (snuffelen\, puzzels) maakt een pup ongeveer 3x sneller moe dan alleen fysiek wandelen.
+UID:20261007-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261008
+DTEND;VALUE=DATE:20261009
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Geschiedenis: Tijdens WOII werd het ras beschermd door Friese boeren en in 1942 officieel erkend.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Geschiedenis: Tijdens WOII werd het ras beschermd door Friese boeren en in 1942 officieel erkend.
+UID:20261008-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261009
+DTEND;VALUE=DATE:20261010
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Rond 12 weken beginnen de blijvende tanden de melktanden te verdringen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Rond 12 weken beginnen de blijvende tanden de melktanden te verdringen.
+UID:20261009-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261010
+DTEND;VALUE=DATE:20261011
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: 'Stabij' is de veelgebruikte bijnaam van het ras in Nederland.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: 'Stabij' is de veelgebruikte bijnaam van het ras in Nederland.
+UID:20261010-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261011
+DTEND;VALUE=DATE:20261012
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Slaap: Pups van deze leeftijd hebben 18-20 uur slaap per dag nodig voor gezonde groei.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Slaap: Pups van deze leeftijd hebben 18-20 uur slaap per dag nodig voor gezonde groei.
+UID:20261011-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261012
+DTEND;VALUE=DATE:20261013
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De meeste Stabyhouns zijn zwart-wit\, maar bruin-wit bestaat ook en is vrij zeldzaam.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De meeste Stabyhouns zijn zwart-wit\, maar bruin-wit bestaat ook en is vrij zeldzaam.
+UID:20261012-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261012
+DTEND;VALUE=DATE:20261013
+SUMMARY:Fimme is vandaag 41 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 41 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 41 weken oud.
+UID:20261012-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261013
+DTEND;VALUE=DATE:20261014
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Oranje-witte Stabyhouns zijn bijna uitgestorven.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Oranje-witte Stabyhouns zijn bijna uitgestorven.
+UID:20261013-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261014
+DTEND;VALUE=DATE:20261015
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Socialisatie: De 'Rule of 12' adviseert om voor 12 weken kennis te maken met 12 nieuwe mensen\, ondergronden en geluiden.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Socialisatie: De 'Rule of 12' adviseert om voor 12 weken kennis te maken met 12 nieuwe mensen\, ondergronden en geluiden.
+UID:20261014-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261015
+DTEND;VALUE=DATE:20261016
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Geschiedenis: Stabyhouns werden vroeger soms gebruikt om boter te karnen via een loopbandconstructie.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Geschiedenis: Stabyhouns werden vroeger soms gebruikt om boter te karnen via een loopbandconstructie.
+UID:20261015-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261016
+DTEND;VALUE=DATE:20261017
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Karakter: Stabyhouns staan bekend als heel goed met kinderen en andere huisdieren.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Karakter: Stabyhouns staan bekend als heel goed met kinderen en andere huisdieren.
+UID:20261016-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261017
+DTEND;VALUE=DATE:20261018
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Anatomie: Ze zijn iets langer dan dat ze hoog zijn.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Anatomie: Ze zijn iets langer dan dat ze hoog zijn.
+UID:20261017-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261018
+DTEND;VALUE=DATE:20261019
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: De Stabyhoun heeft een zeer scherpe neus en werd vroeger gebruikt om ondergrondse mollen op te sporen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: De Stabyhoun heeft een zeer scherpe neus en werd vroeger gebruikt om ondergrondse mollen op te sporen.
+UID:20261018-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261019
+DTEND;VALUE=DATE:20261020
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Training: Recall-training begint nu! Gebruik zijn naam en beloningen van hoge waarde.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Training: Recall-training begint nu! Gebruik zijn naam en beloningen van hoge waarde.
+UID:20261019-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261019
+DTEND;VALUE=DATE:20261020
+SUMMARY:Fimme is vandaag 42 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 42 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 42 weken oud.
+UID:20261019-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261020
+DTEND;VALUE=DATE:20261021
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Gezondheid: Vermijd traplopen en in/uit de auto springen om de gewrichten te beschermen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Gezondheid: Vermijd traplopen en in/uit de auto springen om de gewrichten te beschermen.
+UID:20261020-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261021
+DTEND;VALUE=DATE:20261022
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Feit: Honden hebben zweetklieren alleen in hun voetzolen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Feit: Honden hebben zweetklieren alleen in hun voetzolen.
+UID:20261021-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261022
+DTEND;VALUE=DATE:20261023
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Feit: De neusafdruk van een hond is net zo uniek als een menselijke vingerafdruk.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Feit: De neusafdruk van een hond is net zo uniek als een menselijke vingerafdruk.
+UID:20261022-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261023
+DTEND;VALUE=DATE:20261024
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Rond 16 weken begint het kritieke socialisatievenster te sluiten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Rond 16 weken begint het kritieke socialisatievenster te sluiten.
+UID:20261023-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261024
+DTEND;VALUE=DATE:20261025
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: In Nederland worden Stabyhouns vaak gezien als nationale schatten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: In Nederland worden Stabyhouns vaak gezien als nationale schatten.
+UID:20261024-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261025
+DTEND;VALUE=DATE:20261026
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: Stabyhouns blaffen meestal niet veel\, maar ze waarschuwen wel als er iets niet klopt.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: Stabyhouns blaffen meestal niet veel\, maar ze waarschuwen wel als er iets niet klopt.
+UID:20261025-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261026
+DTEND;VALUE=DATE:20261027
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Een snuffelwandeling van 10 minuten is voor een pup vaak beter dan een powerwalk van 20 minuten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Een snuffelwandeling van 10 minuten is voor een pup vaak beter dan een powerwalk van 20 minuten.
+UID:20261026-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261026
+DTEND;VALUE=DATE:20261027
+SUMMARY:Fimme is vandaag 43 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 43 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 43 weken oud.
+UID:20261026-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261027
+DTEND;VALUE=DATE:20261028
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Voeding: Pups groeien snel! Controleer wekelijks het gewicht om porties goed af te stemmen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Voeding: Pups groeien snel! Controleer wekelijks het gewicht om porties goed af te stemmen.
+UID:20261027-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261028
+DTEND;VALUE=DATE:20261029
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Band opbouwen: Met de hand voeren kan helpen om bezitsagressie rond voer te voorkomen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Band opbouwen: Met de hand voeren kan helpen om bezitsagressie rond voer te voorkomen.
+UID:20261028-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261029
+DTEND;VALUE=DATE:20261030
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De staart van een Stabyhoun heeft meestal een witte punt.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De staart van een Stabyhoun heeft meestal een witte punt.
+UID:20261029-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261030
+DTEND;VALUE=DATE:20261031
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Zwemmen is een goede\, gewrichtsvriendelijke training voor Stabyhouns zodra het water warm genoeg is.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Zwemmen is een goede\, gewrichtsvriendelijke training voor Stabyhouns zodra het water warm genoeg is.
+UID:20261030-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261031
+DTEND;VALUE=DATE:20261101
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Stabyhoun-feit: De naam 'Stabyhoun' vertaalt uit het Fries ongeveer naar 'sta mij bij hond'.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Stabyhoun-feit: De naam 'Stabyhoun' vertaalt uit het Fries ongeveer naar 'sta mij bij hond'.
+UID:20261031-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261101
+DTEND;VALUE=DATE:20261102
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Stabyhoun-feit: Ze behoren tot de 5 zeldzaamste hondenrassen ter wereld.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Stabyhoun-feit: Ze behoren tot de 5 zeldzaamste hondenrassen ter wereld.
+UID:20261101-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261102
+DTEND;VALUE=DATE:20261103
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Stabyhouns komen oorspronkelijk uit de provincie Friesland in Nederland.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Stabyhouns komen oorspronkelijk uit de provincie Friesland in Nederland.
+UID:20261102-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261102
+DTEND;VALUE=DATE:20261103
+SUMMARY:Fimme is vandaag 44 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 44 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 44 weken oud.
+UID:20261102-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261103
+DTEND;VALUE=DATE:20261104
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Historisch stonden ze bekend als de 'hond van de arme man'\, geschikt voor jacht\, bewaking en het vangen van mollen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Historisch stonden ze bekend als de 'hond van de arme man'\, geschikt voor jacht\, bewaking en het vangen van mollen.
+UID:20261103-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261104
+DTEND;VALUE=DATE:20261105
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Stabyhouns hebben een 'zachte bek'\, waardoor ze wild kunnen apporteren zonder het te beschadigen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Stabyhouns hebben een 'zachte bek'\, waardoor ze wild kunnen apporteren zonder het te beschadigen.
+UID:20261104-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261105
+DTEND;VALUE=DATE:20261106
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: In tegenstelling tot veel jachtrassen is de Stabyhoun een zelfstandige denker en kan hij koppig zijn.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: In tegenstelling tot veel jachtrassen is de Stabyhoun een zelfstandige denker en kan hij koppig zijn.
+UID:20261105-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261106
+DTEND;VALUE=DATE:20261107
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Met 8 weken zitten pups in een 'angst-inprentfase'. Positieve ervaringen zijn nu heel belangrijk.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Met 8 weken zitten pups in een 'angst-inprentfase'. Positieve ervaringen zijn nu heel belangrijk.
+UID:20261106-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261107
+DTEND;VALUE=DATE:20261108
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Gezondheid: De groeischijven van een pup zijn zacht en sluiten pas rond 12-18 maanden. Daarom beperken we wandeltijd.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Gezondheid: De groeischijven van een pup zijn zacht en sluiten pas rond 12-18 maanden. Daarom beperken we wandeltijd.
+UID:20261107-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261108
+DTEND;VALUE=DATE:20261109
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: Stabyhouns houden van water! Ze werden vaak gebruikt om eenden te apporteren.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: Stabyhouns houden van water! Ze werden vaak gebruikt om eenden te apporteren.
+UID:20261108-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261109
+DTEND;VALUE=DATE:20261110
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Vachtverzorging: De Stabyhoun-vacht is 'zelfreinigend'. Vuil valt meestal vanzelf van de vacht zodra die droog is.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Vachtverzorging: De Stabyhoun-vacht is 'zelfreinigend'. Vuil valt meestal vanzelf van de vacht zodra die droog is.
+UID:20261109-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261109
+DTEND;VALUE=DATE:20261110
+SUMMARY:Fimme is vandaag 45 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 45 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 45 weken oud.
+UID:20261109-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261110
+DTEND;VALUE=DATE:20261111
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De oorpunten van een Stabyhoun hebben onderaan vaak korter haar dan bij andere spaniels.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De oorpunten van een Stabyhoun hebben onderaan vaak korter haar dan bij andere spaniels.
+UID:20261110-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261111
+DTEND;VALUE=DATE:20261112
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Training: Stabyhouns reageren slecht op harde correcties. Ze leren het best met positieve\, vrolijke begeleiding.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Training: Stabyhouns reageren slecht op harde correcties. Ze leren het best met positieve\, vrolijke begeleiding.
+UID:20261111-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261112
+DTEND;VALUE=DATE:20261113
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Mentale uitdaging (snuffelen\, puzzels) maakt een pup ongeveer 3x sneller moe dan alleen fysiek wandelen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Mentale uitdaging (snuffelen\, puzzels) maakt een pup ongeveer 3x sneller moe dan alleen fysiek wandelen.
+UID:20261112-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261113
+DTEND;VALUE=DATE:20261114
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Geschiedenis: Tijdens WOII werd het ras beschermd door Friese boeren en in 1942 officieel erkend.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Geschiedenis: Tijdens WOII werd het ras beschermd door Friese boeren en in 1942 officieel erkend.
+UID:20261113-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261114
+DTEND;VALUE=DATE:20261115
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Rond 12 weken beginnen de blijvende tanden de melktanden te verdringen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Rond 12 weken beginnen de blijvende tanden de melktanden te verdringen.
+UID:20261114-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261115
+DTEND;VALUE=DATE:20261116
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: 'Stabij' is de veelgebruikte bijnaam van het ras in Nederland.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: 'Stabij' is de veelgebruikte bijnaam van het ras in Nederland.
+UID:20261115-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261116
+DTEND;VALUE=DATE:20261117
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Slaap: Pups van deze leeftijd hebben 18-20 uur slaap per dag nodig voor gezonde groei.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Slaap: Pups van deze leeftijd hebben 18-20 uur slaap per dag nodig voor gezonde groei.
+UID:20261116-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261116
+DTEND;VALUE=DATE:20261117
+SUMMARY:Fimme is vandaag 46 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 46 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 46 weken oud.
+UID:20261116-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261117
+DTEND;VALUE=DATE:20261118
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De meeste Stabyhouns zijn zwart-wit\, maar bruin-wit bestaat ook en is vrij zeldzaam.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De meeste Stabyhouns zijn zwart-wit\, maar bruin-wit bestaat ook en is vrij zeldzaam.
+UID:20261117-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261118
+DTEND;VALUE=DATE:20261119
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Oranje-witte Stabyhouns zijn bijna uitgestorven.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Oranje-witte Stabyhouns zijn bijna uitgestorven.
+UID:20261118-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261119
+DTEND;VALUE=DATE:20261120
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Socialisatie: De 'Rule of 12' adviseert om voor 12 weken kennis te maken met 12 nieuwe mensen\, ondergronden en geluiden.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Socialisatie: De 'Rule of 12' adviseert om voor 12 weken kennis te maken met 12 nieuwe mensen\, ondergronden en geluiden.
+UID:20261119-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Geschiedenis: Stabyhouns werden vroeger soms gebruikt om boter te karnen via een loopbandconstructie.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Geschiedenis: Stabyhouns werden vroeger soms gebruikt om boter te karnen via een loopbandconstructie.
+UID:20261120-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261121
+DTEND;VALUE=DATE:20261122
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Karakter: Stabyhouns staan bekend als heel goed met kinderen en andere huisdieren.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Karakter: Stabyhouns staan bekend als heel goed met kinderen en andere huisdieren.
+UID:20261121-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261122
+DTEND;VALUE=DATE:20261123
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Anatomie: Ze zijn iets langer dan dat ze hoog zijn.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Anatomie: Ze zijn iets langer dan dat ze hoog zijn.
+UID:20261122-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261123
+DTEND;VALUE=DATE:20261124
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: De Stabyhoun heeft een zeer scherpe neus en werd vroeger gebruikt om ondergrondse mollen op te sporen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: De Stabyhoun heeft een zeer scherpe neus en werd vroeger gebruikt om ondergrondse mollen op te sporen.
+UID:20261123-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261123
+DTEND;VALUE=DATE:20261124
+SUMMARY:Fimme is vandaag 47 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 47 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 47 weken oud.
+UID:20261123-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261124
+DTEND;VALUE=DATE:20261125
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Training: Recall-training begint nu! Gebruik zijn naam en beloningen van hoge waarde.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Training: Recall-training begint nu! Gebruik zijn naam en beloningen van hoge waarde.
+UID:20261124-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261125
+DTEND;VALUE=DATE:20261126
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Gezondheid: Vermijd traplopen en in/uit de auto springen om de gewrichten te beschermen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Gezondheid: Vermijd traplopen en in/uit de auto springen om de gewrichten te beschermen.
+UID:20261125-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261126
+DTEND;VALUE=DATE:20261127
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Feit: Honden hebben zweetklieren alleen in hun voetzolen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Feit: Honden hebben zweetklieren alleen in hun voetzolen.
+UID:20261126-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261127
+DTEND;VALUE=DATE:20261128
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Feit: De neusafdruk van een hond is net zo uniek als een menselijke vingerafdruk.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Feit: De neusafdruk van een hond is net zo uniek als een menselijke vingerafdruk.
+UID:20261127-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261128
+DTEND;VALUE=DATE:20261129
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Rond 16 weken begint het kritieke socialisatievenster te sluiten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Rond 16 weken begint het kritieke socialisatievenster te sluiten.
+UID:20261128-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261129
+DTEND;VALUE=DATE:20261130
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: In Nederland worden Stabyhouns vaak gezien als nationale schatten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: In Nederland worden Stabyhouns vaak gezien als nationale schatten.
+UID:20261129-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261130
+DTEND;VALUE=DATE:20261201
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: Stabyhouns blaffen meestal niet veel\, maar ze waarschuwen wel als er iets niet klopt.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: Stabyhouns blaffen meestal niet veel\, maar ze waarschuwen wel als er iets niet klopt.
+UID:20261130-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261130
+DTEND;VALUE=DATE:20261201
+SUMMARY:Fimme is vandaag 48 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 48 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 48 weken oud.
+UID:20261130-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261201
+DTEND;VALUE=DATE:20261202
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Een snuffelwandeling van 10 minuten is voor een pup vaak beter dan een powerwalk van 20 minuten.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Een snuffelwandeling van 10 minuten is voor een pup vaak beter dan een powerwalk van 20 minuten.
+UID:20261201-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261202
+DTEND;VALUE=DATE:20261203
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Voeding: Pups groeien snel! Controleer wekelijks het gewicht om porties goed af te stemmen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Voeding: Pups groeien snel! Controleer wekelijks het gewicht om porties goed af te stemmen.
+UID:20261202-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261203
+DTEND;VALUE=DATE:20261204
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Band opbouwen: Met de hand voeren kan helpen om bezitsagressie rond voer te voorkomen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Band opbouwen: Met de hand voeren kan helpen om bezitsagressie rond voer te voorkomen.
+UID:20261203-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261204
+DTEND;VALUE=DATE:20261205
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De staart van een Stabyhoun heeft meestal een witte punt.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De staart van een Stabyhoun heeft meestal een witte punt.
+UID:20261204-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261205
+DTEND;VALUE=DATE:20261206
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Zwemmen is een goede\, gewrichtsvriendelijke training voor Stabyhouns zodra het water warm genoeg is.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Zwemmen is een goede\, gewrichtsvriendelijke training voor Stabyhouns zodra het water warm genoeg is.
+UID:20261205-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261206
+DTEND;VALUE=DATE:20261207
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Stabyhoun-feit: De naam 'Stabyhoun' vertaalt uit het Fries ongeveer naar 'sta mij bij hond'.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Stabyhoun-feit: De naam 'Stabyhoun' vertaalt uit het Fries ongeveer naar 'sta mij bij hond'.
+UID:20261206-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261207
+DTEND;VALUE=DATE:20261208
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Stabyhoun-feit: Ze behoren tot de 5 zeldzaamste hondenrassen ter wereld.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Stabyhoun-feit: Ze behoren tot de 5 zeldzaamste hondenrassen ter wereld.
+UID:20261207-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261207
+DTEND;VALUE=DATE:20261208
+SUMMARY:Fimme is vandaag 49 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 49 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 49 weken oud.
+UID:20261207-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261208
+DTEND;VALUE=DATE:20261209
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Stabyhouns komen oorspronkelijk uit de provincie Friesland in Nederland.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Stabyhouns komen oorspronkelijk uit de provincie Friesland in Nederland.
+UID:20261208-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261209
+DTEND;VALUE=DATE:20261210
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Historisch stonden ze bekend als de 'hond van de arme man'\, geschikt voor jacht\, bewaking en het vangen van mollen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Historisch stonden ze bekend als de 'hond van de arme man'\, geschikt voor jacht\, bewaking en het vangen van mollen.
+UID:20261209-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261210
+DTEND;VALUE=DATE:20261211
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Stabyhouns hebben een 'zachte bek'\, waardoor ze wild kunnen apporteren zonder het te beschadigen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Stabyhouns hebben een 'zachte bek'\, waardoor ze wild kunnen apporteren zonder het te beschadigen.
+UID:20261210-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261211
+DTEND;VALUE=DATE:20261212
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: In tegenstelling tot veel jachtrassen is de Stabyhoun een zelfstandige denker en kan hij koppig zijn.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: In tegenstelling tot veel jachtrassen is de Stabyhoun een zelfstandige denker en kan hij koppig zijn.
+UID:20261211-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261212
+DTEND;VALUE=DATE:20261213
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Met 8 weken zitten pups in een 'angst-inprentfase'. Positieve ervaringen zijn nu heel belangrijk.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Met 8 weken zitten pups in een 'angst-inprentfase'. Positieve ervaringen zijn nu heel belangrijk.
+UID:20261212-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261213
+DTEND;VALUE=DATE:20261214
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Gezondheid: De groeischijven van een pup zijn zacht en sluiten pas rond 12-18 maanden. Daarom beperken we wandeltijd.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Gezondheid: De groeischijven van een pup zijn zacht en sluiten pas rond 12-18 maanden. Daarom beperken we wandeltijd.
+UID:20261213-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261214
+DTEND;VALUE=DATE:20261215
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: Stabyhouns houden van water! Ze werden vaak gebruikt om eenden te apporteren.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: Stabyhouns houden van water! Ze werden vaak gebruikt om eenden te apporteren.
+UID:20261214-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261214
+DTEND;VALUE=DATE:20261215
+SUMMARY:Fimme is vandaag 50 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 50 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 50 weken oud.
+UID:20261214-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261215
+DTEND;VALUE=DATE:20261216
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Vachtverzorging: De Stabyhoun-vacht is 'zelfreinigend'. Vuil valt meestal vanzelf van de vacht zodra die droog is.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Vachtverzorging: De Stabyhoun-vacht is 'zelfreinigend'. Vuil valt meestal vanzelf van de vacht zodra die droog is.
+UID:20261215-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261216
+DTEND;VALUE=DATE:20261217
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De oorpunten van een Stabyhoun hebben onderaan vaak korter haar dan bij andere spaniels.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De oorpunten van een Stabyhoun hebben onderaan vaak korter haar dan bij andere spaniels.
+UID:20261216-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261217
+DTEND;VALUE=DATE:20261218
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Training: Stabyhouns reageren slecht op harde correcties. Ze leren het best met positieve\, vrolijke begeleiding.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Training: Stabyhouns reageren slecht op harde correcties. Ze leren het best met positieve\, vrolijke begeleiding.
+UID:20261217-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261218
+DTEND;VALUE=DATE:20261219
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Activiteit: Mentale uitdaging (snuffelen\, puzzels) maakt een pup ongeveer 3x sneller moe dan alleen fysiek wandelen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Activiteit: Mentale uitdaging (snuffelen\, puzzels) maakt een pup ongeveer 3x sneller moe dan alleen fysiek wandelen.
+UID:20261218-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261219
+DTEND;VALUE=DATE:20261220
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Geschiedenis: Tijdens WOII werd het ras beschermd door Friese boeren en in 1942 officieel erkend.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Geschiedenis: Tijdens WOII werd het ras beschermd door Friese boeren en in 1942 officieel erkend.
+UID:20261219-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261220
+DTEND;VALUE=DATE:20261221
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Ontwikkeling: Rond 12 weken beginnen de blijvende tanden de melktanden te verdringen.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Ontwikkeling: Rond 12 weken beginnen de blijvende tanden de melktanden te verdringen.
+UID:20261220-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261221
+DTEND;VALUE=DATE:20261222
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Leuk feit: 'Stabij' is de veelgebruikte bijnaam van het ras in Nederland.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Leuk feit: 'Stabij' is de veelgebruikte bijnaam van het ras in Nederland.
+UID:20261221-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261221
+DTEND;VALUE=DATE:20261222
+SUMMARY:Fimme is vandaag 51 weken oud!
+DESCRIPTION:Fimme de Stabyhoun is nu 51 weken oud.
+COMMENT:Fimme de Stabyhoun is nu 51 weken oud.
+UID:20261221-age@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261222
+DTEND;VALUE=DATE:20261223
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Slaap: Pups van deze leeftijd hebben 18-20 uur slaap per dag nodig voor gezonde groei.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Slaap: Pups van deze leeftijd hebben 18-20 uur slaap per dag nodig voor gezonde groei.
+UID:20261222-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261223
+DTEND;VALUE=DATE:20261224
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: De meeste Stabyhouns zijn zwart-wit\, maar bruin-wit bestaat ook en is vrij zeldzaam.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: De meeste Stabyhouns zijn zwart-wit\, maar bruin-wit bestaat ook en is vrij zeldzaam.
+UID:20261223-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261224
+DTEND;VALUE=DATE:20261225
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Rasfeit: Oranje-witte Stabyhouns zijn bijna uitgestorven.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Rasfeit: Oranje-witte Stabyhouns zijn bijna uitgestorven.
+UID:20261224-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+BEGIN:VEVENT
+DTSTART;VALUE=DATE:20261225
+DTEND;VALUE=DATE:20261226
+SUMMARY:Fimme - Wandeling: 30 min (x2)
+DESCRIPTION:Regel: 30 minuten per wandeling\, twee keer per dag.\n\nFeit van vandaag: Socialisatie: De 'Rule of 12' adviseert om voor 12 weken kennis te maken met 12 nieuwe mensen\, ondergronden en geluiden.\n\nBron: 5-minutenregel (Puppy Culture/Kennel Clubs).
+COMMENT:Socialisatie: De 'Rule of 12' adviseert om voor 12 weken kennis te maken met 12 nieuwe mensen\, ondergronden en geluiden.
+UID:20261225-walk@stabyhoun-schedule
+STATUS:CONFIRMED
+TRANSP:TRANSPARENT
+END:VEVENT
+
+END:VCALENDAR

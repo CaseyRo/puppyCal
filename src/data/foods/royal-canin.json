@@ -1,0 +1,25 @@
+[
+  {
+    "id": "royal-canin-medium-puppy-dry",
+    "supplier": "royal-canin",
+    "brand": "Royal Canin",
+    "productName": "Medium Puppy Dry",
+    "isPuppy": true,
+    "lifeStage": "puppy",
+    "breedSizeTarget": "medium",
+    "foodType": "dry",
+    "packageSize": "4 kg bag",
+    "ingredients": ["poultry by-product meal", "brewers rice", "corn", "wheat", "chicken fat"],
+    "guaranteedAnalysis": {
+      "proteinMinPercent": 32,
+      "fatMinPercent": 12,
+      "fiberMaxPercent": 3.8,
+      "moistureMaxPercent": 10
+    },
+    "feedingGuide": {
+      "reference": "Use Royal Canin age/weight feeding chart on product page."
+    },
+    "sourceUrl": "https://www.royalcanin.com/us/dogs/products/retail-products/puppy-medium-3003",
+    "sourceDate": "2026-02-25"
+  }
+]

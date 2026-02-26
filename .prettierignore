@@ -1,0 +1,13 @@
+.venv
+node_modules
+dist
+build
+*.lock
+uv.lock
+openspec
+screenshots
+.cursor
+.claude
+memory
+web
+.lighthouseci

@@ -1,0 +1,41 @@
+# Working memory (personal, session state)
+CLAUDE.local.md
+
+# Python
+.venv
+__pycache__
+*.py[cod]
+*.egg-info
+dist
+build
+.eggs
+*.egg
+.ruff_cache
+
+# Node / static app
+node_modules
+.cache
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE / OS
+.idea
+.vscode
+.cursor/debug-*.log
+.DS_Store
+Thumbs.db
+
+# Env / secrets
+.env
+.env.local
+.env.test
+*.pem
+
+# Generated screenshots (pre-commit hook)
+screenshots/
+
+# Tool artifacts
+.lighthouseci/

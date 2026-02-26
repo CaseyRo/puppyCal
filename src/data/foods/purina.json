@@ -1,0 +1,29 @@
+[
+  {
+    "id": "purina-pro-plan-medium-puppy-chicken",
+    "supplier": "purina",
+    "brand": "Purina Pro Plan",
+    "productName": "Medium Puppy Chicken",
+    "isPuppy": true,
+    "lifeStage": "puppy",
+    "breedSizeTarget": "medium",
+    "foodType": "dry",
+    "packageSize": "12 kg bag",
+    "ingredients": ["chicken", "rice", "poultry protein", "animal fat", "fish oil"],
+    "guaranteedAnalysis": {
+      "proteinMinPercent": 28,
+      "fatMinPercent": 18,
+      "fiberMaxPercent": 4.75,
+      "moistureMaxPercent": 12
+    },
+    "feedingGuide": {
+      "reference": "Use supplier feeding table by puppy age and expected adult weight."
+    },
+    "calories": {
+      "kcalPerKg": 3900,
+      "note": "Approximate from supplier publications; verify current product label."
+    },
+    "sourceUrl": "https://www.purina.com/dogs/shop/pro-plan-development-puppy-large-breed-chicken-rice-dry-dog-food",
+    "sourceDate": "2026-02-25"
+  }
+]

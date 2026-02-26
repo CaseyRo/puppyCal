@@ -1,0 +1,29 @@
+# See https://pre-commit.com for more
+default_language_version:
+  node: node
+repos:
+  - repo: local
+    hooks:
+      - id: typecheck
+        name: typecheck
+        entry: npm run typecheck
+        language: system
+        pass_filenames: false
+
+      - id: lint
+        name: lint
+        entry: npm run lint
+        language: system
+        pass_filenames: false
+
+      - id: prettier
+        name: prettier
+        entry: npx prettier --write
+        language: system
+        files: \.(js|ts|json|html|css|md)$
+
+      - id: screenshots
+        name: screenshots
+        entry: node scripts/screenshots.mjs
+        language: system
+        files: ^(src/|dist/|index\.html|scripts/screenshots)
