@@ -1,5 +1,8 @@
 import './index.css';
 import { runApp } from './app';
+import { injectSpeedInsights } from '@vercel/speed-insights';
+
+injectSpeedInsights();
 
 const app = document.getElementById('app');
 if (app) {
