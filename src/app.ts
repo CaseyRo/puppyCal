@@ -38,6 +38,34 @@ const BUY_ME_A_COFFEE_URL = 'https://buymeacoffee.com/caseyberlin';
 const CASEY_DIT_URL = 'https://casey.berlin/DIT';
 const DEFAULT_REPO_URL = __CONFIG__.repoUrl || 'https://github.com/CaseyRo/puppyCal';
 
+const DEFAULT_WEIGHT_KG = 12;
+
+/**
+ * Rough weight estimate for a puppy at a given age, scaled by breed size.
+ * Used to auto-suggest weight when the user sets age but hasn't touched the weight field.
+ * Base curve is for a medium breed (adult ~20 kg).
+ */
+function estimateWeightFromAge(ageMonths: number, breedSize: BreedSize): number {
+  const medium =
+    ageMonths <= 2
+      ? 3
+      : ageMonths <= 3
+        ? 5
+        : ageMonths <= 4
+          ? 7
+          : ageMonths <= 5
+            ? 9
+            : ageMonths <= 6
+              ? 11
+              : ageMonths <= 8
+                ? 14
+                : ageMonths <= 12
+                  ? 18
+                  : 20;
+  const scale = { small: 0.4, medium: 1, large: 1.75, giant: 2.75 }[breedSize] ?? 1;
+  return Math.round(medium * scale * 10) / 10;
+}
+
 function dobToAgeMonths(dob: string): number | null {
   if (!dob) return null;
   const birth = new Date(dob);
@@ -1067,25 +1095,35 @@ export async function runApp(container: HTMLElement): Promise<void> {
         render();
       });
 
-      const syncFoodInputs = (): void => {
+      ageInput?.addEventListener('input', () => {
+        if (config.dob) return; // DOB takes priority — age is read-only
         const nextSelectedFood =
           findFoodById(productInput?.value || foodState.selectedFoodId) ?? null;
         const profile = getFoodProfile(nextSelectedFood);
-        const ageValue = parseInt(ageInput?.value ?? '1', 10) || 1;
+        const ageValue = parseInt(ageInput.value ?? '1', 10) || 1;
+        const newAgeMonths = fromDisplayedAge(ageValue, profile.isPuppy);
+        foodState = { ...foodState, ageMonths: newAgeMonths };
+        // Auto-estimate weight when it hasn't been customised yet
+        if (foodState.weightKg === DEFAULT_WEIGHT_KG) {
+          foodState = {
+            ...foodState,
+            weightKg: estimateWeightFromAge(newAgeMonths, foodState.breedSize),
+          };
+        }
+        applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
+        render();
+      });
+
+      wetPercentInput?.addEventListener('input', () => {
         foodState = {
           ...foodState,
-          // Only update ageMonths from input if DOB is not set (DOB takes priority)
-          ageMonths: config.dob ? foodState.ageMonths : fromDisplayedAge(ageValue, profile.isPuppy),
           wetPercent: clampWetPercent(
-            parseInt(wetPercentInput?.value ?? String(foodState.wetPercent), 10)
+            parseInt(wetPercentInput.value ?? String(foodState.wetPercent), 10)
           ),
         };
         applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
         render();
-      };
-
-      ageInput?.addEventListener('input', syncFoodInputs);
-      wetPercentInput?.addEventListener('input', syncFoodInputs);
+      });
       container.querySelectorAll('.food-wet-preset').forEach((button) => {
         button.addEventListener('click', () => {
           const wetPreset = parseInt(
