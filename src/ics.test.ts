@@ -17,7 +17,18 @@ const baseI18n: I18nData = {
     birthday_summary_n: "{name}'s {n}th Birthday!",
     birthday_desc: 'Happy birthday to {name}!',
   },
-  facts: ['Fact one.', 'Fact two.'],
+  facts: [
+    {
+      text: 'Fact one.',
+      sourceLabel: 'Source A',
+      sourceUrl: 'https://example.com/a',
+    },
+    {
+      text: 'Fact two.',
+      sourceLabel: 'Source B',
+      sourceUrl: 'https://example.com/b',
+    },
+  ],
 };
 
 const baseConfig: Config = {
@@ -25,6 +36,7 @@ const baseConfig: Config = {
   dob: '2025-01-01',
   months: 1,
   start: '2025-06-01',
+  breed: 'stabyhoun',
   birthday: true,
   name: 'Pup',
   notes: '',
@@ -72,5 +84,15 @@ describe('generateICS', () => {
     const c = { ...baseConfig, feeding: true, meals: 2, gramsStart: 100, gramsEnd: 150 };
     const ics = generateICS(c, baseI18n);
     expect(ics).toContain('Feeding');
+  });
+
+  it('uses stable randomized fact order with source attribution', () => {
+    const icsA = generateICS(baseConfig, baseI18n);
+    const icsB = generateICS(baseConfig, baseI18n);
+
+    expect(icsA).toBe(icsB);
+    expect(icsA).toContain("Today's fact:");
+    expect(icsA).toContain('Source: Source ');
+    expect(icsA).toContain('URL:https://example.com/');
   });
 });

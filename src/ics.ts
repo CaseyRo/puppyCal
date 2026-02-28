@@ -38,18 +38,42 @@ function isMonday(d: Date): boolean {
   return d.getUTCDay() === 1;
 }
 
+function hashSeed(input: string): number {
+  let h = 2166136261;
+  for (let i = 0; i < input.length; i += 1) {
+    h ^= input.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function shuffledIndices(length: number, seed: number): number[] {
+  const indices = Array.from({ length }, (_, i) => i);
+  let state = seed || 1;
+  for (let i = indices.length - 1; i > 0; i -= 1) {
+    state = Math.imul(1664525, state) + 1013904223;
+    const r = (state >>> 0) % (i + 1);
+    const tmp = indices[i];
+    indices[i] = indices[r];
+    indices[r] = tmp;
+  }
+  return indices;
+}
+
 function vevent(
   startDate: Date,
   summary: string,
   description: string,
   uidSuffix: string,
-  comment?: string
+  comment?: string,
+  sourceUrl?: string
 ): string {
   const dtStart = toYYYYMMDD(startDate);
   const endDate = new Date(startDate);
   endDate.setUTCDate(endDate.getUTCDate() + 1);
   const dtEnd = toYYYYMMDD(endDate);
   const commentLine = comment ? `COMMENT:${escapeICS(comment)}\r\n` : '';
+  const urlLine = sourceUrl ? `URL:${escapeICS(sourceUrl)}\r\n` : '';
   return [
     'BEGIN:VEVENT',
     `DTSTART;VALUE=DATE:${dtStart}`,
@@ -57,6 +81,7 @@ function vevent(
     `SUMMARY:${escapeICS(summary)}`,
     `DESCRIPTION:${escapeICS(description)}`,
     commentLine,
+    urlLine,
     `UID:${dtStart}-${uidSuffix}@puppycal`,
     'STATUS:CONFIRMED',
     'TRANSP:TRANSPARENT',
@@ -86,23 +111,30 @@ export function generateICS(config: Config, i18n: I18nData): string {
   const birthDesc = tr(i18n, 'birth_desc', { name });
   lines.push(vevent(birth, birthSummary, birthDesc, 'birth', birthDesc));
 
-  let factIndex = 0;
+  const facts = i18n.facts;
+  const factOrder = shuffledIndices(
+    facts.length,
+    hashSeed(`${config.dob}|${config.start}|${config.name}|${config.breed}`)
+  );
   const walkMins = (weeks: number) => Math.max(1, weeks);
   const current = new Date(start);
   current.setHours(0, 0, 0, 0);
   const endTime = end.getTime();
 
   while (current.getTime() < endTime) {
+    const dayIndex = daysBetween(start, current);
     const weeks = ageInWeeks(birth, current);
     const mins = walkMins(weeks);
-    const fact = i18n.facts[factIndex % i18n.facts.length] ?? '';
-    factIndex += 1;
+    const factEntry =
+      facts.length > 0 ? facts[factOrder[dayIndex % factOrder.length] ?? 0] : undefined;
+    const fact = factEntry?.text ?? '';
+    const source = factEntry?.sourceLabel ?? tr(i18n, 'source', {});
+    const sourceText = factEntry?.sourceUrl ? `${source} (${factEntry.sourceUrl})` : source;
     const walkSummary = tr(i18n, 'walk_summary', { name, mins });
     const walkRule = tr(i18n, 'walk_rule', { mins });
     const todaysFact = tr(i18n, 'todays_fact', { fact });
-    const source = tr(i18n, 'source', {});
-    const walkDesc = `${walkRule}\n\n${todaysFact}\n\n${source}`;
-    lines.push(vevent(current, walkSummary, walkDesc, 'walk', fact));
+    const walkDesc = `${walkRule}\n\n${todaysFact}\n\nSource: ${sourceText}`;
+    lines.push(vevent(current, walkSummary, walkDesc, 'walk', fact, factEntry?.sourceUrl));
 
     if (isMonday(current)) {
       const ageSummary = tr(i18n, 'age_summary', { name, weeks });

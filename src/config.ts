@@ -9,6 +9,7 @@ export interface Config {
   dob: string;
   months: number;
   start: string;
+  breed: 'stabyhoun';
   birthday: boolean;
   name: string;
   notes: string;
@@ -23,6 +24,10 @@ export type PlannerTab = 'walkies' | 'food';
 export interface FoodPlannerState {
   selectedSupplier: string;
   selectedFoodId: string;
+  mixedMode: boolean;
+  secondSupplier: string;
+  secondFoodId: string;
+  wetPercent: number;
   ageMonths: number;
   weightKg: number;
   activityLevel: ActivityLevel;
@@ -52,6 +57,7 @@ const DEFAULT_CONFIG: Config = {
   dob: '',
   months: 3,
   start: today(),
+  breed: 'stabyhoun',
   birthday: true,
   name: '',
   notes: '',
@@ -127,6 +133,13 @@ function parseConfigWithCorrections(search: string): { config: Config; hadCorrec
 
   const lang = params.get('lang') ?? defaults.lang;
   if (lang !== 'en' && lang !== 'nl' && params.has('lang')) markCorrection();
+  const breedParam = params.get('breed');
+  const breed: Config['breed'] =
+    breedParam === null
+      ? defaults.breed
+      : breedParam === 'stabyhoun'
+        ? 'stabyhoun'
+        : (markCorrection(), defaults.breed);
   const months = parseInteger(params.get('months'), defaults.months, 1, 12, markCorrection);
   const start = params.get('start') ?? defaults.start;
   const birthday = parseBoolean(params.get('birthday'), defaults.birthday, markCorrection);
@@ -153,6 +166,7 @@ function parseConfigWithCorrections(search: string): { config: Config; hadCorrec
       dob: params.get('dob') ?? '',
       months,
       start,
+      breed,
       birthday,
       name: params.get('name') ?? '',
       notes: params.get('notes') ?? '',
@@ -201,6 +215,31 @@ export function parsePlannerStateFromSearch(
       ? (params.get('foodId') as string)
       : defaultFoodState.selectedFoodId;
   if (params.has('foodId') && !params.get('foodId')?.trim()) markCorrection();
+  const mixedMode = parseBoolean(
+    params.get('foodMixed'),
+    defaultFoodState.mixedMode,
+    markCorrection
+  );
+  const secondSupplier =
+    params.get('foodSecondSupplier') && params.get('foodSecondSupplier')?.trim()
+      ? (params.get('foodSecondSupplier') as string)
+      : defaultFoodState.secondSupplier;
+  if (params.has('foodSecondSupplier') && !params.get('foodSecondSupplier')?.trim())
+    markCorrection();
+
+  const secondFoodId =
+    params.get('foodSecondId') && params.get('foodSecondId')?.trim()
+      ? (params.get('foodSecondId') as string)
+      : defaultFoodState.secondFoodId;
+  if (params.has('foodSecondId') && !params.get('foodSecondId')?.trim()) markCorrection();
+
+  const wetPercent = parseInteger(
+    params.get('foodWetPercent'),
+    defaultFoodState.wetPercent,
+    1,
+    99,
+    markCorrection
+  );
 
   const ageMonths = parseInteger(
     params.get('foodAge'),
@@ -256,6 +295,10 @@ export function parsePlannerStateFromSearch(
       food: {
         selectedSupplier,
         selectedFoodId,
+        mixedMode,
+        secondSupplier,
+        secondFoodId,
+        wetPercent,
         ageMonths,
         weightKg,
         activityLevel,
@@ -276,6 +319,7 @@ export function serializeConfigToSearch(config: Config): string {
   if (config.dob) p.set('dob', config.dob);
   if (config.months !== defaults.months) p.set('months', String(config.months));
   if (config.start !== defaults.start) p.set('start', config.start);
+  if (config.breed !== defaults.breed) p.set('breed', config.breed);
   if (config.birthday !== defaults.birthday) p.set('birthday', config.birthday ? 'on' : 'off');
   if (config.name) p.set('name', config.name);
   if (config.notes) p.set('notes', config.notes);
@@ -302,6 +346,7 @@ export function serializePlannerStateToSearch(
   if (config.dob) p.set('dob', config.dob);
   if (config.months !== defaults.months) p.set('months', String(config.months));
   if (config.start !== defaults.start) p.set('start', config.start);
+  if (config.breed !== defaults.breed) p.set('breed', config.breed);
   if (config.birthday !== defaults.birthday) p.set('birthday', config.birthday ? 'on' : 'off');
   if (config.name) p.set('name', config.name);
   if (config.notes) p.set('notes', config.notes);
@@ -316,6 +361,12 @@ export function serializePlannerStateToSearch(
   if (food.selectedSupplier !== defaultFoodState.selectedSupplier)
     p.set('foodSupplier', food.selectedSupplier);
   if (food.selectedFoodId !== defaultFoodState.selectedFoodId) p.set('foodId', food.selectedFoodId);
+  if (food.mixedMode !== defaultFoodState.mixedMode) p.set('foodMixed', food.mixedMode ? '1' : '0');
+  if (food.secondSupplier !== defaultFoodState.secondSupplier)
+    p.set('foodSecondSupplier', food.secondSupplier);
+  if (food.secondFoodId !== defaultFoodState.secondFoodId) p.set('foodSecondId', food.secondFoodId);
+  if (food.wetPercent !== defaultFoodState.wetPercent)
+    p.set('foodWetPercent', String(food.wetPercent));
   if (food.ageMonths !== defaultFoodState.ageMonths) p.set('foodAge', String(food.ageMonths));
   if (food.weightKg !== defaultFoodState.weightKg) p.set('foodWeight', String(food.weightKg));
   if (food.activityLevel !== defaultFoodState.activityLevel)

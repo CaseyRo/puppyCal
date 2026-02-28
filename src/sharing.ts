@@ -1,11 +1,11 @@
 export type SharePlatform = 'whatsapp' | 'telegram' | 'facebook' | 'imessage' | 'signal';
 
-export const SHARE_PLATFORMS: Array<{ id: SharePlatform; label: string; icon: string }> = [
-  { id: 'whatsapp', label: 'WhatsApp', icon: '💬' },
-  { id: 'telegram', label: 'Telegram', icon: '✈️' },
-  { id: 'facebook', label: 'Facebook', icon: '📘' },
-  { id: 'imessage', label: 'iMessage', icon: '💙' },
-  { id: 'signal', label: 'Signal', icon: '🔒' },
+export const SHARE_PLATFORMS: Array<{ id: SharePlatform; label: string; iconClass: string }> = [
+  { id: 'whatsapp', label: 'WhatsApp', iconClass: 'fa-brands fa-whatsapp' },
+  { id: 'telegram', label: 'Telegram', iconClass: 'fa-brands fa-telegram' },
+  { id: 'facebook', label: 'Facebook', iconClass: 'fa-brands fa-facebook' },
+  { id: 'imessage', label: 'iMessage', iconClass: 'fa-solid fa-comment-sms' },
+  { id: 'signal', label: 'Signal', iconClass: 'fa-solid fa-shield-halved' },
 ];
 
 function encoded(value: string): string {

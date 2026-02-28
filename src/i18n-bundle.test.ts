@@ -23,8 +23,14 @@ describe('planner i18n bundles', () => {
     'label_age_years',
     'error_months_max',
     'share_social',
+    'share_message',
     'share_platform_prompt',
     'share_on',
+    'label_breed',
+    'breed_stabyhoun',
+    'footer_brand_text',
+    'fact_source_default_label',
+    'fact_source_default_url',
   ];
 
   it('contains required keys in nl bundle', () => {

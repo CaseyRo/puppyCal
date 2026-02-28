@@ -4,7 +4,13 @@
  */
 export interface I18nData {
   strings: Record<string, string>;
-  facts: string[];
+  facts: FactEntry[];
+}
+
+export interface FactEntry {
+  text: string;
+  sourceLabel?: string;
+  sourceUrl?: string;
 }
 
 const cache: Record<string, I18nData> = {};
@@ -24,10 +30,49 @@ async function loadLocale(lang: 'en' | 'nl'): Promise<I18nData | null> {
         : '';
     const res = await fetch(`${base}i18n/${lang}.json`);
     if (!res.ok) throw new Error(`i18n ${lang} failed`);
-    const data = (await res.json()) as I18nData;
+    const data = (await res.json()) as {
+      strings?: Record<string, string>;
+      facts?: unknown[];
+    };
+    const defaultFactSourceLabel = data.strings?.fact_source_default_label;
+    const defaultFactSourceUrl = data.strings?.fact_source_default_url;
+    const facts = Array.isArray(data.facts)
+      ? data.facts
+          .map((entry): FactEntry | null => {
+            if (typeof entry === 'string') {
+              return {
+                text: entry,
+                sourceLabel: defaultFactSourceLabel,
+                sourceUrl: defaultFactSourceUrl,
+              };
+            }
+            if (entry && typeof entry === 'object') {
+              const factLike = entry as {
+                text?: unknown;
+                sourceLabel?: unknown;
+                sourceUrl?: unknown;
+              };
+              if (typeof factLike.text !== 'string') return null;
+              return {
+                text: factLike.text,
+                sourceLabel:
+                  typeof factLike.sourceLabel === 'string'
+                    ? factLike.sourceLabel
+                    : defaultFactSourceLabel,
+                sourceUrl:
+                  typeof factLike.sourceUrl === 'string'
+                    ? factLike.sourceUrl
+                    : defaultFactSourceUrl,
+              };
+            }
+            return null;
+          })
+          .filter((entry): entry is FactEntry => Boolean(entry))
+      : [];
+
     return {
       strings: data.strings ?? {},
-      facts: Array.isArray(data.facts) ? data.facts : [],
+      facts,
     };
   } catch {
     return null;

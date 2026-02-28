@@ -24,11 +24,28 @@ import {
 import { ANALYTICS_EVENTS, trackEvent } from './analytics';
 import { applyPlannerMetadata } from './metadata';
 import { buildShareTarget, SHARE_PLATFORMS, type SharePlatform } from './sharing';
+import {
+  MIXED_DEFAULT_WET_PERCENT,
+  MIXED_MIN_TOTAL_GRAMS,
+  canApplyMixedSplit,
+  clampWetPercent,
+  findDefaultSecondFood,
+  isValidWetDryPair,
+  splitDailyGrams,
+} from './food/mixed';
 
 const BUY_ME_A_COFFEE_URL = 'https://buymeacoffee.com/caseyberlin';
 const CASEY_DIT_URL = 'https://casey.berlin/DIT';
 const DEFAULT_REPO_URL = __CONFIG__.repoUrl || 'https://github.com/CaseyRo/puppyCal';
-const SOCIAL_SHARE_TEXT = 'Plan your puppy walkies and food schedule';
+
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
 function currentCanonicalUrl(): string {
   return `${window.location.origin}${window.location.pathname}${window.location.search}`;
@@ -39,10 +56,10 @@ function mailtoWithContext(to: string, subject: string, intro: string): string {
   return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
-async function fallbackShare(url: string): Promise<boolean> {
+async function fallbackShare(url: string, text: string): Promise<boolean> {
   if (navigator.share) {
     try {
-      await navigator.share({ url, text: SOCIAL_SHARE_TEXT });
+      await navigator.share({ url, text });
       return true;
     } catch {
       // ignore and continue to clipboard fallback
@@ -89,6 +106,10 @@ function defaultFoodState(foods: FoodEntry[]): FoodPlannerState {
   return {
     selectedSupplier: preferred?.supplier ?? 'purina',
     selectedFoodId: preferred?.id ?? '',
+    mixedMode: false,
+    secondSupplier: preferred?.supplier ?? 'purina',
+    secondFoodId: '',
+    wetPercent: MIXED_DEFAULT_WET_PERCENT,
     ageMonths: 6,
     weightKg: 12,
     activityLevel: 'moderate',
@@ -117,12 +138,30 @@ function normalizeFoodSelection(
     selectedFoodId = foodsForSupplier[0]?.id ?? fallbackFoodState.selectedFoodId;
     corrected = true;
   }
+  let secondSupplier = foodState.secondSupplier;
+  if (!supplierCatalog[secondSupplier]) {
+    secondSupplier = selectedSupplier;
+    corrected = true;
+  }
+  const secondFoodsForSupplier = supplierCatalog[secondSupplier] ?? [];
+  let secondFoodId = foodState.secondFoodId;
+  if (secondFoodId && !secondFoodsForSupplier.some((food) => food.id === secondFoodId)) {
+    secondFoodId = '';
+    corrected = true;
+  }
+  const wetPercent = clampWetPercent(foodState.wetPercent);
+  if (wetPercent !== foodState.wetPercent) {
+    corrected = true;
+  }
 
   return {
     state: {
       ...foodState,
       selectedSupplier,
       selectedFoodId,
+      secondSupplier,
+      secondFoodId,
+      wetPercent,
     },
     corrected,
   };
@@ -139,7 +178,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
       {
         config: getDefaults(),
         food: fallbackFoodState,
-        activeTab: 'walkies',
+        activeTab: 'food',
       },
       fallbackFoodState
     );
@@ -157,7 +196,13 @@ export async function runApp(container: HTMLElement): Promise<void> {
   applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
 
   const i18n = await loadI18n(config.lang);
+  document.documentElement.lang = config.lang;
   let errors: ValidationErrors = validate(config);
+  const walkiesTouched: Record<'dob' | 'months' | 'start', boolean> = {
+    dob: Boolean(config.dob),
+    months: false,
+    start: false,
+  };
   const t = (key: string, params: Record<string, string | number> = {}): string =>
     tr(i18n, key, params);
 
@@ -189,6 +234,9 @@ export async function runApp(container: HTMLElement): Promise<void> {
   }
 
   function renderWalkies(valid: boolean): string {
+    const visibleDobError = walkiesTouched.dob ? errors.dob : undefined;
+    const visibleMonthsError = walkiesTouched.months ? errors.months : undefined;
+    const visibleStartError = walkiesTouched.start ? errors.start : undefined;
     const infoIcon = (text: string): string =>
       `<span class="inline-flex items-center justify-center w-4 h-4 rounded-full border border-gray-300 text-[10px] text-gray-500 ml-1" title="${text}" aria-label="${text}">i</span>`;
 
@@ -202,7 +250,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
                 class="share-platform px-2 py-1 text-sm rounded border border-gray-300 bg-white hover:bg-gray-50"
                 data-platform="${platform.id}"
                 aria-label="${t('share_on', { platform: platform.label })}">
-                <span aria-hidden="true">${platform.icon}</span> ${platform.label}
+                <i class="${platform.iconClass}" aria-hidden="true"></i> ${platform.label}
               </button>`
           ).join('')}
         </div>
@@ -217,9 +265,9 @@ export async function runApp(container: HTMLElement): Promise<void> {
           <label for="dob" class="block text-sm font-medium mb-1">${t('label_dob')} ${infoIcon(
             t('hint_dob')
           )}</label>
-          <input type="date" id="dob" value="${config.dob}" aria-describedby="dob-err" aria-invalid="${errors.dob ? 'true' : 'false'}"
-            class="w-full border rounded px-3 py-2 ${errors.dob ? 'border-red-600 ring-1 ring-red-600' : 'border-gray-300'}"/>
-          ${errors.dob ? `<p id="dob-err" class="text-red-600 text-sm mt-1" role="alert">${t(errors.dob)}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_dob')}</p>`}
+          <input type="date" id="dob" value="${config.dob}" aria-describedby="dob-err" aria-invalid="${visibleDobError ? 'true' : 'false'}"
+            class="w-full border rounded px-3 py-2 ${visibleDobError ? 'border-red-600 ring-1 ring-red-600' : 'border-gray-300'}"/>
+          ${visibleDobError ? `<p id="dob-err" class="text-red-600 text-sm mt-1" role="alert">${t(visibleDobError)}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_dob')}</p>`}
         </div>
         <div>
           <label for="months" class="block text-sm font-medium mb-1">${t('label_months')} ${infoIcon(
@@ -227,25 +275,25 @@ export async function runApp(container: HTMLElement): Promise<void> {
           )}</label>
           <div class="inline-flex items-center gap-2">
             <button type="button" id="months-decrease" class="h-8 w-8 rounded border border-gray-300 text-gray-700 hover:bg-gray-100" aria-label="${t('months_decrease')}">-</button>
-            <input type="number" id="months" min="1" max="12" value="${config.months}" aria-describedby="months-err" aria-invalid="${errors.months ? 'true' : 'false'}"
-              class="w-16 text-center border rounded px-2 py-1 ${errors.months ? 'border-red-600 ring-1 ring-red-600' : 'border-gray-300'}"/>
+            <input type="number" id="months" min="1" max="12" value="${config.months}" aria-describedby="months-err" aria-invalid="${visibleMonthsError ? 'true' : 'false'}"
+              class="w-16 text-center border rounded px-2 py-1 ${visibleMonthsError ? 'border-red-600 ring-1 ring-red-600' : 'border-gray-300'}"/>
             <button type="button" id="months-increase" class="h-8 w-8 rounded border border-gray-300 text-gray-700 hover:bg-gray-100" aria-label="${t('months_increase')}">+</button>
           </div>
-          ${errors.months ? `<p id="months-err" class="text-red-600 text-sm mt-1" role="alert">${t(errors.months)}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_months')}</p>`}
+          ${visibleMonthsError ? `<p id="months-err" class="text-red-600 text-sm mt-1" role="alert">${t(visibleMonthsError)}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_months')}</p>`}
         </div>
         <div>
           <label for="start" class="block text-sm font-medium mb-1">${t('label_start')} ${infoIcon(
             t('hint_start')
           )}</label>
-          <input type="date" id="start" value="${config.start}" aria-describedby="start-err" aria-invalid="${errors.start ? 'true' : 'false'}"
-            class="w-full border rounded px-3 py-2 ${errors.start ? 'border-red-600 ring-1 ring-red-600' : 'border-gray-300'}"/>
-          ${errors.start ? `<p id="start-err" class="text-red-600 text-sm mt-1" role="alert">${t(errors.start)}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_start')}</p>`}
+          <input type="date" id="start" value="${config.start}" aria-describedby="start-err" aria-invalid="${visibleStartError ? 'true' : 'false'}"
+            class="w-full border rounded px-3 py-2 ${visibleStartError ? 'border-red-600 ring-1 ring-red-600' : 'border-gray-300'}"/>
+          ${visibleStartError ? `<p id="start-err" class="text-red-600 text-sm mt-1" role="alert">${t(visibleStartError)}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_start')}</p>`}
         </div>
         <div>
           <label for="name" class="block text-sm font-medium mb-1">${t('label_name')} ${infoIcon(
             t('hint_name')
           )}</label>
-          <input type="text" id="name" value="${config.name}" placeholder=""
+          <input type="text" id="name" value="${escapeHtml(config.name)}" placeholder=""
             class="w-full border border-gray-300 rounded px-3 py-2"/>
           <p class="text-xs text-gray-500 mt-1">${t('hint_name')}</p>
         </div>
@@ -255,13 +303,6 @@ export async function runApp(container: HTMLElement): Promise<void> {
           <label for="birthday" class="text-sm font-medium">${t('label_birthday')} ${infoIcon(
             t('hint_birthday')
           )}</label>
-        </div>
-        <div>
-          <label for="notes" class="block text-sm font-medium mb-1">${t('label_notes')} ${infoIcon(
-            t('hint_notes')
-          )}</label>
-          <textarea id="notes" rows="2" class="w-full border border-gray-300 rounded px-3 py-2">${config.notes}</textarea>
-          <p class="text-xs text-gray-500 mt-1">${t('hint_notes')}</p>
         </div>
       </form>
 
@@ -284,10 +325,18 @@ export async function runApp(container: HTMLElement): Promise<void> {
     const suppliers = Object.keys(supplierCatalog).sort();
     const foodsForSupplier = supplierCatalog[foodState.selectedSupplier] ?? [];
     const selectedFood = findFoodById(foodState.selectedFoodId) ?? foodsForSupplier[0] ?? null;
+    const secondFoodsForSupplier = supplierCatalog[foodState.secondSupplier] ?? [];
+    const secondFood = findFoodById(foodState.secondFoodId) ?? null;
+    const wetPercent = clampWetPercent(foodState.wetPercent);
+    const dryPercent = 100 - wetPercent;
     const profile = getFoodProfile(selectedFood);
     const ageLabel = profile.isPuppy ? t('label_age_months') : t('label_age_years');
     const ageHint = profile.isPuppy ? t('hint_age_months') : t('hint_age_years');
     const displayedAge = toDisplayedAge(foodState.ageMonths, profile.isPuppy);
+    const SUPPLIER_NAMES: Record<string, string> = {
+      purina: 'Purina Pro Plan',
+      'royal-canin': 'Royal Canin',
+    };
     const result = selectedFood
       ? calculateDailyPortion(
           {
@@ -301,123 +350,274 @@ export async function runApp(container: HTMLElement): Promise<void> {
           selectedFood.calories?.kcalPerKg
         )
       : null;
+    const pairIsValid = isValidWetDryPair(selectedFood, secondFood);
+    const mixedCanApply = Boolean(
+      foodState.mixedMode && pairIsValid && result && canApplyMixedSplit(result.gramsPerDay)
+    );
+    const mixedSplit = result ? splitDailyGrams(result.gramsPerDay, wetPercent) : null;
+    let mixedValidationKey: string | null = null;
+    if (foodState.mixedMode) {
+      if (!secondFood) {
+        mixedValidationKey = 'mixed_validation_choose_second';
+      } else if (selectedFood && secondFood.id === selectedFood.id) {
+        mixedValidationKey = 'mixed_validation_duplicate';
+      } else if (!pairIsValid) {
+        mixedValidationKey = 'mixed_validation_wet_dry_required';
+      } else if (result && !canApplyMixedSplit(result.gramsPerDay)) {
+        mixedValidationKey = 'mixed_validation_min_total';
+      }
+    }
     const infoIcon = (text: string): string =>
       `<span class="inline-flex items-center justify-center w-4 h-4 rounded-full border border-gray-300 text-[10px] text-gray-500 ml-1" title="${text}" aria-label="${text}">i</span>`;
 
+    const copyBtn = `
+      <button type="button" id="btn-copy-food-link"
+        class="inline-flex items-center gap-1.5 mt-4 px-3 py-1.5 text-xs font-medium text-gray-600 rounded-full border border-muted bg-white/60 hover:bg-white hover:text-primary transition-colors"
+        aria-label="${t('copy_link')}">
+        <i class="fa-solid fa-link text-[10px]" aria-hidden="true"></i>
+        ${t('copy_link')}
+      </button>`;
+
+    let heroCard: string;
+    if (selectedFood && result) {
+      const finePrint = `
+        <div class="mt-4 pt-3 border-t border-muted text-xs text-gray-500 space-y-1">
+          <p>${t('result_advisory')}</p>
+          <p><a class="underline hover:text-primary" href="${selectedFood.sourceUrl}" target="_blank" rel="noreferrer">${t('result_source')}</a> (${selectedFood.sourceDate})</p>
+        </div>`;
+
+      if (mixedCanApply && mixedSplit) {
+        heroCard = `
+          <div class="rounded-2xl bg-surface p-6 text-center animate-scale-in">
+            <p class="text-sm font-medium text-gray-500 tracking-wide uppercase">${t('result_title')}</p>
+            <div class="flex items-baseline justify-center gap-3 mt-3">
+              <div>
+                <p class="font-display text-4xl font-semibold text-primary leading-tight">
+                  ${mixedSplit.wetGrams}<span class="text-lg ml-0.5">g</span>
+                </p>
+                <p class="text-xs text-gray-500 mt-0.5">wet</p>
+              </div>
+              <span class="text-2xl text-gray-300 font-light">+</span>
+              <div>
+                <p class="font-display text-4xl font-semibold text-primary leading-tight">
+                  ${mixedSplit.dryGrams}<span class="text-lg ml-0.5">g</span>
+                </p>
+                <p class="text-xs text-gray-500 mt-0.5">dry</p>
+              </div>
+            </div>
+            <p class="text-xs text-gray-500 mt-2">${t('mixed_split_applied', {
+              wet: String(wetPercent),
+              dry: String(dryPercent),
+            })}</p>
+            <p class="text-sm text-gray-500 mt-1">${t('result_kcal', {
+              kcal: String(result.estimatedKcalPerDay),
+            })}</p>
+            ${copyBtn}
+            <div class="mt-4 pt-3 border-t border-muted text-xs text-gray-500 space-y-1">
+              <p>${t('result_advisory')}</p>
+              <p>${t('mixed_rounding_note')}</p>
+              <p><a class="underline hover:text-primary" href="${selectedFood.sourceUrl}" target="_blank" rel="noreferrer">${t('result_source')}</a> (${selectedFood.sourceDate})</p>
+            </div>
+          </div>`;
+      } else {
+        heroCard = `
+          <div class="rounded-2xl bg-surface p-6 text-center animate-scale-in">
+            <p class="text-sm font-medium text-gray-500 tracking-wide uppercase">${t('result_title')}</p>
+            <p class="font-display text-5xl font-semibold text-primary mt-3 leading-tight">
+              ${result.gramsPerDay}<span class="text-2xl ml-1">g</span>
+            </p>
+            <p class="text-sm text-gray-500 mt-1">${t('result_kcal', {
+              kcal: String(result.estimatedKcalPerDay),
+            })}</p>
+            ${copyBtn}
+            ${finePrint}
+          </div>`;
+      }
+    } else {
+      heroCard = `
+        <div class="rounded-2xl bg-surface p-6 text-center">
+          <p class="text-sm font-medium text-gray-500 tracking-wide uppercase">${t('result_title')}</p>
+          <p class="font-display text-5xl font-semibold text-muted mt-3 leading-tight select-none" aria-hidden="true">
+            --<span class="text-2xl ml-1">g</span>
+          </p>
+          <p class="text-sm text-gray-400 mt-2">${t('result_empty_hint')}</p>
+        </div>`;
+    }
+
+    const assumptionsBlock =
+      selectedFood && result
+        ? `<details class="mt-3">
+            <summary class="text-xs font-medium text-gray-500 cursor-pointer select-none hover:text-gray-700">${t('result_assumptions')}</summary>
+            <ul class="text-xs list-disc pl-5 mt-1 text-gray-500">
+              ${result.assumptions.map((item) => `<li>${item}</li>`).join('')}
+            </ul>
+          </details>`
+        : '';
+
     return `
       <section aria-label="${t('section_food')}">
-      <h2 class="text-lg font-semibold mb-4">${t('section_food')}</h2>
       ${
         catalogValidation.errors.length
           ? `<p class="text-sm text-red-700 mb-3">${t('data_error_prefix')} ${catalogValidation.errors[0]}</p>`
           : ''
       }
-      <form id="food-form" class="space-y-4" novalidate>
-        <div>
-          <label for="food-supplier" class="block text-sm font-medium mb-1">${t('label_supplier')}</label>
-          <select id="food-supplier" class="w-full border border-gray-300 rounded px-3 py-2">
-            ${suppliers
-              .map(
-                (supplier) =>
-                  `<option value="${supplier}" ${
-                    supplier === foodState.selectedSupplier ? 'selected' : ''
-                  }>${supplier}</option>`
-              )
-              .join('')}
-          </select>
-        </div>
-        <div>
-          <label for="food-product" class="block text-sm font-medium mb-1">${t('label_product')}</label>
-          <select id="food-product" class="w-full border border-gray-300 rounded px-3 py-2">
-            ${foodsForSupplier
-              .map(
-                (food) =>
-                  `<option value="${food.id}" ${
-                    food.id === foodState.selectedFoodId ? 'selected' : ''
-                  }>${food.brand} - ${food.productName}</option>`
-              )
-              .join('')}
-          </select>
-        </div>
-        <div>
-          <label for="food-age" class="block text-sm font-medium mb-1">${ageLabel} ${infoIcon(ageHint)}</label>
-          <input id="food-age" type="number" min="1" max="${profile.isPuppy ? 24 : 20}" step="1" value="${displayedAge}"
-            class="w-full border border-gray-300 rounded px-3 py-2"/>
-          <p class="text-xs text-gray-500 mt-1">${ageHint}</p>
-        </div>
-        <div>
-          <label for="food-weight-kg" class="block text-sm font-medium mb-1">${t('label_weight_kg')}</label>
-          <input id="food-weight-kg" type="number" min="0.5" max="80" step="0.1" value="${foodState.weightKg}"
-            class="w-full border border-gray-300 rounded px-3 py-2"/>
-        </div>
-        ${
-          profile.isPuppy
-            ? ''
-            : `<div>
-          <label for="food-activity" class="block text-sm font-medium mb-1">${t('label_activity')}</label>
-          <select id="food-activity" class="w-full border border-gray-300 rounded px-3 py-2">
-            <option value="low" ${foodState.activityLevel === 'low' ? 'selected' : ''}>${t('activity_low')}</option>
-            <option value="moderate" ${foodState.activityLevel === 'moderate' ? 'selected' : ''}>${t('activity_moderate')}</option>
-            <option value="high" ${foodState.activityLevel === 'high' ? 'selected' : ''}>${t('activity_high')}</option>
-          </select>
-        </div>
-        <div class="flex items-center gap-2">
-          <input id="food-neutered" type="checkbox" ${
-            foodState.neutered ? 'checked' : ''
-          } class="rounded border-gray-300 text-primary focus:ring-primary"/>
-          <label for="food-neutered" class="text-sm font-medium">${t('label_neutered')}</label>
-        </div>`
-        }
-        <div>
-          <label for="food-breed-size" class="block text-sm font-medium mb-1">${t('label_breed_size')}</label>
-          <select id="food-breed-size" class="w-full border border-gray-300 rounded px-3 py-2">
-            <option value="small" ${foodState.breedSize === 'small' ? 'selected' : ''}>${t('breed_small')}</option>
-            <option value="medium" ${foodState.breedSize === 'medium' ? 'selected' : ''}>${t('breed_medium')}</option>
-            <option value="large" ${foodState.breedSize === 'large' ? 'selected' : ''}>${t('breed_large')}</option>
-            <option value="giant" ${foodState.breedSize === 'giant' ? 'selected' : ''}>${t('breed_giant')}</option>
-          </select>
-        </div>
-        ${
-          profile.isPuppy
-            ? ''
-            : `<div>
-          <label for="food-goal" class="block text-sm font-medium mb-1">${t('label_goal')}</label>
-          <select id="food-goal" class="w-full border border-gray-300 rounded px-3 py-2">
-            <option value="maintain" ${foodState.weightGoal === 'maintain' ? 'selected' : ''}>${t('goal_maintain')}</option>
-            <option value="lose" ${foodState.weightGoal === 'lose' ? 'selected' : ''}>${t('goal_lose')}</option>
-          </select>
-        </div>`
-        }
-      </form>
 
-      ${
-        selectedFood && result
-          ? `<div class="mt-6 border border-gray-200 rounded p-4 bg-white">
-              <h3 class="font-semibold">${t('result_title')}</h3>
-              <p class="text-2xl font-semibold text-primary mt-2">${t('result_grams', {
-                grams: String(result.gramsPerDay),
+      ${heroCard}
+      ${assumptionsBlock}
+
+      <details class="mt-5 group" open>
+        <summary class="flex items-center justify-between cursor-pointer select-none py-2">
+          <span class="text-sm font-semibold text-gray-700">${t('section_food_settings')}</span>
+          <i class="fa-solid fa-chevron-down text-xs text-gray-400 transition-transform group-open:rotate-180" aria-hidden="true"></i>
+        </summary>
+        <form id="food-form" class="space-y-3 pt-3" novalidate>
+          <div>
+            <label for="food-supplier" class="block text-xs font-medium text-gray-600 mb-1">${t('label_supplier')}</label>
+            <select id="food-supplier" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
+              ${suppliers
+                .map((supplier) => {
+                  const label = SUPPLIER_NAMES[supplier] ?? supplier;
+                  return `<option value="${supplier}" ${
+                    supplier === foodState.selectedSupplier ? 'selected' : ''
+                  }>${label}</option>`;
+                })
+                .join('')}
+            </select>
+          </div>
+          <div>
+            <label for="food-product" class="block text-xs font-medium text-gray-600 mb-1">${t('label_product')}</label>
+            <select id="food-product" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
+              ${foodsForSupplier
+                .map(
+                  (food) =>
+                    `<option value="${food.id}" ${
+                      food.id === foodState.selectedFoodId ? 'selected' : ''
+                    }>${food.brand} - ${food.productName}</option>`
+                )
+                .join('')}
+            </select>
+          </div>
+          <div class="flex items-center gap-2">
+            <input id="food-mixed-mode" type="checkbox" ${
+              foodState.mixedMode ? 'checked' : ''
+            } class="rounded border-gray-300 text-primary focus:ring-primary"/>
+            <label for="food-mixed-mode" class="text-xs font-medium text-gray-600">${t('label_mixed_mode')}</label>
+          </div>
+          ${
+            foodState.mixedMode
+              ? `<div class="rounded-lg border border-gray-200 p-3 bg-white/50 space-y-3">
+            <p class="text-xs text-gray-500">${t('mixed_mode_hint')}</p>
+            <div>
+              <label for="food-second-supplier" class="block text-xs font-medium text-gray-600 mb-1">${t('label_second_supplier')}</label>
+              <select id="food-second-supplier" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
+                ${suppliers
+                  .map(
+                    (supplier) =>
+                      `<option value="${supplier}" ${
+                        supplier === foodState.secondSupplier ? 'selected' : ''
+                      }>${SUPPLIER_NAMES[supplier] ?? supplier}</option>`
+                  )
+                  .join('')}
+              </select>
+            </div>
+            <div>
+              <label for="food-second-product" class="block text-xs font-medium text-gray-600 mb-1">${t('label_second_product')}</label>
+              <select id="food-second-product" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
+                <option value="">${t('mixed_select_placeholder')}</option>
+                ${secondFoodsForSupplier
+                  .map(
+                    (food) =>
+                      `<option value="${food.id}" ${
+                        food.id === foodState.secondFoodId ? 'selected' : ''
+                      }>${food.brand} - ${food.productName}</option>`
+                  )
+                  .join('')}
+              </select>
+              <button type="button" id="food-second-clear" class="mt-2 text-xs underline text-gray-500 hover:text-primary">${t(
+                'mixed_remove_second_food'
+              )}</button>
+            </div>
+            <div>
+              <label for="food-wet-percent" class="block text-xs font-medium text-gray-600 mb-1">${t('label_mixed_split')}</label>
+              <input id="food-wet-percent" type="range" min="1" max="99" step="1" value="${wetPercent}" class="w-full accent-primary"/>
+              <p class="text-xs text-gray-500 mt-1">${t('mixed_split_preview', {
+                wet: String(wetPercent),
+                dry: String(dryPercent),
               })}</p>
-              <p class="text-sm text-gray-600">${t('result_kcal', {
-                kcal: String(result.estimatedKcalPerDay),
-              })}</p>
-              <p class="text-sm mt-2">${t('result_advisory')}</p>
-              <p class="text-sm mt-2"><strong>${t('result_source')}:</strong> <a class="text-primary underline" href="${
-                selectedFood.sourceUrl
-              }" target="_blank" rel="noreferrer">${selectedFood.sourceUrl}</a> (${selectedFood.sourceDate})</p>
-              <p class="text-sm mt-2 font-medium">${t('result_assumptions')}:</p>
-              <ul class="text-sm list-disc pl-5 mt-1">
-                ${result.assumptions.map((item) => `<li>${item}</li>`).join('')}
-              </ul>
-            </div>`
-          : ''
-      }
+              <div class="mt-2 flex gap-2">
+                <button type="button" class="food-wet-preset text-xs rounded border border-gray-200 px-2 py-1 hover:bg-surface" data-wet-preset="75">75/25</button>
+                <button type="button" class="food-wet-preset text-xs rounded border border-gray-200 px-2 py-1 hover:bg-surface" data-wet-preset="50">50/50</button>
+                <button type="button" class="food-wet-preset text-xs rounded border border-gray-200 px-2 py-1 hover:bg-surface" data-wet-preset="25">25/75</button>
+              </div>
+            </div>
+            ${
+              mixedValidationKey
+                ? `<p class="text-sm text-amber-700">${t(mixedValidationKey, {
+                    min: String(MIXED_MIN_TOTAL_GRAMS),
+                  })}</p>`
+                : ''
+            }
+          </div>`
+              : ''
+          }
+          <div>
+            <label for="food-age" class="block text-xs font-medium text-gray-600 mb-1">${ageLabel} ${infoIcon(ageHint)}</label>
+            <input id="food-age" type="number" min="1" max="${profile.isPuppy ? 24 : 20}" step="1" value="${displayedAge}"
+              class="w-full border border-gray-200 rounded px-3 py-2 text-sm"/>
+            <p class="text-xs text-gray-400 mt-1">${ageHint}</p>
+          </div>
+          <div>
+            <label for="food-weight-kg" class="block text-xs font-medium text-gray-600 mb-1">${t('label_weight_kg')}</label>
+            <input id="food-weight-kg" type="number" min="0.5" max="80" step="0.1" value="${foodState.weightKg}"
+              class="w-full border border-gray-200 rounded px-3 py-2 text-sm"/>
+          </div>
+          ${
+            profile.isPuppy
+              ? ''
+              : `<div>
+            <label for="food-activity" class="block text-xs font-medium text-gray-600 mb-1">${t('label_activity')}</label>
+            <select id="food-activity" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
+              <option value="low" ${foodState.activityLevel === 'low' ? 'selected' : ''}>${t('activity_low')}</option>
+              <option value="moderate" ${foodState.activityLevel === 'moderate' ? 'selected' : ''}>${t('activity_moderate')}</option>
+              <option value="high" ${foodState.activityLevel === 'high' ? 'selected' : ''}>${t('activity_high')}</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-2">
+            <input id="food-neutered" type="checkbox" ${
+              foodState.neutered ? 'checked' : ''
+            } class="rounded border-gray-300 text-primary focus:ring-primary"/>
+            <label for="food-neutered" class="text-xs font-medium text-gray-600">${t('label_neutered')}</label>
+          </div>`
+          }
+          <div>
+            <label for="food-breed-size" class="block text-xs font-medium text-gray-600 mb-1">${t('label_breed_size')}</label>
+            <select id="food-breed-size" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
+              <option value="small" ${foodState.breedSize === 'small' ? 'selected' : ''}>${t('breed_small')}</option>
+              <option value="medium" ${foodState.breedSize === 'medium' ? 'selected' : ''}>${t('breed_medium')}</option>
+              <option value="large" ${foodState.breedSize === 'large' ? 'selected' : ''}>${t('breed_large')}</option>
+              <option value="giant" ${foodState.breedSize === 'giant' ? 'selected' : ''}>${t('breed_giant')}</option>
+            </select>
+          </div>
+          ${
+            profile.isPuppy
+              ? ''
+              : `<div>
+            <label for="food-goal" class="block text-xs font-medium text-gray-600 mb-1">${t('label_goal')}</label>
+            <select id="food-goal" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
+              <option value="maintain" ${foodState.weightGoal === 'maintain' ? 'selected' : ''}>${t('goal_maintain')}</option>
+              <option value="lose" ${foodState.weightGoal === 'lose' ? 'selected' : ''}>${t('goal_lose')}</option>
+            </select>
+          </div>`
+          }
+        </form>
+      </details>
       </section>
     `;
   }
 
   function render(): void {
     const valid = isValid(errors);
-    const titleText = config.name ? t('title_for', { name: config.name }) : t('title');
+    const titleText = config.name ? t('title_for', { name: escapeHtml(config.name) }) : t('title');
     const generalEmailHref = mailtoWithContext(
       'DIT@casey.berlin',
       'Hey Casey lets talk',
@@ -441,7 +641,10 @@ export async function runApp(container: HTMLElement): Promise<void> {
 
     container.innerHTML = `
       <div class="min-h-screen bg-background text-gray-800 font-sans px-4 py-6 max-w-lg mx-auto">
-        <h1 class="text-2xl font-display font-semibold text-gray-900 mb-4">${titleText}</h1>
+        <header class="flex items-center gap-3 mb-6">
+          <img src="/icons/icon-192.png" alt="PuppyCal" class="w-12 h-12 rounded-xl flex-shrink-0" width="48" height="48" />
+          <h1 class="text-2xl font-display font-semibold text-gray-900 leading-tight">${titleText}</h1>
+        </header>
         <div class="mb-4 inline-flex rounded-lg border border-gray-200 overflow-hidden" role="tablist" aria-label="Planner tabs">
           <button type="button" id="tab-walkies" role="tab" aria-selected="${
             activeTab === 'walkies'
@@ -457,26 +660,26 @@ export async function runApp(container: HTMLElement): Promise<void> {
 
         ${activeTab === 'walkies' ? renderWalkies(valid) : renderFood()}
 
-        <footer class="mt-6 border-t border-gray-200 pt-4 space-y-2 text-xs text-gray-600" aria-label="${t(
-          'footer_label'
-        )}">
-          <p class="text-gray-700 font-medium text-xs">${t('footer_disclaimer')}</p>
-          <a id="footer-coffee-link" href="${BUY_ME_A_COFFEE_URL}" target="_blank" rel="noreferrer"
-            class="inline-flex items-center rounded border border-gray-300 px-3 py-1 hover:bg-gray-50">${t(
-              'footer_buy_coffee'
-            )}</a>
-          <div>${middleCta}</div>
-          <a id="footer-brand-link" href="${CASEY_DIT_URL}" target="_blank" rel="noreferrer"
-            class="text-[11px] text-gray-500 hover:text-primary">
-            Next to :dog:, Casey does IT
-          </a>
-          <a id="footer-email-link" href="${generalEmailHref}" class="inline-flex items-center gap-2 text-[11px] text-gray-500 hover:text-primary">
-            <i class="fa-solid fa-envelope" aria-hidden="true"></i><span>${t('footer_email_cta')}</span>
-          </a>
+        <footer class="puppycal-footer mt-8" aria-label="${t('footer_label')}">
+          <div class="puppycal-footer__inner">
+            <p class="puppycal-footer__disclaimer">${t('footer_disclaimer')}</p>
+            <div class="puppycal-footer__links">
+              <a id="footer-brand-link" href="${CASEY_DIT_URL}" target="_blank" rel="noreferrer"
+                class="puppycal-footer__link">${t('footer_brand_text')}</a>
+              <span class="puppycal-footer__sep" aria-hidden="true">·</span>
+              <a id="footer-email-link" href="${generalEmailHref}"
+                class="puppycal-footer__link">${t('footer_email_cta')}</a>
+              <span class="puppycal-footer__sep" aria-hidden="true">·</span>
+              <a id="footer-coffee-link" href="${BUY_ME_A_COFFEE_URL}" target="_blank" rel="noreferrer"
+                class="puppycal-footer__link">${t('footer_buy_coffee')}</a>
+              <span class="puppycal-footer__sep" aria-hidden="true">·</span>
+              ${middleCta.replace(/class="[^"]*"/g, 'class="puppycal-footer__link"').replace(/id="[^"]*"\s*/g, 'id="footer-middle-cta" ')}
+            </div>
+          </div>
         </footer>
 
-        ${feedback ? `<p class="mt-4 text-primary font-medium" role="status">${feedback}</p>` : ''}
       </div>
+      ${feedback ? `<p class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-sm font-medium px-4 py-2 rounded-full shadow-lg z-50" role="status">${feedback}</p>` : ''}
     `;
     applyPlannerMetadata({
       activeTab,
@@ -522,7 +725,6 @@ export async function runApp(container: HTMLElement): Promise<void> {
       const start = container.querySelector('#start') as HTMLInputElement;
       const birthday = container.querySelector('#birthday') as HTMLInputElement;
       const nameInput = container.querySelector('#name') as HTMLInputElement;
-      const notes = container.querySelector('#notes') as HTMLTextAreaElement;
       const monthsDecrease = container.querySelector(
         '#months-decrease'
       ) as HTMLButtonElement | null;
@@ -531,6 +733,10 @@ export async function runApp(container: HTMLElement): Promise<void> {
       ) as HTMLButtonElement | null;
 
       function syncWalkies(event: Event): void {
+        const fieldId = (event.target as HTMLElement | null)?.id;
+        if (fieldId === 'dob' || fieldId === 'months' || fieldId === 'start') {
+          walkiesTouched[fieldId] = true;
+        }
         setConfig(
           (c) => {
             c.dob = dob?.value ?? '';
@@ -539,7 +745,6 @@ export async function runApp(container: HTMLElement): Promise<void> {
             c.start = start?.value ?? c.start;
             c.birthday = birthday?.checked ?? true;
             c.name = nameInput?.value ?? '';
-            c.notes = notes?.value ?? '';
             c.feeding = false;
           },
           { rerender: event.type !== 'input' }
@@ -549,11 +754,13 @@ export async function runApp(container: HTMLElement): Promise<void> {
       form?.addEventListener('input', syncWalkies);
       form?.addEventListener('change', syncWalkies);
       monthsDecrease?.addEventListener('click', () => {
+        walkiesTouched.months = true;
         const next = Math.max(1, (parseInt(months.value || '3', 10) || 3) - 1);
         months.value = String(next);
         syncWalkies(new Event('change'));
       });
       monthsIncrease?.addEventListener('click', () => {
+        walkiesTouched.months = true;
         const next = Math.min(12, (parseInt(months.value || '3', 10) || 3) + 1);
         months.value = String(next);
         syncWalkies(new Event('change'));
@@ -585,12 +792,13 @@ export async function runApp(container: HTMLElement): Promise<void> {
             return;
           }
           const url = currentCanonicalUrl();
+          const shareText = t('share_message');
           trackEvent(ANALYTICS_EVENTS.SHARE_PLATFORM_SELECTED, {
             tab: activeTab,
             platform,
             surface: 'walkies',
           });
-          const target = buildShareTarget(platform, url, SOCIAL_SHARE_TEXT);
+          const target = buildShareTarget(platform, url, shareText);
           const popup = window.open(target, '_blank', 'noopener,noreferrer');
           if (popup) {
             trackEvent(ANALYTICS_EVENTS.SHARE_SENT, {
@@ -604,7 +812,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
             return;
           }
 
-          const fallbackOk = await fallbackShare(url);
+          const fallbackOk = await fallbackShare(url, shareText);
           if (fallbackOk) {
             trackEvent(ANALYTICS_EVENTS.SHARE_SENT, {
               tab: activeTab,
@@ -622,6 +830,19 @@ export async function runApp(container: HTMLElement): Promise<void> {
     } else {
       const supplierInput = container.querySelector('#food-supplier') as HTMLSelectElement | null;
       const productInput = container.querySelector('#food-product') as HTMLSelectElement | null;
+      const mixedModeInput = container.querySelector('#food-mixed-mode') as HTMLInputElement | null;
+      const secondSupplierInput = container.querySelector(
+        '#food-second-supplier'
+      ) as HTMLSelectElement | null;
+      const secondProductInput = container.querySelector(
+        '#food-second-product'
+      ) as HTMLSelectElement | null;
+      const secondClearButton = container.querySelector(
+        '#food-second-clear'
+      ) as HTMLButtonElement | null;
+      const wetPercentInput = container.querySelector(
+        '#food-wet-percent'
+      ) as HTMLInputElement | null;
       const ageInput = container.querySelector('#food-age') as HTMLInputElement | null;
       const weightInput = container.querySelector('#food-weight-kg') as HTMLInputElement | null;
       const activityInput = container.querySelector('#food-activity') as HTMLSelectElement | null;
@@ -673,6 +894,76 @@ export async function runApp(container: HTMLElement): Promise<void> {
         render();
       });
 
+      mixedModeInput?.addEventListener('change', () => {
+        const enabled = mixedModeInput.checked;
+        if (!enabled) {
+          foodState = {
+            ...foodState,
+            mixedMode: false,
+            secondFoodId: '',
+          };
+          applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
+          render();
+          return;
+        }
+        const primaryFood = findFoodById(foodState.selectedFoodId) ?? null;
+        const defaultSecond = findDefaultSecondFood(primaryFood, allFoods);
+        foodState = {
+          ...foodState,
+          mixedMode: true,
+          secondSupplier: defaultSecond?.supplier ?? foodState.secondSupplier,
+          secondFoodId: defaultSecond?.id ?? foodState.secondFoodId,
+          wetPercent: MIXED_DEFAULT_WET_PERCENT,
+        };
+        applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
+        render();
+      });
+
+      secondSupplierInput?.addEventListener('change', () => {
+        const supplier = secondSupplierInput.value;
+        const nextFoods = supplierCatalog[supplier] ?? [];
+        const currentSecond = findFoodById(foodState.secondFoodId);
+        const nextSecondId =
+          currentSecond && currentSecond.supplier === supplier
+            ? currentSecond.id
+            : (nextFoods[0]?.id ?? '');
+        foodState = {
+          ...foodState,
+          secondSupplier: supplier,
+          secondFoodId: nextSecondId,
+        };
+        applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
+        render();
+      });
+
+      secondProductInput?.addEventListener('change', () => {
+        const nextSecondId = secondProductInput.value;
+        if (!nextSecondId) {
+          foodState = {
+            ...foodState,
+            mixedMode: false,
+            secondFoodId: '',
+          };
+        } else {
+          foodState = {
+            ...foodState,
+            secondFoodId: nextSecondId,
+          };
+        }
+        applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
+        render();
+      });
+
+      secondClearButton?.addEventListener('click', () => {
+        foodState = {
+          ...foodState,
+          mixedMode: false,
+          secondFoodId: '',
+        };
+        applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
+        render();
+      });
+
       const syncFoodInputs = (): void => {
         const nextSelectedFood =
           findFoodById(productInput?.value || foodState.selectedFoodId) ?? null;
@@ -682,6 +973,9 @@ export async function runApp(container: HTMLElement): Promise<void> {
           ...foodState,
           ageMonths: fromDisplayedAge(ageValue, profile.isPuppy),
           weightKg: Math.max(0.5, parseFloat(weightInput?.value ?? '0.5') || 0.5),
+          wetPercent: clampWetPercent(
+            parseInt(wetPercentInput?.value ?? String(foodState.wetPercent), 10)
+          ),
           activityLevel: profile.isPuppy
             ? fallbackFoodState.activityLevel
             : (activityInput?.value as ActivityLevel) || 'moderate',
@@ -701,6 +995,36 @@ export async function runApp(container: HTMLElement): Promise<void> {
       neuteredInput?.addEventListener('change', syncFoodInputs);
       breedSizeInput?.addEventListener('change', syncFoodInputs);
       goalInput?.addEventListener('change', syncFoodInputs);
+      wetPercentInput?.addEventListener('input', syncFoodInputs);
+      container.querySelectorAll('.food-wet-preset').forEach((button) => {
+        button.addEventListener('click', () => {
+          const wetPreset = parseInt(
+            (button as HTMLElement).getAttribute('data-wet-preset') ?? '',
+            10
+          );
+          foodState = {
+            ...foodState,
+            wetPercent: clampWetPercent(wetPreset),
+          };
+          applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
+          render();
+        });
+      });
+
+      container.querySelector('#btn-copy-food-link')?.addEventListener('click', async () => {
+        const url = currentCanonicalUrl();
+        const ok = await fallbackShare(url, t('share_message'));
+        if (ok) {
+          trackEvent(ANALYTICS_EVENTS.SHARE_SENT, {
+            tab: activeTab,
+            platform: 'copy_link',
+            surface: 'food_hero',
+          });
+          showFeedback(t('link_copied'));
+        } else {
+          showFeedback(t('share_failed'));
+        }
+      });
     }
   }
 

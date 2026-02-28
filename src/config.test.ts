@@ -10,6 +10,10 @@ import {
 const defaultFood: FoodPlannerState = {
   selectedSupplier: 'purina',
   selectedFoodId: 'purina-pro-plan-medium-puppy-chicken',
+  mixedMode: false,
+  secondSupplier: 'purina',
+  secondFoodId: '',
+  wetPercent: 75,
   ageMonths: 6,
   weightKg: 12,
   activityLevel: 'moderate',
@@ -30,15 +34,20 @@ function buildState(overrides: Partial<PlannerState> = {}): PlannerState {
 describe('planner query parse/serialize', () => {
   it('parses schedule + food + tab values from query', () => {
     const parsed = parsePlannerStateFromSearch(
-      '?lang=en&dob=2025-01-01&months=2&start=2025-03-01&tab=food&foodSupplier=royal-canin&foodId=royal-canin-maxi-puppy&foodAge=7&foodWeight=14.3&foodActivity=high&foodNeutered=1&foodBreed=large&foodGoal=lose',
+      '?lang=en&dob=2025-01-01&months=2&start=2025-03-01&breed=stabyhoun&tab=food&foodSupplier=royal-canin&foodId=royal-canin-maxi-puppy&foodMixed=1&foodSecondSupplier=purina&foodSecondId=purina-pro-plan-medium-adult-lamb&foodWetPercent=65&foodAge=7&foodWeight=14.3&foodActivity=high&foodNeutered=1&foodBreed=large&foodGoal=lose',
       defaultFood
     );
 
     expect(parsed.state.config.lang).toBe('en');
     expect(parsed.state.config.months).toBe(2);
+    expect(parsed.state.config.breed).toBe('stabyhoun');
     expect(parsed.state.activeTab).toBe('food');
     expect(parsed.state.food.selectedSupplier).toBe('royal-canin');
     expect(parsed.state.food.selectedFoodId).toBe('royal-canin-maxi-puppy');
+    expect(parsed.state.food.mixedMode).toBe(true);
+    expect(parsed.state.food.secondSupplier).toBe('purina');
+    expect(parsed.state.food.secondFoodId).toBe('purina-pro-plan-medium-adult-lamb');
+    expect(parsed.state.food.wetPercent).toBe(65);
     expect(parsed.state.food.ageMonths).toBe(7);
     expect(parsed.state.food.weightKg).toBe(14.3);
     expect(parsed.state.food.activityLevel).toBe('high');
@@ -49,12 +58,13 @@ describe('planner query parse/serialize', () => {
 
   it('normalizes invalid values to safe defaults and reports corrections', () => {
     const parsed = parsePlannerStateFromSearch(
-      '?lang=fr&months=99&tab=unknown&foodAge=0&foodWeight=-3&foodActivity=wild&foodNeutered=maybe&foodBreed=tiny&foodGoal=gain',
+      '?lang=fr&months=99&breed=husky&tab=unknown&foodMixed=banana&foodWetPercent=100&foodAge=0&foodWeight=-3&foodActivity=wild&foodNeutered=maybe&foodBreed=tiny&foodGoal=gain',
       defaultFood
     );
 
     expect(parsed.state.config.lang).toBe('nl');
     expect(parsed.state.config.months).toBe(3);
+    expect(parsed.state.config.breed).toBe('stabyhoun');
     expect(parsed.state.activeTab).toBe('walkies');
     expect(parsed.state.food.ageMonths).toBe(defaultFood.ageMonths);
     expect(parsed.state.food.weightKg).toBe(defaultFood.weightKg);
@@ -62,6 +72,8 @@ describe('planner query parse/serialize', () => {
     expect(parsed.state.food.neutered).toBe(defaultFood.neutered);
     expect(parsed.state.food.breedSize).toBe(defaultFood.breedSize);
     expect(parsed.state.food.weightGoal).toBe(defaultFood.weightGoal);
+    expect(parsed.state.food.mixedMode).toBe(defaultFood.mixedMode);
+    expect(parsed.state.food.wetPercent).toBe(defaultFood.wetPercent);
     expect(parsed.hadCorrections).toBe(true);
   });
 
@@ -72,12 +84,22 @@ describe('planner query parse/serialize', () => {
     const changed = serializePlannerStateToSearch(
       buildState({
         activeTab: 'food',
-        food: { ...defaultFood, ageMonths: 8, neutered: true },
+        food: {
+          ...defaultFood,
+          mixedMode: true,
+          secondSupplier: 'royal-canin',
+          secondFoodId: 'royal-canin-maxi-puppy',
+          wetPercent: 60,
+          ageMonths: 8,
+          neutered: true,
+        },
       }),
       defaultFood
     );
 
-    expect(changed).toBe('?dob=2025-01-01&tab=food&foodAge=8&foodNeutered=1');
+    expect(changed).toBe(
+      '?dob=2025-01-01&tab=food&foodMixed=1&foodSecondSupplier=royal-canin&foodSecondId=royal-canin-maxi-puppy&foodWetPercent=60&foodAge=8&foodNeutered=1'
+    );
   });
 
   it('accepts up to 12 months and falls back when out of range', () => {

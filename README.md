@@ -48,6 +48,12 @@ Copy `.env.example` to `.env` and set values as needed. The web app reads these 
 
 See `.env.example` for all keys (including optional Umami analytics).
 
+## Vercel Web Analytics
+
+- The root app injects Vercel Web Analytics client-side via `@vercel/analytics` in `src/index.ts`.
+- Enable **Analytics** in your Vercel project dashboard before expecting data.
+- After deploy, verify network requests to `/_vercel/insights/view` in your browser devtools.
+
 ### Marketing/discoverability additions
 
 - The app now renders explicit SEO + GEO metadata, including JSON-LD (`WebApplication`) for machine-readable indexing.

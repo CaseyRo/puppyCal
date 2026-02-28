@@ -5,6 +5,10 @@ import type { FoodPlannerState } from '../config';
 const defaults: FoodPlannerState = {
   selectedSupplier: 'purina',
   selectedFoodId: 'purina-pro-plan-medium-puppy-chicken',
+  mixedMode: false,
+  secondSupplier: 'purina',
+  secondFoodId: '',
+  wetPercent: 75,
   ageMonths: 6,
   weightKg: 12,
   activityLevel: 'moderate',
