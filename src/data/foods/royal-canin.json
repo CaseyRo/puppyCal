@@ -21,5 +21,32 @@
     },
     "sourceUrl": "https://www.royalcanin.com/us/dogs/products/retail-products/puppy-medium-3003",
     "sourceDate": "2026-02-25"
+  },
+  {
+    "id": "royal-canin-medium-puppy-wet",
+    "supplier": "royal-canin",
+    "brand": "Royal Canin",
+    "productName": "Medium Puppy Wet",
+    "isPuppy": true,
+    "lifeStage": "puppy",
+    "breedSizeTarget": "medium",
+    "foodType": "wet",
+    "packageSize": "140g pouch",
+    "ingredients": ["water", "poultry by-products", "pork", "rice", "minerals", "vitamins"],
+    "guaranteedAnalysis": {
+      "proteinMinPercent": 9.0,
+      "fatMinPercent": 5.0,
+      "fiberMaxPercent": 0.8,
+      "moistureMaxPercent": 79
+    },
+    "feedingGuide": {
+      "reference": "Use Royal Canin age/weight feeding chart on product page."
+    },
+    "calories": {
+      "kcalPerKg": 870,
+      "note": "Approximate from supplier data."
+    },
+    "sourceUrl": "https://www.royalcanin.com/us/dogs/products/retail-products/medium-puppy-wet-3002",
+    "sourceDate": "2026-02-28"
   }
 ]

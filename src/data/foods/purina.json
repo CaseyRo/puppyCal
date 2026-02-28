@@ -25,5 +25,32 @@
     },
     "sourceUrl": "https://www.purina.com/dogs/shop/pro-plan-development-puppy-large-breed-chicken-rice-dry-dog-food",
     "sourceDate": "2026-02-25"
+  },
+  {
+    "id": "purina-pro-plan-puppy-mousse",
+    "supplier": "purina",
+    "brand": "Purina Pro Plan",
+    "productName": "Puppy Mousse (Wet)",
+    "isPuppy": true,
+    "lifeStage": "puppy",
+    "breedSizeTarget": "medium",
+    "foodType": "wet",
+    "packageSize": "400g tray",
+    "ingredients": ["water", "chicken", "pork by-products", "minerals", "vitamins"],
+    "guaranteedAnalysis": {
+      "proteinMinPercent": 8.5,
+      "fatMinPercent": 4.5,
+      "fiberMaxPercent": 0.5,
+      "moistureMaxPercent": 82
+    },
+    "feedingGuide": {
+      "reference": "Use Purina age/weight feeding chart on product page."
+    },
+    "calories": {
+      "kcalPerKg": 900,
+      "note": "Approximate from supplier data; wet food has lower caloric density."
+    },
+    "sourceUrl": "https://www.purina.co.uk/pro-plan/dogs/wet-dog-food/puppy-mousse",
+    "sourceDate": "2026-02-28"
   }
 ]

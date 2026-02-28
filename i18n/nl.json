@@ -117,7 +117,19 @@
     "fact_source_default_url": "https://www.nvsw.nl/",
     "error_dob_required": "Geboortedatum is verplicht",
     "error_invalid_date": "Ongeldige datum",
-    "error_plan_start_required": "Startdatum van het plan is verplicht"
+    "error_plan_start_required": "Startdatum van het plan is verplicht",
+    "food_type_wet": "Nat",
+    "food_type_dry": "Droog",
+    "footer_repo_cta": "Open source: ster de repo",
+    "footer_food_data_cta": "Voeg voedingsdata toe aan PuppyCal",
+    "tab_dog": "Mijn hond",
+    "dog_profile_title": "Mijn hond",
+    "dog_hint_empty": "Voeg het profiel van je hond toe voor gepersonaliseerde resultaten",
+    "dog_hint_cta": "Profiel instellen",
+    "dog_derived_age": "Leeftijd: {months} maanden (van geboortedatum)",
+    "food_profile_summary": "Profiel: {weight} kg · {size} · {activity}",
+    "mixed_no_opposite": "Voeg een voer van het tegengestelde type toe om gemengde modus te activeren.",
+    "lang_toggle_label": "Taal"
   },
   "facts": [
     "Stabyhoun-feit: De naam 'Stabyhoun' vertaalt uit het Fries ongeveer naar 'sta mij bij hond'.",

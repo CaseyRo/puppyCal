@@ -38,6 +38,16 @@ const BUY_ME_A_COFFEE_URL = 'https://buymeacoffee.com/caseyberlin';
 const CASEY_DIT_URL = 'https://casey.berlin/DIT';
 const DEFAULT_REPO_URL = __CONFIG__.repoUrl || 'https://github.com/CaseyRo/puppyCal';
 
+function dobToAgeMonths(dob: string): number | null {
+  if (!dob) return null;
+  const birth = new Date(dob);
+  if (isNaN(birth.getTime())) return null;
+  const now = new Date();
+  const months =
+    (now.getFullYear() - birth.getFullYear()) * 12 + (now.getMonth() - birth.getMonth());
+  return Math.max(1, months);
+}
+
 function escapeHtml(str: string): string {
   return str
     .replace(/&/g, '&amp;')
@@ -193,6 +203,15 @@ export async function runApp(container: HTMLElement): Promise<void> {
   let config = parsed.state.config;
   let activeTab: PlannerTab = parsed.state.activeTab;
   let foodState = normalizedSelection.state;
+
+  // Derive ageMonths from DOB if DOB is set on load
+  if (config.dob) {
+    const derived = dobToAgeMonths(config.dob);
+    if (derived !== null) {
+      foodState = { ...foodState, ageMonths: derived };
+    }
+  }
+
   applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
 
   const i18n = await loadI18n(config.lang);
@@ -321,6 +340,77 @@ export async function runApp(container: HTMLElement): Promise<void> {
     `;
   }
 
+  function renderDog(): string {
+    const infoIcon = (text: string): string =>
+      `<span class="inline-flex items-center justify-center w-4 h-4 rounded-full border border-gray-300 text-[10px] text-gray-500 ml-1" title="${text}" aria-label="${text}">i</span>`;
+
+    return `
+      <section aria-label="${t('dog_profile_title')}">
+      <h2 class="text-lg font-semibold mb-4">${t('dog_profile_title')}</h2>
+      <form id="dog-form" class="space-y-4" novalidate>
+        <div>
+          <label for="dog-name" class="block text-sm font-medium mb-1">${t('label_name')} ${infoIcon(t('hint_name'))}</label>
+          <input type="text" id="dog-name" value="${escapeHtml(config.name)}" placeholder=""
+            class="w-full border border-gray-300 rounded px-3 py-2"/>
+        </div>
+        <div>
+          <label for="dog-dob" class="block text-sm font-medium mb-1">${t('label_dob')} ${infoIcon(t('hint_dob'))}</label>
+          <input type="date" id="dog-dob" value="${config.dob}"
+            class="w-full border border-gray-300 rounded px-3 py-2"/>
+          ${config.dob ? `<p class="text-xs text-gray-500 mt-1">${t('dog_derived_age', { months: String(foodState.ageMonths) })}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_dob')}</p>`}
+        </div>
+        <div>
+          <label for="dog-weight" class="block text-sm font-medium mb-1">${t('label_weight_kg')}</label>
+          <input type="number" id="dog-weight" min="0.5" max="80" step="0.1" value="${foodState.weightKg}"
+            class="w-full border border-gray-300 rounded px-3 py-2"/>
+        </div>
+        <div>
+          <label for="dog-breed-size" class="block text-sm font-medium mb-1">${t('label_breed_size')}</label>
+          <select id="dog-breed-size" class="w-full border border-gray-300 rounded px-3 py-2">
+            <option value="small" ${foodState.breedSize === 'small' ? 'selected' : ''}>${t('breed_small')}</option>
+            <option value="medium" ${foodState.breedSize === 'medium' ? 'selected' : ''}>${t('breed_medium')}</option>
+            <option value="large" ${foodState.breedSize === 'large' ? 'selected' : ''}>${t('breed_large')}</option>
+            <option value="giant" ${foodState.breedSize === 'giant' ? 'selected' : ''}>${t('breed_giant')}</option>
+          </select>
+        </div>
+        <div>
+          <label for="dog-activity" class="block text-sm font-medium mb-1">${t('label_activity')}</label>
+          <select id="dog-activity" class="w-full border border-gray-300 rounded px-3 py-2">
+            <option value="low" ${foodState.activityLevel === 'low' ? 'selected' : ''}>${t('activity_low')}</option>
+            <option value="moderate" ${foodState.activityLevel === 'moderate' ? 'selected' : ''}>${t('activity_moderate')}</option>
+            <option value="high" ${foodState.activityLevel === 'high' ? 'selected' : ''}>${t('activity_high')}</option>
+          </select>
+        </div>
+        <div class="flex items-center gap-2">
+          <input type="checkbox" id="dog-neutered" ${foodState.neutered ? 'checked' : ''}
+            class="rounded border-gray-300 text-primary focus:ring-primary"/>
+          <label for="dog-neutered" class="text-sm font-medium">${t('label_neutered')}</label>
+        </div>
+        <div>
+          <label for="dog-goal" class="block text-sm font-medium mb-1">${t('label_goal')}</label>
+          <select id="dog-goal" class="w-full border border-gray-300 rounded px-3 py-2">
+            <option value="maintain" ${foodState.weightGoal === 'maintain' ? 'selected' : ''}>${t('goal_maintain')}</option>
+            <option value="lose" ${foodState.weightGoal === 'lose' ? 'selected' : ''}>${t('goal_lose')}</option>
+          </select>
+        </div>
+        <div class="pt-2 border-t border-gray-100">
+          <p class="text-sm font-medium mb-2">${t('lang_toggle_label')}</p>
+          <div class="inline-flex rounded-lg border border-gray-200 overflow-hidden">
+            <button type="button" id="lang-en"
+              class="px-4 py-1.5 text-sm font-medium ${config.lang === 'en' ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}">
+              EN
+            </button>
+            <button type="button" id="lang-nl"
+              class="px-4 py-1.5 text-sm font-medium ${config.lang === 'nl' ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}">
+              NL
+            </button>
+          </div>
+        </div>
+      </form>
+      </section>
+    `;
+  }
+
   function renderFood(): string {
     const suppliers = Object.keys(supplierCatalog).sort();
     const foodsForSupplier = supplierCatalog[foodState.selectedSupplier] ?? [];
@@ -395,14 +485,14 @@ export async function runApp(container: HTMLElement): Promise<void> {
                 <p class="font-display text-4xl font-semibold text-primary leading-tight">
                   ${mixedSplit.wetGrams}<span class="text-lg ml-0.5">g</span>
                 </p>
-                <p class="text-xs text-gray-500 mt-0.5">wet</p>
+                <p class="text-xs text-gray-500 mt-0.5">${t('food_type_wet')}</p>
               </div>
               <span class="text-2xl text-gray-300 font-light">+</span>
               <div>
                 <p class="font-display text-4xl font-semibold text-primary leading-tight">
                   ${mixedSplit.dryGrams}<span class="text-lg ml-0.5">g</span>
                 </p>
-                <p class="text-xs text-gray-500 mt-0.5">dry</p>
+                <p class="text-xs text-gray-500 mt-0.5">${t('food_type_dry')}</p>
               </div>
             </div>
             <p class="text-xs text-gray-500 mt-2">${t('mixed_split_applied', {
@@ -454,6 +544,55 @@ export async function runApp(container: HTMLElement): Promise<void> {
           </details>`
         : '';
 
+    // Mixed mode: filter second foods to opposite type of primary
+    const primaryFoodType = selectedFood?.foodType ?? 'dry';
+    const oppositeType = primaryFoodType === 'dry' ? 'wet' : 'dry';
+    const hasOppositeType = allFoods.some((f) => f.foodType === oppositeType);
+    const filteredSecondFoods = foodState.mixedMode
+      ? secondFoodsForSupplier.filter((f) => f.foodType === oppositeType)
+      : secondFoodsForSupplier;
+
+    // Profile summary for food settings
+    const hasProfile = Boolean(config.name || config.dob);
+    const breedSizeLabel =
+      {
+        small: t('breed_small'),
+        medium: t('breed_medium'),
+        large: t('breed_large'),
+        giant: t('breed_giant'),
+      }[foodState.breedSize] ?? foodState.breedSize;
+    const activityLabel =
+      { low: t('activity_low'), moderate: t('activity_moderate'), high: t('activity_high') }[
+        foodState.activityLevel
+      ] ?? foodState.activityLevel;
+    const profileSummaryLine = hasProfile
+      ? `<p class="text-xs text-gray-400 mt-2">${t('food_profile_summary', {
+          weight: String(foodState.weightKg),
+          size: breedSizeLabel,
+          activity: activityLabel,
+        })}</p>`
+      : '';
+
+    const dogHintCard = !hasProfile
+      ? `<div class="rounded-xl border border-dashed border-gray-300 p-4 mb-4 flex items-center gap-3 bg-white/50">
+          <span class="text-2xl">🐾</span>
+          <div class="flex-1 min-w-0">
+            <p class="text-sm text-gray-600">${t('dog_hint_empty')}</p>
+            <button type="button" id="btn-go-dog-tab" class="mt-1 text-xs font-medium text-primary underline hover:opacity-80">${t('dog_hint_cta')}</button>
+          </div>
+        </div>`
+      : '';
+
+    // Age field: only shown when DOB is not set (else DOB auto-calculates it)
+    const ageField = config.dob
+      ? `<p class="text-xs text-gray-400 mt-1 italic">${t('dog_derived_age', { months: String(foodState.ageMonths) })}</p>`
+      : `<div>
+          <label for="food-age" class="block text-xs font-medium text-gray-600 mb-1">${ageLabel} ${infoIcon(ageHint)}</label>
+          <input id="food-age" type="number" min="1" max="${profile.isPuppy ? 24 : 20}" step="1" value="${displayedAge}"
+            class="w-full border border-gray-200 rounded px-3 py-2 text-sm"/>
+          <p class="text-xs text-gray-400 mt-1">${ageHint}</p>
+        </div>`;
+
     return `
       <section aria-label="${t('section_food')}">
       ${
@@ -462,6 +601,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
           : ''
       }
 
+      ${dogHintCard}
       ${heroCard}
       ${assumptionsBlock}
 
@@ -492,7 +632,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
                   (food) =>
                     `<option value="${food.id}" ${
                       food.id === foodState.selectedFoodId ? 'selected' : ''
-                    }>${food.brand} - ${food.productName}</option>`
+                    }>${food.brand} — ${food.productName} (${food.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')})</option>`
                 )
                 .join('')}
             </select>
@@ -500,11 +640,12 @@ export async function runApp(container: HTMLElement): Promise<void> {
           <div class="flex items-center gap-2">
             <input id="food-mixed-mode" type="checkbox" ${
               foodState.mixedMode ? 'checked' : ''
-            } class="rounded border-gray-300 text-primary focus:ring-primary"/>
+            } ${!hasOppositeType ? 'disabled' : ''} class="rounded border-gray-300 text-primary focus:ring-primary disabled:opacity-50"/>
             <label for="food-mixed-mode" class="text-xs font-medium text-gray-600">${t('label_mixed_mode')}</label>
           </div>
+          ${!hasOppositeType ? `<p class="text-xs text-gray-400">${t('mixed_no_opposite')}</p>` : ''}
           ${
-            foodState.mixedMode
+            foodState.mixedMode && hasOppositeType
               ? `<div class="rounded-lg border border-gray-200 p-3 bg-white/50 space-y-3">
             <p class="text-xs text-gray-500">${t('mixed_mode_hint')}</p>
             <div>
@@ -524,12 +665,12 @@ export async function runApp(container: HTMLElement): Promise<void> {
               <label for="food-second-product" class="block text-xs font-medium text-gray-600 mb-1">${t('label_second_product')}</label>
               <select id="food-second-product" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
                 <option value="">${t('mixed_select_placeholder')}</option>
-                ${secondFoodsForSupplier
+                ${filteredSecondFoods
                   .map(
                     (food) =>
                       `<option value="${food.id}" ${
                         food.id === foodState.secondFoodId ? 'selected' : ''
-                      }>${food.brand} - ${food.productName}</option>`
+                      }>${food.brand} — ${food.productName} (${food.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')})</option>`
                   )
                   .join('')}
               </select>
@@ -560,55 +701,8 @@ export async function runApp(container: HTMLElement): Promise<void> {
           </div>`
               : ''
           }
-          <div>
-            <label for="food-age" class="block text-xs font-medium text-gray-600 mb-1">${ageLabel} ${infoIcon(ageHint)}</label>
-            <input id="food-age" type="number" min="1" max="${profile.isPuppy ? 24 : 20}" step="1" value="${displayedAge}"
-              class="w-full border border-gray-200 rounded px-3 py-2 text-sm"/>
-            <p class="text-xs text-gray-400 mt-1">${ageHint}</p>
-          </div>
-          <div>
-            <label for="food-weight-kg" class="block text-xs font-medium text-gray-600 mb-1">${t('label_weight_kg')}</label>
-            <input id="food-weight-kg" type="number" min="0.5" max="80" step="0.1" value="${foodState.weightKg}"
-              class="w-full border border-gray-200 rounded px-3 py-2 text-sm"/>
-          </div>
-          ${
-            profile.isPuppy
-              ? ''
-              : `<div>
-            <label for="food-activity" class="block text-xs font-medium text-gray-600 mb-1">${t('label_activity')}</label>
-            <select id="food-activity" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
-              <option value="low" ${foodState.activityLevel === 'low' ? 'selected' : ''}>${t('activity_low')}</option>
-              <option value="moderate" ${foodState.activityLevel === 'moderate' ? 'selected' : ''}>${t('activity_moderate')}</option>
-              <option value="high" ${foodState.activityLevel === 'high' ? 'selected' : ''}>${t('activity_high')}</option>
-            </select>
-          </div>
-          <div class="flex items-center gap-2">
-            <input id="food-neutered" type="checkbox" ${
-              foodState.neutered ? 'checked' : ''
-            } class="rounded border-gray-300 text-primary focus:ring-primary"/>
-            <label for="food-neutered" class="text-xs font-medium text-gray-600">${t('label_neutered')}</label>
-          </div>`
-          }
-          <div>
-            <label for="food-breed-size" class="block text-xs font-medium text-gray-600 mb-1">${t('label_breed_size')}</label>
-            <select id="food-breed-size" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
-              <option value="small" ${foodState.breedSize === 'small' ? 'selected' : ''}>${t('breed_small')}</option>
-              <option value="medium" ${foodState.breedSize === 'medium' ? 'selected' : ''}>${t('breed_medium')}</option>
-              <option value="large" ${foodState.breedSize === 'large' ? 'selected' : ''}>${t('breed_large')}</option>
-              <option value="giant" ${foodState.breedSize === 'giant' ? 'selected' : ''}>${t('breed_giant')}</option>
-            </select>
-          </div>
-          ${
-            profile.isPuppy
-              ? ''
-              : `<div>
-            <label for="food-goal" class="block text-xs font-medium text-gray-600 mb-1">${t('label_goal')}</label>
-            <select id="food-goal" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
-              <option value="maintain" ${foodState.weightGoal === 'maintain' ? 'selected' : ''}>${t('goal_maintain')}</option>
-              <option value="lose" ${foodState.weightGoal === 'lose' ? 'selected' : ''}>${t('goal_lose')}</option>
-            </select>
-          </div>`
-          }
+          ${ageField}
+          ${profileSummaryLine}
         </form>
       </details>
       </section>
@@ -632,11 +726,11 @@ export async function runApp(container: HTMLElement): Promise<void> {
       activeTab === 'walkies'
         ? `<a id="footer-repo-link" href="${DEFAULT_REPO_URL}" target="_blank" rel="noreferrer"
              class="text-gray-600 hover:text-primary underline text-[11px]">
-             Open source collaboration: star the repo and join in.
+             ${t('footer_repo_cta')}
            </a>`
         : `<a id="footer-food-data-link" href="${foodDataEmailHref}"
              class="text-gray-600 hover:text-primary underline text-[11px]">
-             Add your food data to our widget.
+             ${t('footer_food_data_cta')}
            </a>`;
 
     container.innerHTML = `
@@ -646,19 +740,23 @@ export async function runApp(container: HTMLElement): Promise<void> {
           <h1 class="text-2xl font-display font-semibold text-gray-900 leading-tight">${titleText}</h1>
         </header>
         <div class="mb-4 inline-flex rounded-lg border border-gray-200 overflow-hidden" role="tablist" aria-label="Planner tabs">
+          <button type="button" id="tab-food" role="tab" aria-selected="${activeTab === 'food'}"
+            class="px-4 py-2 text-sm font-medium ${
+              activeTab === 'food' ? 'bg-primary text-white' : 'bg-white text-gray-700'
+            }">${t('tab_food')}</button>
           <button type="button" id="tab-walkies" role="tab" aria-selected="${
             activeTab === 'walkies'
           }"
             class="px-4 py-2 text-sm font-medium ${
               activeTab === 'walkies' ? 'bg-primary text-white' : 'bg-white text-gray-700'
             }">${t('tab_walkies')}</button>
-          <button type="button" id="tab-food" role="tab" aria-selected="${activeTab === 'food'}"
+          <button type="button" id="tab-dog" role="tab" aria-selected="${activeTab === 'dog'}"
             class="px-4 py-2 text-sm font-medium ${
-              activeTab === 'food' ? 'bg-primary text-white' : 'bg-white text-gray-700'
-            }">${t('tab_food')}</button>
+              activeTab === 'dog' ? 'bg-primary text-white' : 'bg-white text-gray-700'
+            }">${t('tab_dog')}</button>
         </div>
 
-        ${activeTab === 'walkies' ? renderWalkies(valid) : renderFood()}
+        ${activeTab === 'walkies' ? renderWalkies(valid) : activeTab === 'dog' ? renderDog() : renderFood()}
 
         <footer class="puppycal-footer mt-8" aria-label="${t('footer_label')}">
           <div class="puppycal-footer__inner">
@@ -686,14 +784,20 @@ export async function runApp(container: HTMLElement): Promise<void> {
       canonicalUrl: currentCanonicalUrl(),
     });
 
+    container.querySelector('#tab-food')?.addEventListener('click', () => {
+      activeTab = 'food';
+      sharePickerOpen = false;
+      applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
+      render();
+    });
     container.querySelector('#tab-walkies')?.addEventListener('click', () => {
       activeTab = 'walkies';
       sharePickerOpen = false;
       applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
       render();
     });
-    container.querySelector('#tab-food')?.addEventListener('click', () => {
-      activeTab = 'food';
+    container.querySelector('#tab-dog')?.addEventListener('click', () => {
+      activeTab = 'dog';
       sharePickerOpen = false;
       applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
       render();
@@ -827,7 +931,13 @@ export async function runApp(container: HTMLElement): Promise<void> {
           render();
         });
       });
-    } else {
+    } else if (activeTab === 'food') {
+      container.querySelector('#btn-go-dog-tab')?.addEventListener('click', () => {
+        activeTab = 'dog';
+        applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
+        render();
+      });
+
       const supplierInput = container.querySelector('#food-supplier') as HTMLSelectElement | null;
       const productInput = container.querySelector('#food-product') as HTMLSelectElement | null;
       const mixedModeInput = container.querySelector('#food-mixed-mode') as HTMLInputElement | null;
@@ -844,13 +954,6 @@ export async function runApp(container: HTMLElement): Promise<void> {
         '#food-wet-percent'
       ) as HTMLInputElement | null;
       const ageInput = container.querySelector('#food-age') as HTMLInputElement | null;
-      const weightInput = container.querySelector('#food-weight-kg') as HTMLInputElement | null;
-      const activityInput = container.querySelector('#food-activity') as HTMLSelectElement | null;
-      const neuteredInput = container.querySelector('#food-neutered') as HTMLInputElement | null;
-      const breedSizeInput = container.querySelector(
-        '#food-breed-size'
-      ) as HTMLSelectElement | null;
-      const goalInput = container.querySelector('#food-goal') as HTMLSelectElement | null;
 
       const selectedFood = findFoodById(foodState.selectedFoodId) ?? null;
       const currentProfile = getFoodProfile(selectedFood);
@@ -971,30 +1074,17 @@ export async function runApp(container: HTMLElement): Promise<void> {
         const ageValue = parseInt(ageInput?.value ?? '1', 10) || 1;
         foodState = {
           ...foodState,
-          ageMonths: fromDisplayedAge(ageValue, profile.isPuppy),
-          weightKg: Math.max(0.5, parseFloat(weightInput?.value ?? '0.5') || 0.5),
+          // Only update ageMonths from input if DOB is not set (DOB takes priority)
+          ageMonths: config.dob ? foodState.ageMonths : fromDisplayedAge(ageValue, profile.isPuppy),
           wetPercent: clampWetPercent(
             parseInt(wetPercentInput?.value ?? String(foodState.wetPercent), 10)
           ),
-          activityLevel: profile.isPuppy
-            ? fallbackFoodState.activityLevel
-            : (activityInput?.value as ActivityLevel) || 'moderate',
-          neutered: profile.isPuppy ? false : (neuteredInput?.checked ?? false),
-          breedSize: (breedSizeInput?.value as BreedSize) || 'medium',
-          weightGoal: profile.isPuppy
-            ? fallbackFoodState.weightGoal
-            : (goalInput?.value as WeightGoal) || 'maintain',
         };
         applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
         render();
       };
 
       ageInput?.addEventListener('input', syncFoodInputs);
-      weightInput?.addEventListener('input', syncFoodInputs);
-      activityInput?.addEventListener('change', syncFoodInputs);
-      neuteredInput?.addEventListener('change', syncFoodInputs);
-      breedSizeInput?.addEventListener('change', syncFoodInputs);
-      goalInput?.addEventListener('change', syncFoodInputs);
       wetPercentInput?.addEventListener('input', syncFoodInputs);
       container.querySelectorAll('.food-wet-preset').forEach((button) => {
         button.addEventListener('click', () => {
@@ -1023,6 +1113,59 @@ export async function runApp(container: HTMLElement): Promise<void> {
           showFeedback(t('link_copied'));
         } else {
           showFeedback(t('share_failed'));
+        }
+      });
+    } else if (activeTab === 'dog') {
+      const dogNameInput = container.querySelector('#dog-name') as HTMLInputElement | null;
+      const dogDobInput = container.querySelector('#dog-dob') as HTMLInputElement | null;
+      const dogWeightInput = container.querySelector('#dog-weight') as HTMLInputElement | null;
+      const dogBreedSizeInput = container.querySelector(
+        '#dog-breed-size'
+      ) as HTMLSelectElement | null;
+      const dogActivityInput = container.querySelector('#dog-activity') as HTMLSelectElement | null;
+      const dogNeuteredInput = container.querySelector('#dog-neutered') as HTMLInputElement | null;
+      const dogGoalInput = container.querySelector('#dog-goal') as HTMLSelectElement | null;
+      const dogForm = container.querySelector('#dog-form');
+
+      const syncDog = (): void => {
+        config = { ...config };
+        config.name = dogNameInput?.value ?? config.name;
+        config.dob = dogDobInput?.value ?? config.dob;
+        foodState = {
+          ...foodState,
+          weightKg: Math.max(0.5, parseFloat(dogWeightInput?.value ?? '12') || 12),
+          breedSize: (dogBreedSizeInput?.value as BreedSize) || foodState.breedSize,
+          activityLevel: (dogActivityInput?.value as ActivityLevel) || foodState.activityLevel,
+          neutered: dogNeuteredInput?.checked ?? foodState.neutered,
+          weightGoal: (dogGoalInput?.value as WeightGoal) || foodState.weightGoal,
+        };
+        // DOB → ageMonths derivation
+        if (config.dob) {
+          const derived = dobToAgeMonths(config.dob);
+          if (derived !== null) {
+            foodState = { ...foodState, ageMonths: derived };
+          }
+        }
+        errors = validate(config);
+        applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
+        render();
+      };
+
+      dogForm?.addEventListener('input', syncDog);
+      dogForm?.addEventListener('change', syncDog);
+
+      container.querySelector('#lang-en')?.addEventListener('click', () => {
+        if (config.lang !== 'en') {
+          config = { ...config, lang: 'en' };
+          applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
+          window.location.reload();
+        }
+      });
+      container.querySelector('#lang-nl')?.addEventListener('click', () => {
+        if (config.lang !== 'nl') {
+          config = { ...config, lang: 'nl' };
+          applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
+          window.location.reload();
         }
       });
     }

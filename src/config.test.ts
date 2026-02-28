@@ -26,7 +26,7 @@ function buildState(overrides: Partial<PlannerState> = {}): PlannerState {
   return {
     config: { ...getDefaults(), dob: '2025-01-01' },
     food: { ...defaultFood },
-    activeTab: 'walkies',
+    activeTab: 'food',
     ...overrides,
   };
 }
@@ -65,7 +65,7 @@ describe('planner query parse/serialize', () => {
     expect(parsed.state.config.lang).toBe('nl');
     expect(parsed.state.config.months).toBe(3);
     expect(parsed.state.config.breed).toBe('stabyhoun');
-    expect(parsed.state.activeTab).toBe('walkies');
+    expect(parsed.state.activeTab).toBe('food');
     expect(parsed.state.food.ageMonths).toBe(defaultFood.ageMonths);
     expect(parsed.state.food.weightKg).toBe(defaultFood.weightKg);
     expect(parsed.state.food.activityLevel).toBe(defaultFood.activityLevel);
@@ -98,8 +98,16 @@ describe('planner query parse/serialize', () => {
     );
 
     expect(changed).toBe(
-      '?dob=2025-01-01&tab=food&foodMixed=1&foodSecondSupplier=royal-canin&foodSecondId=royal-canin-maxi-puppy&foodWetPercent=60&foodAge=8&foodNeutered=1'
+      '?dob=2025-01-01&foodMixed=1&foodSecondSupplier=royal-canin&foodSecondId=royal-canin-maxi-puppy&foodWetPercent=60&foodAge=8&foodNeutered=1'
     );
+  });
+
+  it('serializes dog tab and parses it back', () => {
+    const state = buildState({ activeTab: 'dog' });
+    const search = serializePlannerStateToSearch(state, defaultFood);
+    expect(search).toContain('tab=dog');
+    const parsed = parsePlannerStateFromSearch(search, defaultFood);
+    expect(parsed.state.activeTab).toBe('dog');
   });
 
   it('accepts up to 12 months and falls back when out of range', () => {

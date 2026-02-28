@@ -9,7 +9,7 @@ describe('planner metadata', () => {
     });
 
     expect(meta.canonical).toBe('https://example.com/?tab=walkies');
-    expect(meta.description.toLowerCase()).toContain('seo + geo');
+    expect(meta.description.toLowerCase()).toContain('puppycal');
     expect(meta.jsonLd['@type']).toBe('WebApplication');
   });
 

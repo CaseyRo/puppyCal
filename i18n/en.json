@@ -117,7 +117,19 @@
     "fact_source_default_url": "https://www.nvsw.nl/en/",
     "error_dob_required": "Date of birth is required",
     "error_invalid_date": "Invalid date",
-    "error_plan_start_required": "Plan start date is required"
+    "error_plan_start_required": "Plan start date is required",
+    "food_type_wet": "Wet",
+    "food_type_dry": "Dry",
+    "footer_repo_cta": "Open source: star the repo",
+    "footer_food_data_cta": "Add your food data to PuppyCal",
+    "tab_dog": "My dog",
+    "dog_profile_title": "My dog",
+    "dog_hint_empty": "Add your dog's profile for personalised results",
+    "dog_hint_cta": "Set up profile",
+    "dog_derived_age": "Age: {months} months (from date of birth)",
+    "food_profile_summary": "Profile: {weight} kg · {size} · {activity}",
+    "mixed_no_opposite": "Add a food of the opposite type to enable mixed mode.",
+    "lang_toggle_label": "Language"
   },
   "facts": [
     "Stabyhoun Fact: The name 'Stabyhoun' roughly translates from Frisian to 'Stand by me dog'.",

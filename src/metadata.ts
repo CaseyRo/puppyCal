@@ -40,20 +40,20 @@ function ensureCanonical(canonical: string): void {
 }
 
 export function composePlannerMetadata(input: MetadataInput): PlannerMetadata {
-  const tabLabel = input.activeTab === 'walkies' ? 'walkies' : 'food';
-  const description =
-    'Puppy planner for walkies and food with SEO + GEO structure, share-ready pages, and machine-readable guidance.';
+  const tabLabel =
+    input.activeTab === 'walkies' ? 'walkies' : input.activeTab === 'dog' ? 'my dog' : 'food';
+  const description = 'PuppyCal — daily food calculator and walk planner for your puppy.';
 
   return {
-    title: `Puppy planner - ${tabLabel}`,
+    title: `PuppyCal - ${tabLabel}`,
     description,
     canonical: input.canonicalUrl,
-    ogTitle: `Puppy planner (${tabLabel})`,
+    ogTitle: `PuppyCal (${tabLabel})`,
     ogDescription: description,
     jsonLd: {
       '@context': 'https://schema.org',
       '@type': 'WebApplication',
-      name: 'Puppy planner',
+      name: 'PuppyCal',
       description,
       applicationCategory: 'LifestyleApplication',
       operatingSystem: 'Web',
@@ -61,7 +61,11 @@ export function composePlannerMetadata(input: MetadataInput): PlannerMetadata {
       potentialAction: {
         '@type': 'UseAction',
         name:
-          input.activeTab === 'walkies' ? 'Generate walk schedule' : 'Calculate daily food portion',
+          input.activeTab === 'walkies'
+            ? 'Generate walk schedule'
+            : input.activeTab === 'dog'
+              ? 'Manage dog profile'
+              : 'Calculate daily food portion',
       },
     },
   };

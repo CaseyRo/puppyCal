@@ -19,7 +19,7 @@ export interface Config {
   gramsEnd: number;
 }
 
-export type PlannerTab = 'walkies' | 'food';
+export type PlannerTab = 'food' | 'walkies' | 'dog';
 
 export interface FoodPlannerState {
   selectedSupplier: string;
@@ -199,10 +199,10 @@ export function parsePlannerStateFromSearch(
   const tabParam = params.get('tab');
   const activeTab: PlannerTab =
     tabParam === null
-      ? 'walkies'
-      : tabParam === 'food' || tabParam === 'walkies'
+      ? 'food'
+      : tabParam === 'food' || tabParam === 'walkies' || tabParam === 'dog'
         ? tabParam
-        : (markCorrection(), 'walkies');
+        : (markCorrection(), 'food');
 
   const selectedSupplier =
     params.get('foodSupplier') && params.get('foodSupplier')?.trim()
@@ -357,7 +357,7 @@ export function serializePlannerStateToSearch(
     if (config.gramsEnd !== defaults.gramsEnd) p.set('gramsEnd', String(config.gramsEnd));
   }
 
-  if (activeTab !== 'walkies') p.set('tab', activeTab);
+  if (activeTab !== 'food') p.set('tab', activeTab);
   if (food.selectedSupplier !== defaultFoodState.selectedSupplier)
     p.set('foodSupplier', food.selectedSupplier);
   if (food.selectedFoodId !== defaultFoodState.selectedFoodId) p.set('foodId', food.selectedFoodId);

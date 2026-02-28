@@ -1,0 +1,29 @@
+[
+  {
+    "id": "kivo-rund-kip-compleet-portie",
+    "supplier": "kivo",
+    "brand": "Kivo Pet Food",
+    "productName": "Rund & Kip Compleet Portie (Wet)",
+    "isPuppy": true,
+    "lifeStage": "puppy",
+    "breedSizeTarget": "medium",
+    "foodType": "wet",
+    "packageSize": "500g portie",
+    "ingredients": ["rundvlees", "kip", "spiervlees", "orgaanvlees", "bot"],
+    "guaranteedAnalysis": {
+      "proteinMinPercent": 15.2,
+      "fatMinPercent": 15.8,
+      "fiberMaxPercent": 2.6,
+      "moistureMaxPercent": 67.5
+    },
+    "feedingGuide": {
+      "reference": "Geschikt voor pups (v/a 4 maanden) en volwassen honden. Zie verpakking voor portiegroottes."
+    },
+    "calories": {
+      "kcalPerKg": 2030,
+      "note": "203 kcal per 100g per producent (kivopetfood.nl)."
+    },
+    "sourceUrl": "https://kivopetfood.nl/p/rund-kip-compleet-portie/",
+    "sourceDate": "2026-02-28"
+  }
+]
