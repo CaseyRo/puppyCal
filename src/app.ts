@@ -196,10 +196,10 @@ export async function runApp(container: HTMLElement): Promise<void> {
           ${SHARE_PLATFORMS.map(
             (platform) => `
               <button type="button"
-                class="share-platform px-2 py-1 text-sm rounded border border-gray-300 bg-white hover:bg-gray-50"
+                class="share-platform inline-flex items-center gap-1.5 px-2 py-1 text-sm rounded border border-gray-300 bg-white hover:bg-gray-50"
                 data-platform="${platform.id}"
                 aria-label="${t('share_on', { platform: platform.label })}">
-                <i class="${platform.iconClass}" aria-hidden="true"></i> ${platform.label}
+                ${platform.iconSvg} ${platform.label}
               </button>`
           ).join('')}
         </div>
@@ -287,7 +287,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
           <label for="dog-dob" class="block text-sm font-medium mb-1">${t('label_dob')} ${infoIcon(t('hint_dob'))}</label>
           <input type="date" id="dog-dob" value="${config.dob}"
             class="w-full border border-gray-300 rounded px-3 py-2"/>
-          ${config.dob ? `<p class="text-xs text-gray-500 mt-1">${foodState.ageMonths === 1 ? t('dog_derived_age_one') : t('dog_derived_age', { months: String(foodState.ageMonths) })}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_dob')}</p>`}
+          ${config.dob ? `<p class="text-xs text-gray-500 mt-1">${foodState.ageMonths === 1 ? t('dog_derived_age_one', { dob: config.dob.split('-').reverse().join('-') }) : t('dog_derived_age', { months: String(foodState.ageMonths), dob: config.dob.split('-').reverse().join('-') })}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_dob')}</p>`}
         </div>
         <div>
           <label class="block text-sm font-medium mb-1">${t('label_weight_kg')}</label>
@@ -331,6 +331,12 @@ export async function runApp(container: HTMLElement): Promise<void> {
           <select id="dog-goal" class="w-full border border-gray-300 rounded px-3 py-2">
             <option value="maintain" ${foodState.weightGoal === 'maintain' ? 'selected' : ''}>${t('goal_maintain')}</option>
             <option value="lose" ${foodState.weightGoal === 'lose' ? 'selected' : ''}>${t('goal_lose')}</option>
+          </select>
+        </div>
+        <div>
+          <label for="dog-meals" class="block text-sm font-medium mb-1">${t('label_meals_per_day')}</label>
+          <select id="dog-meals" class="w-full border border-gray-300 rounded px-3 py-2">
+            ${[1, 2, 3, 4].map((n) => `<option value="${n}" ${config.meals === n ? 'selected' : ''}>${n}×</option>`).join('')}
           </select>
         </div>
         <div class="pt-2 border-t border-gray-100">
@@ -404,7 +410,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
       <button type="button" id="btn-copy-food-link"
         class="inline-flex items-center gap-1.5 mt-4 px-3 py-1.5 text-xs font-medium text-gray-600 rounded-full border border-muted bg-white/60 hover:bg-white hover:text-primary transition-colors"
         aria-label="${t('copy_link')}">
-        <i class="fa-solid fa-link text-[10px]" aria-hidden="true"></i>
+        <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
         ${t('copy_link')}
       </button>`;
 
@@ -418,30 +424,30 @@ export async function runApp(container: HTMLElement): Promise<void> {
 
       if (mixedCanApply && mixedSplit) {
         heroCard = `
-          <div class="rounded-2xl bg-surface p-6 text-center animate-scale-in">
-            <p class="text-sm font-medium text-gray-500 tracking-wide uppercase">${t('result_title')}</p>
+          <div class="rounded-2xl bg-surface p-6 text-center animate-scale-in shadow-sm">
+            <p class="text-xs text-gray-400 mb-3">${escapeHtml(selectedFood.brand)} ${escapeHtml(selectedFood.productName)} + ${secondFood ? escapeHtml(secondFood.productName) : ''}</p>
             <div class="flex items-baseline justify-center gap-3 mt-3">
               <div>
                 <p class="font-display text-4xl font-semibold text-primary leading-tight">
-                  ${mixedSplit.wetGrams}<span class="text-lg ml-0.5">g</span>
+                  ${config.meals > 1 ? Math.ceil(mixedSplit.wetGrams / config.meals) : mixedSplit.wetGrams}<span class="text-lg ml-0.5">g</span>
                 </p>
                 <p class="text-xs text-gray-500 mt-0.5">${t('food_type_wet')}</p>
               </div>
               <span class="text-2xl text-gray-300 font-light">+</span>
               <div>
                 <p class="font-display text-4xl font-semibold text-primary leading-tight">
-                  ${mixedSplit.dryGrams}<span class="text-lg ml-0.5">g</span>
+                  ${config.meals > 1 ? Math.ceil(mixedSplit.dryGrams / config.meals) : mixedSplit.dryGrams}<span class="text-lg ml-0.5">g</span>
                 </p>
                 <p class="text-xs text-gray-500 mt-0.5">${t('food_type_dry')}</p>
               </div>
             </div>
-            <p class="text-xs text-gray-500 mt-2">${t('mixed_split_applied', {
+            <p class="text-xs font-medium text-gray-600 mt-2">${config.meals > 1 ? t('result_label_per_meal') : t('result_label_per_day')}</p>
+            ${config.meals > 1 ? `<span class="inline-block mt-1 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-medium">${t('result_meal_badge', { meals: String(config.meals) })}</span>` : ''}
+            <p class="text-xs text-gray-400 mt-2">${t('mixed_split_applied', {
               wet: String(wetPercent),
               dry: String(dryPercent),
             })}</p>
-            <p class="text-sm text-gray-500 mt-1">${t('result_kcal', {
-              kcal: String(result.estimatedKcalPerDay),
-            })}</p>
+            <p class="text-sm text-gray-400 mt-1">${config.meals > 1 ? t('result_daily_summary', { grams: String(result.gramsPerDay), kcal: String(result.estimatedKcalPerDay) }) : t('result_kcal', { kcal: String(result.estimatedKcalPerDay) })}</p>
             ${copyBtn}
             <div class="mt-4 pt-3 border-t border-muted text-xs text-gray-500 space-y-1">
               <p>${t('result_advisory')}</p>
@@ -451,14 +457,14 @@ export async function runApp(container: HTMLElement): Promise<void> {
           </div>`;
       } else {
         heroCard = `
-          <div class="rounded-2xl bg-surface p-6 text-center animate-scale-in">
-            <p class="text-sm font-medium text-gray-500 tracking-wide uppercase">${t('result_title')}</p>
-            <p class="font-display text-5xl font-semibold text-primary mt-3 leading-tight">
-              ${result.gramsPerDay}<span class="text-2xl ml-1">g</span>
+          <div class="rounded-2xl bg-surface p-6 text-center animate-scale-in shadow-sm">
+            <p class="text-xs text-gray-400 mb-3 truncate">${escapeHtml(selectedFood.brand)} ${escapeHtml(selectedFood.productName)} · ${selectedFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}</p>
+            <p class="font-display text-6xl font-semibold text-primary leading-none">
+              ${config.meals > 1 ? Math.ceil(result.gramsPerDay / config.meals) : result.gramsPerDay}<span class="text-2xl ml-1">g</span>
             </p>
-            <p class="text-sm text-gray-500 mt-1">${t('result_kcal', {
-              kcal: String(result.estimatedKcalPerDay),
-            })}</p>
+            <p class="text-sm font-medium text-gray-600 mt-2">${config.meals > 1 ? t('result_label_per_meal') : t('result_label_per_day')}</p>
+            ${config.meals > 1 ? `<span class="inline-block mt-2 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-medium">${t('result_meal_badge', { meals: String(config.meals) })}</span>` : ''}
+            <p class="text-sm text-gray-400 mt-3">${config.meals > 1 ? t('result_daily_summary', { grams: String(result.gramsPerDay), kcal: String(result.estimatedKcalPerDay) }) : t('result_kcal', { kcal: String(result.estimatedKcalPerDay) })}</p>
             ${copyBtn}
             ${finePrint}
           </div>`;
@@ -527,7 +533,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
 
     // Age field: only shown when DOB is not set (else DOB auto-calculates it)
     const ageField = config.dob
-      ? `<p class="text-xs text-gray-400 mt-1 italic">${foodState.ageMonths === 1 ? t('dog_derived_age_one') : t('dog_derived_age', { months: String(foodState.ageMonths) })}</p>`
+      ? `<p class="text-xs text-gray-400 mt-1 italic">${foodState.ageMonths === 1 ? t('dog_derived_age_one', { dob: config.dob.split('-').reverse().join('-') }) : t('dog_derived_age', { months: String(foodState.ageMonths), dob: config.dob.split('-').reverse().join('-') })}</p>`
       : `<div>
           <label for="food-age" class="block text-xs font-medium text-gray-600 mb-1">${ageLabel} ${infoIcon(ageHint)}</label>
           <input id="food-age" type="number" min="1" max="${profile.isPuppy ? 24 : 20}" step="1" value="${displayedAge}"
@@ -550,9 +556,10 @@ export async function runApp(container: HTMLElement): Promise<void> {
       <details class="mt-5 group" open>
         <summary class="flex items-center justify-between cursor-pointer select-none py-2">
           <span class="text-sm font-semibold text-gray-700">${t('section_food_settings')}</span>
-          <i class="fa-solid fa-chevron-down text-xs text-gray-400 transition-transform group-open:rotate-180" aria-hidden="true"></i>
+          <svg class="w-3.5 h-3.5 text-gray-400 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
         </summary>
         <form id="food-form" class="space-y-3 pt-3" novalidate>
+          <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">${t('section_food_selection')}</p>
           <div>
             <label for="food-supplier" class="block text-xs font-medium text-gray-600 mb-1">${t('label_supplier')}</label>
             <select id="food-supplier" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
@@ -643,8 +650,11 @@ export async function runApp(container: HTMLElement): Promise<void> {
           </div>`
               : ''
           }
-          ${ageField}
-          ${profileSummaryLine}
+          <div class="border-t border-gray-100 pt-3 mt-1 space-y-3">
+            <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">${t('section_dog_profile_settings')}</p>
+            ${ageField}
+            ${profileSummaryLine}
+          </div>
         </form>
       </details>
       </section>
@@ -677,25 +687,35 @@ export async function runApp(container: HTMLElement): Promise<void> {
 
     container.innerHTML = `
       <div class="min-h-screen bg-background text-gray-800 font-sans px-4 py-6 max-w-lg mx-auto">
-        <header class="flex items-center gap-3 mb-6">
-          <img src="/icons/icon-192.png" alt="PuppyCal" class="w-12 h-12 rounded-xl flex-shrink-0" width="48" height="48" />
-          <h1 class="text-2xl font-display font-semibold text-gray-900 leading-tight">${titleText}</h1>
+        <header class="text-center mb-8">
+          <img src="/icons/icon-192.png" alt="PuppyCal" class="w-24 h-24 mx-auto animate-mascot-in" width="96" height="96" />
+          <h1 class="text-2xl font-display font-semibold text-gray-900 leading-tight mt-3">${titleText}</h1>
         </header>
         <div class="mb-4 inline-flex rounded-lg border border-gray-200 overflow-hidden" role="tablist" aria-label="Planner tabs">
           <button type="button" id="tab-food" role="tab" aria-selected="${activeTab === 'food'}"
-            class="px-4 py-2 text-sm font-medium ${
-              activeTab === 'food' ? 'bg-primary text-white' : 'bg-white text-gray-700'
-            }">${t('tab_food')}</button>
-          <button type="button" id="tab-walkies" role="tab" aria-selected="${
-            activeTab === 'walkies'
-          }"
-            class="px-4 py-2 text-sm font-medium ${
-              activeTab === 'walkies' ? 'bg-primary text-white' : 'bg-white text-gray-700'
-            }">${t('tab_walkies')}</button>
+            class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium transition-colors ${
+              activeTab === 'food'
+                ? 'bg-primary text-white'
+                : 'bg-white text-gray-700 hover:bg-gray-50'
+            }">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M2 8h12M3 8a5 5 0 0 1 10 0M5.5 12h5"/></svg>
+            ${t('tab_food')}</button>
+          <button type="button" id="tab-walkies" role="tab" aria-selected="${activeTab === 'walkies'}"
+            class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium transition-colors ${
+              activeTab === 'walkies'
+                ? 'bg-primary text-white'
+                : 'bg-white text-gray-700 hover:bg-gray-50'
+            }">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="4" cy="4" r="1.5"/><circle cx="7" cy="2" r="1.5"/><circle cx="9" cy="2" r="1.5"/><circle cx="12" cy="4" r="1.5"/><path d="M8 6.5c-2.5 0-4.5 1.8-4.5 4.5 0 1.2.9 2 2 2 .7 0 1.5-.5 2.5-.5s1.8.5 2.5.5c1.1 0 2-.8 2-2 0-2.7-2-4.5-4.5-4.5z"/></svg>
+            ${t('tab_walkies')}</button>
           <button type="button" id="tab-dog" role="tab" aria-selected="${activeTab === 'dog'}"
-            class="px-4 py-2 text-sm font-medium ${
-              activeTab === 'dog' ? 'bg-primary text-white' : 'bg-white text-gray-700'
-            }">${t('tab_dog')}</button>
+            class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium transition-colors ${
+              activeTab === 'dog'
+                ? 'bg-primary text-white'
+                : 'bg-white text-gray-700 hover:bg-gray-50'
+            }">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4L1.5 1.5l2.5 1M13 4l1.5-2.5L12 2.5"/><circle cx="8" cy="10" r="4.5"/><circle cx="6.5" cy="9.5" r="0.75" fill="currentColor" stroke="none"/><circle cx="9.5" cy="9.5" r="0.75" fill="currentColor" stroke="none"/><path d="M6.5 12s.7 1 1.5 1 1.5-1 1.5-1"/></svg>
+            ${t('tab_dog')}</button>
         </div>
 
         ${activeTab === 'walkies' ? renderWalkies(valid) : activeTab === 'dog' ? renderDog() : renderFood()}
@@ -1072,6 +1092,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
       const dogDobInput = container.querySelector('#dog-dob') as HTMLInputElement | null;
       const dogWeightKgInput = container.querySelector('#dog-weight-kg') as HTMLInputElement | null;
       const dogWeightGInput = container.querySelector('#dog-weight-g') as HTMLInputElement | null;
+      const dogMealsInput = container.querySelector('#dog-meals') as HTMLSelectElement | null;
       const dogBreedSizeInput = container.querySelector(
         '#dog-breed-size'
       ) as HTMLSelectElement | null;
@@ -1084,6 +1105,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
         config = { ...config };
         config.name = dogNameInput?.value ?? config.name;
         config.dob = dogDobInput?.value ?? config.dob;
+        config.meals = Math.max(1, Math.min(4, parseInt(dogMealsInput?.value ?? '3', 10) || 3));
         foodState = {
           ...foodState,
           weightKg: Math.max(
