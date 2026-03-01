@@ -9,6 +9,7 @@ import {
   type FoodPlannerState,
   type PlannerTab,
 } from './config';
+import { BREEDS, getBreed, type BreedId } from './breeds';
 import { loadI18n, tr } from './i18n';
 import { generateICS } from './ics';
 import { validate, isValid, type ValidationErrors } from './validation';
@@ -170,6 +171,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
   let feedback: string | null = null;
   let feedbackTimer: ReturnType<typeof setTimeout> | null = null;
   let sharePickerOpen = false;
+  let dogProfileCompletedThisSession = false;
 
   function showFeedback(msg: string): void {
     if (feedbackTimer) clearTimeout(feedbackTimer);
@@ -305,6 +307,27 @@ export async function runApp(container: HTMLElement): Promise<void> {
           </div>
         </div>
         <div>
+          <label for="dog-breed" class="block text-sm font-medium mb-1">${t('label_breed')}</label>
+          <select id="dog-breed" class="w-full border border-gray-300 rounded px-3 py-2">
+            <optgroup label="${t('breed_group_dutch')}">
+              ${BREEDS.filter((b) => b.isNativeDutch)
+                .map(
+                  (b) =>
+                    `<option value="${b.id}" ${config.breed === b.id ? 'selected' : ''}>${t('breed_' + b.id.replace(/-/g, '_'))}</option>`
+                )
+                .join('')}
+            </optgroup>
+            <optgroup label="${t('breed_group_other')}">
+              ${BREEDS.filter((b) => !b.isNativeDutch)
+                .map(
+                  (b) =>
+                    `<option value="${b.id}" ${config.breed === b.id ? 'selected' : ''}>${t('breed_' + b.id.replace(/-/g, '_'))}</option>`
+                )
+                .join('')}
+            </optgroup>
+          </select>
+        </div>
+        <div>
           <label for="dog-breed-size" class="block text-sm font-medium mb-1">${t('label_breed_size')}</label>
           <select id="dog-breed-size" class="w-full border border-gray-300 rounded px-3 py-2">
             <option value="small" ${foodState.breedSize === 'small' ? 'selected' : ''}>${t('breed_small')}</option>
@@ -417,7 +440,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
     let heroCard: string;
     if (selectedFood && result) {
       const finePrint = `
-        <div class="mt-4 pt-3 border-t border-muted text-xs text-gray-500 space-y-1">
+        <div class="mt-4 pt-3 border-t border-muted text-xs text-gray-500 space-y-1 text-left">
           <p>${t('result_advisory')}</p>
           <p><a class="underline hover:text-primary" href="${selectedFood.sourceUrl}" target="_blank" rel="noreferrer">${t('result_source')}</a> (${selectedFood.sourceDate})</p>
         </div>`;
@@ -425,7 +448,10 @@ export async function runApp(container: HTMLElement): Promise<void> {
       if (mixedCanApply && mixedSplit) {
         heroCard = `
           <div class="rounded-2xl bg-surface p-6 text-center animate-scale-in shadow-sm">
-            <p class="text-xs text-gray-400 mb-3">${escapeHtml(selectedFood.brand)} ${escapeHtml(selectedFood.productName)} + ${secondFood ? escapeHtml(secondFood.productName) : ''}</p>
+            <div class="flex flex-wrap items-center justify-center gap-1.5 mb-3">
+              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-[11px] font-medium truncate max-w-[45%]"><span class="font-semibold">${selectedFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}</span> ${escapeHtml(selectedFood.productName)}</span>
+              ${secondFood ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-600 text-[11px] font-medium truncate max-w-[45%]"><span class="font-semibold">${secondFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}</span> ${escapeHtml(secondFood.productName)}</span>` : ''}
+            </div>
             <div class="flex items-baseline justify-center gap-3 mt-3">
               <div>
                 <p class="font-display text-4xl font-semibold text-primary leading-tight">
@@ -449,10 +475,13 @@ export async function runApp(container: HTMLElement): Promise<void> {
             })}</p>
             <p class="text-sm text-gray-400 mt-1">${config.meals > 1 ? t('result_daily_summary', { grams: String(result.gramsPerDay), kcal: String(result.estimatedKcalPerDay) }) : t('result_kcal', { kcal: String(result.estimatedKcalPerDay) })}</p>
             ${copyBtn}
-            <div class="mt-4 pt-3 border-t border-muted text-xs text-gray-500 space-y-1">
+            <div class="mt-4 pt-3 border-t border-muted text-xs text-gray-500 space-y-1.5 text-left">
               <p>${t('result_advisory')}</p>
               <p>${t('mixed_rounding_note')}</p>
-              <p><a class="underline hover:text-primary" href="${selectedFood.sourceUrl}" target="_blank" rel="noreferrer">${t('result_source')}</a> (${selectedFood.sourceDate})</p>
+              <div class="space-y-0.5">
+                <p>${selectedFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}: <a class="underline hover:text-primary" href="${selectedFood.sourceUrl}" target="_blank" rel="noreferrer">${t('result_source')}</a> (${selectedFood.sourceDate})</p>
+                ${secondFood ? `<p>${secondFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}: <a class="underline hover:text-primary" href="${secondFood.sourceUrl}" target="_blank" rel="noreferrer">${t('result_source')}</a> (${secondFood.sourceDate})</p>` : ''}
+              </div>
             </div>
           </div>`;
       } else {
@@ -688,7 +717,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
     container.innerHTML = `
       <div class="min-h-screen bg-background text-gray-800 font-sans px-4 py-6 max-w-lg mx-auto">
         <header class="text-center mb-8">
-          <img src="/icons/icon-192.png" alt="PuppyCal" class="w-24 h-24 mx-auto animate-mascot-in" width="96" height="96" />
+          <img src="/icons/icon-original.png" alt="PuppyCal" class="h-28 w-auto mx-auto animate-mascot-in" width="104" height="112" />
           <h1 class="text-2xl font-display font-semibold text-gray-900 leading-tight mt-3">${titleText}</h1>
         </header>
         <div class="mb-4 inline-flex rounded-lg border border-gray-200 overflow-hidden" role="tablist" aria-label="Planner tabs">
@@ -749,18 +778,21 @@ export async function runApp(container: HTMLElement): Promise<void> {
     container.querySelector('#tab-food')?.addEventListener('click', () => {
       activeTab = 'food';
       sharePickerOpen = false;
+      trackEvent(ANALYTICS_EVENTS.TAB_VIEWED, { tab: 'food' });
       applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
       render();
     });
     container.querySelector('#tab-walkies')?.addEventListener('click', () => {
       activeTab = 'walkies';
       sharePickerOpen = false;
+      trackEvent(ANALYTICS_EVENTS.TAB_VIEWED, { tab: 'walkies' });
       applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
       render();
     });
     container.querySelector('#tab-dog')?.addEventListener('click', () => {
       activeTab = 'dog';
       sharePickerOpen = false;
+      trackEvent(ANALYTICS_EVENTS.TAB_VIEWED, { tab: 'dog' });
       applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
       render();
     });
@@ -838,6 +870,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
         if (!ics) return;
         const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
         triggerDownload(blob, 'puppy-schedule.ics');
+        trackEvent(ANALYTICS_EVENTS.CALENDAR_DOWNLOADED, { tab: 'walkies' });
         showFeedback(
           tr(i18n, 'success', { filename: 'puppy-schedule.ics' }) || t('calendar_ready')
         );
@@ -936,6 +969,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
           nextProfile.isPuppy,
           fallbackFoodState
         );
+        trackEvent(ANALYTICS_EVENTS.FOOD_SUPPLIER_SELECTED, { supplier });
         applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
         render();
       });
@@ -955,12 +989,16 @@ export async function runApp(container: HTMLElement): Promise<void> {
           after.isPuppy,
           fallbackFoodState
         );
+        trackEvent(ANALYTICS_EVENTS.FOOD_PRODUCT_SELECTED, {
+          supplier: foodState.selectedSupplier,
+        });
         applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
         render();
       });
 
       mixedModeInput?.addEventListener('change', () => {
         const enabled = mixedModeInput.checked;
+        trackEvent(ANALYTICS_EVENTS.MIXED_MODE_TOGGLED, { enabled: String(enabled) });
         if (!enabled) {
           foodState = {
             ...foodState,
@@ -1093,6 +1131,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
       const dogWeightKgInput = container.querySelector('#dog-weight-kg') as HTMLInputElement | null;
       const dogWeightGInput = container.querySelector('#dog-weight-g') as HTMLInputElement | null;
       const dogMealsInput = container.querySelector('#dog-meals') as HTMLSelectElement | null;
+      const dogBreedInput = container.querySelector('#dog-breed') as HTMLSelectElement | null;
       const dogBreedSizeInput = container.querySelector(
         '#dog-breed-size'
       ) as HTMLSelectElement | null;
@@ -1101,10 +1140,21 @@ export async function runApp(container: HTMLElement): Promise<void> {
       const dogGoalInput = container.querySelector('#dog-goal') as HTMLSelectElement | null;
       const dogForm = container.querySelector('#dog-form');
 
+      // Breed change: auto-fill breedSize select before form change bubbles to syncDog
+      dogBreedInput?.addEventListener('change', () => {
+        const breedId = dogBreedInput.value as BreedId;
+        const breedInfo = getBreed(breedId);
+        if (dogBreedSizeInput) {
+          dogBreedSizeInput.value = breedInfo.breedSize;
+        }
+        trackEvent(ANALYTICS_EVENTS.BREED_SELECTED, { breed: breedId, size: breedInfo.breedSize });
+      });
+
       const syncDog = (event: Event): void => {
         config = { ...config };
         config.name = dogNameInput?.value ?? config.name;
         config.dob = dogDobInput?.value ?? config.dob;
+        config.breed = (dogBreedInput?.value as BreedId) || config.breed;
         config.meals = Math.max(1, Math.min(4, parseInt(dogMealsInput?.value ?? '3', 10) || 3));
         foodState = {
           ...foodState,
@@ -1127,6 +1177,14 @@ export async function runApp(container: HTMLElement): Promise<void> {
         }
         errors = validate(config);
         applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
+        // Fire dog_profile_completed once per session
+        if (!dogProfileCompletedThisSession && config.dob && foodState.weightKg > 0) {
+          dogProfileCompletedThisSession = true;
+          trackEvent(ANALYTICS_EVENTS.DOG_PROFILE_COMPLETED, {
+            breed: config.breed,
+            size: foodState.breedSize,
+          });
+        }
         if (event.type !== 'input') {
           render();
         }
@@ -1138,6 +1196,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
       container.querySelector('#lang-en')?.addEventListener('click', () => {
         if (config.lang !== 'en') {
           config = { ...config, lang: 'en' };
+          trackEvent(ANALYTICS_EVENTS.LANGUAGE_CHANGED, { lang: 'en' });
           applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
           window.location.reload();
         }
@@ -1145,6 +1204,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
       container.querySelector('#lang-nl')?.addEventListener('click', () => {
         if (config.lang !== 'nl') {
           config = { ...config, lang: 'nl' };
+          trackEvent(ANALYTICS_EVENTS.LANGUAGE_CHANGED, { lang: 'nl' });
           applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
           window.location.reload();
         }

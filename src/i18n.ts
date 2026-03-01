@@ -4,7 +4,7 @@
  */
 export interface I18nData {
   strings: Record<string, string>;
-  facts: FactEntry[];
+  facts: Record<string, FactEntry[]>;
 }
 
 export interface FactEntry {
@@ -32,43 +32,49 @@ async function loadLocale(lang: 'en' | 'nl'): Promise<I18nData | null> {
     if (!res.ok) throw new Error(`i18n ${lang} failed`);
     const data = (await res.json()) as {
       strings?: Record<string, string>;
-      facts?: unknown[];
+      facts?: unknown;
     };
     const defaultFactSourceLabel = data.strings?.fact_source_default_label;
     const defaultFactSourceUrl = data.strings?.fact_source_default_url;
-    const facts = Array.isArray(data.facts)
-      ? data.facts
-          .map((entry): FactEntry | null => {
-            if (typeof entry === 'string') {
-              return {
-                text: entry,
-                sourceLabel: defaultFactSourceLabel,
-                sourceUrl: defaultFactSourceUrl,
-              };
-            }
-            if (entry && typeof entry === 'object') {
-              const factLike = entry as {
-                text?: unknown;
-                sourceLabel?: unknown;
-                sourceUrl?: unknown;
-              };
-              if (typeof factLike.text !== 'string') return null;
-              return {
-                text: factLike.text,
-                sourceLabel:
-                  typeof factLike.sourceLabel === 'string'
-                    ? factLike.sourceLabel
-                    : defaultFactSourceLabel,
-                sourceUrl:
-                  typeof factLike.sourceUrl === 'string'
-                    ? factLike.sourceUrl
-                    : defaultFactSourceUrl,
-              };
-            }
-            return null;
-          })
-          .filter((entry): entry is FactEntry => Boolean(entry))
-      : [];
+
+    function parseFactArray(arr: unknown[]): FactEntry[] {
+      return arr
+        .map((entry): FactEntry | null => {
+          if (typeof entry === 'string') {
+            return {
+              text: entry,
+              sourceLabel: defaultFactSourceLabel,
+              sourceUrl: defaultFactSourceUrl,
+            };
+          }
+          if (entry && typeof entry === 'object') {
+            const factLike = entry as {
+              text?: unknown;
+              sourceLabel?: unknown;
+              sourceUrl?: unknown;
+            };
+            if (typeof factLike.text !== 'string') return null;
+            return {
+              text: factLike.text,
+              sourceLabel:
+                typeof factLike.sourceLabel === 'string'
+                  ? factLike.sourceLabel
+                  : defaultFactSourceLabel,
+              sourceUrl:
+                typeof factLike.sourceUrl === 'string' ? factLike.sourceUrl : defaultFactSourceUrl,
+            };
+          }
+          return null;
+        })
+        .filter((entry): entry is FactEntry => Boolean(entry));
+    }
+
+    const facts: Record<string, FactEntry[]> = {};
+    if (data.facts && typeof data.facts === 'object' && !Array.isArray(data.facts)) {
+      for (const [key, arr] of Object.entries(data.facts as Record<string, unknown>)) {
+        facts[key] = Array.isArray(arr) ? parseFactArray(arr) : [];
+      }
+    }
 
     return {
       strings: data.strings ?? {},
@@ -84,21 +90,21 @@ export async function loadI18n(lang: string): Promise<I18nData> {
   if (cache[normalized]) return cache[normalized];
 
   if (!nlFallback) {
-    nlFallback = (await loadLocale('nl')) ?? { strings: {}, facts: [] };
+    nlFallback = (await loadLocale('nl')) ?? { strings: {}, facts: {} };
     cache.nl = nlFallback;
   }
 
   if (normalized === 'nl') {
-    return nlFallback;
+    return nlFallback!;
   }
 
   const specific = await loadLocale('en');
   const merged: I18nData = specific
     ? {
-        strings: { ...nlFallback.strings, ...specific.strings },
-        facts: specific.facts.length ? specific.facts : nlFallback.facts,
+        strings: { ...nlFallback!.strings, ...specific.strings },
+        facts: Object.keys(specific.facts).length ? specific.facts : nlFallback!.facts,
       }
-    : nlFallback;
+    : nlFallback!;
   cache.en = merged;
   return merged;
 }

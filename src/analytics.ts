@@ -7,13 +7,30 @@ export const ANALYTICS_EVENTS = {
   CTA_REPO_COLLAB_CLICK: 'cta_repo_collab_click',
   CTA_FOOD_DATA_EMAIL_CLICK: 'cta_food_data_email_click',
   CTA_GENERAL_EMAIL_CLICK: 'cta_general_email_click',
+  TAB_VIEWED: 'tab_viewed',
+  CALENDAR_DOWNLOADED: 'calendar_downloaded',
+  LANGUAGE_CHANGED: 'language_changed',
+  FOOD_SUPPLIER_SELECTED: 'food_supplier_selected',
+  FOOD_PRODUCT_SELECTED: 'food_product_selected',
+  MIXED_MODE_TOGGLED: 'mixed_mode_toggled',
+  BREED_SELECTED: 'breed_selected',
+  DOG_PROFILE_COMPLETED: 'dog_profile_completed',
 } as const;
 
 export type AnalyticsEventName = (typeof ANALYTICS_EVENTS)[keyof typeof ANALYTICS_EVENTS];
 
 type EventValue = string | number | boolean;
 
-const ALLOWED_PAYLOAD_KEYS = new Set(['tab', 'platform', 'surface']);
+const ALLOWED_PAYLOAD_KEYS = new Set([
+  'tab',
+  'platform',
+  'surface',
+  'lang',
+  'supplier',
+  'breed',
+  'size',
+  'enabled',
+]);
 
 function sanitizePayload(payload: Record<string, EventValue>): Record<string, EventValue> {
   return Object.fromEntries(

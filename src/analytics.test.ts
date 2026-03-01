@@ -12,6 +12,11 @@ describe('analytics tracking', () => {
       tab: 'walkies',
       platform: 'telegram',
       surface: 'footer',
+      lang: 'nl',
+      supplier: 'royal-canin',
+      breed: 'stabyhoun',
+      size: 'medium',
+      enabled: 'true',
       email: 'nope@example.com',
     } as unknown as Record<string, string>);
 
@@ -19,6 +24,11 @@ describe('analytics tracking', () => {
       tab: 'walkies',
       platform: 'telegram',
       surface: 'footer',
+      lang: 'nl',
+      supplier: 'royal-canin',
+      breed: 'stabyhoun',
+      size: 'medium',
+      enabled: 'true',
     });
   });
 

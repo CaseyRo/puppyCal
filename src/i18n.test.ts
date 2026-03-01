@@ -21,7 +21,7 @@ describe('i18n', () => {
           return new Response(
             JSON.stringify({
               strings: { title: 'Puppy planner', only_nl_key: 'Alleen NL' },
-              facts: [],
+              facts: {},
             }),
             { status: 200 }
           );
@@ -30,7 +30,7 @@ describe('i18n', () => {
           return new Response(
             JSON.stringify({
               strings: { title: 'Puppy planner EN' },
-              facts: [],
+              facts: {},
             }),
             { status: 200 }
           );

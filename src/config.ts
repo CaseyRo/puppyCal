@@ -3,13 +3,14 @@
  * Defaults: lang=nl, months=3, start=today, birthday=on; no default for DOB.
  */
 import type { ActivityLevel, BreedSize, WeightGoal } from './food/types';
+import { BREEDS, type BreedId } from './breeds';
 
 export interface Config {
   lang: string;
   dob: string;
   months: number;
   start: string;
-  breed: 'stabyhoun';
+  breed: BreedId;
   birthday: boolean;
   name: string;
   notes: string;
@@ -51,6 +52,14 @@ const today = (): string => {
   const d = new Date();
   return d.toISOString().slice(0, 10);
 };
+
+const VALID_BREED_IDS = new Set<string>(BREEDS.map((b) => b.id));
+
+function detectLang(): 'nl' | 'en' {
+  if (typeof navigator === 'undefined') return 'nl';
+  const browserLang = navigator.language ?? '';
+  return browserLang.startsWith('nl') ? 'nl' : 'en';
+}
 
 const DEFAULT_CONFIG: Config = {
   lang: 'nl',
@@ -131,14 +140,22 @@ function parseConfigWithCorrections(search: string): { config: Config; hadCorrec
     hadCorrections = true;
   };
 
-  const lang = params.get('lang') ?? defaults.lang;
-  if (lang !== 'en' && lang !== 'nl' && params.has('lang')) markCorrection();
+  const langParam = params.get('lang');
+  let lang: 'en' | 'nl';
+  if (langParam === 'en' || langParam === 'nl') {
+    lang = langParam;
+  } else if (langParam === null) {
+    lang = detectLang();
+  } else {
+    markCorrection();
+    lang = defaults.lang as 'en' | 'nl';
+  }
   const breedParam = params.get('breed');
-  const breed: Config['breed'] =
+  const breed: BreedId =
     breedParam === null
       ? defaults.breed
-      : breedParam === 'stabyhoun'
-        ? 'stabyhoun'
+      : VALID_BREED_IDS.has(breedParam)
+        ? (breedParam as BreedId)
         : (markCorrection(), defaults.breed);
   const months = parseInteger(params.get('months'), defaults.months, 1, 12, markCorrection);
   const start = params.get('start') ?? defaults.start;
@@ -162,7 +179,7 @@ function parseConfigWithCorrections(search: string): { config: Config; hadCorrec
 
   return {
     config: {
-      lang: lang === 'en' || lang === 'nl' ? lang : defaults.lang,
+      lang,
       dob: params.get('dob') ?? '',
       months,
       start,

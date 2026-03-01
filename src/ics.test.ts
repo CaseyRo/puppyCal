@@ -17,18 +17,20 @@ const baseI18n: I18nData = {
     birthday_summary_n: "{name}'s {n}th Birthday!",
     birthday_desc: 'Happy birthday to {name}!',
   },
-  facts: [
-    {
-      text: 'Fact one.',
-      sourceLabel: 'Source A',
-      sourceUrl: 'https://example.com/a',
-    },
-    {
-      text: 'Fact two.',
-      sourceLabel: 'Source B',
-      sourceUrl: 'https://example.com/b',
-    },
-  ],
+  facts: {
+    generic: [
+      {
+        text: 'Fact one.',
+        sourceLabel: 'Source A',
+        sourceUrl: 'https://example.com/a',
+      },
+      {
+        text: 'Fact two.',
+        sourceLabel: 'Source B',
+        sourceUrl: 'https://example.com/b',
+      },
+    ],
+  },
 };
 
 const baseConfig: Config = {

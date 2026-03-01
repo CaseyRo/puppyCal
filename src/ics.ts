@@ -111,7 +111,9 @@ export function generateICS(config: Config, i18n: I18nData): string {
   const birthDesc = tr(i18n, 'birth_desc', { name });
   lines.push(vevent(birth, birthSummary, birthDesc, 'birth', birthDesc));
 
-  const facts = i18n.facts;
+  const breedFacts = i18n.facts[config.breed] ?? [];
+  const genericFacts = i18n.facts['generic'] ?? [];
+  const facts = [...breedFacts, ...genericFacts];
   const factOrder = shuffledIndices(
     facts.length,
     hashSeed(`${config.dob}|${config.start}|${config.name}|${config.breed}`)
