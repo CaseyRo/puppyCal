@@ -1,0 +1,24 @@
+{
+  "name": "cyb-footer",
+  "version": "1.0.0",
+  "description": "CDIT Network Footer Component",
+  "type": "module",
+  "overrides": {
+    "markdown-it": "^14.1.1"
+  },
+  "scripts": {
+    "validate-config": "tsx scripts/validate-config.ts",
+    "prepare": "husky",
+    "lint:md": "markdownlint-cli2 \"docs/**/*.md\" \"README.md\" \"openspec/changes/**/*.md\" \"openspec/specs/**/*.md\"",
+    "typecheck": "tsc --noEmit",
+    "test": "echo \"No tests yet\" && exit 0",
+    "pre-commit": "npm run lint:md && npm run typecheck && npm run validate-config -- examples/writings.config.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.3",
+    "husky": "^9.1.7",
+    "markdownlint-cli2": "^0.20.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}

@@ -1,0 +1,477 @@
+/* ================================================================
+   CDIT Network Footer Styles
+   Spec: openspec/changes/add-cdit-network-footer/specs/cdit-network-footer/spec.md
+
+   Key principles:
+   - 8px grid spacing system
+   - CDIT design tokens (Cloud Dancer, Strong Blue, etc.)
+   - Space Grotesk headings (13px, uppercase, 0.22em spacing)
+   - Inter body/links (16px, 1.65 line-height)
+   - Responsive: desktop 3-col, tablet 2-col, mobile stack
+   ================================================================ */
+
+/* ============================================================
+   Container & Layers
+   ============================================================ */
+
+.cdit-footer {
+  position: relative;
+  /* Resolve from project CSS vars → built-in defaults → config override via inline style */
+  --footer-bg:    var(--cdit-cloud-dancer, #F0EEE9);
+  --footer-text:  hsl(var(--cdit-carbon, 212 18% 19%));
+  --footer-link:  hsl(var(--cdit-strong-blue, 211 68% 37%));
+  --footer-focus: hsl(var(--cdit-rinsing-rivulet, 178 48% 57%));
+  background: var(--footer-bg);
+  color: var(--footer-text);
+  padding: 64px 0 40px 0;
+  overflow: hidden;
+  margin-top: 16px;
+  /* Full-width: break out of any container constraints (body max-width) */
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  /* Clear top border to separate from content */
+  border-top: 1px solid rgba(39, 47, 56, 0.15); /* borderSubtle with slightly more opacity */
+}
+
+/* Optional background image layer */
+.cdit-footer__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Glass overlay (always present) - opacity set via inline style from overlayStrength config */
+.cdit-footer__glass {
+  position: absolute;
+  inset: 0;
+  /* background and backdrop-filter applied via inline style for configurability */
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Content container (above glass) - matches main content width */
+.cdit-footer__content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+/* ============================================================
+   Three-Column Grid
+   ============================================================ */
+
+.cdit-footer__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+}
+
+/* Tablet: 2-row layout (col1+col2, then col3 full width) */
+@media (max-width: 1023px) {
+  .cdit-footer__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+
+  .cdit-footer__column--secondary {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Mobile: Stack all columns */
+@media (max-width: 767px) {
+  .cdit-footer__grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .cdit-footer__column--secondary {
+    grid-column: auto;
+  }
+}
+
+/* ============================================================
+   Column Headings
+   Space Grotesk, 13px, 600, uppercase, 0.22em spacing, textMuted
+   ============================================================ */
+
+.cdit-footer__heading {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: rgba(39, 47, 56, 0.72); /* textMuted */
+  margin: 0 0 16px 0;
+}
+
+/* Logo/image with caption (optional, above network links) */
+.cdit-footer__logo {
+  margin-bottom: 16px;
+}
+
+.cdit-footer__logo-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.cdit-footer__logo-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 8px;
+}
+
+.cdit-footer__logo-caption {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--footer-text);
+  margin: 0;
+  margin-top: 4px;
+}
+
+.cdit-footer__logo-link:hover .cdit-footer__logo-image {
+  opacity: 0.8;
+}
+
+.cdit-footer__logo-link:focus-visible {
+  outline: 2px solid var(--footer-focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ============================================================
+   Links & Lists
+   Inter, 14px, 1.5 line-height, Carbon
+   ============================================================ */
+
+.cdit-footer__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cdit-footer__link,
+.cdit-footer__text {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--footer-text);
+  text-decoration: none;
+  transition: all 150ms ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Hover state: text Strong Blue */
+.cdit-footer__link:hover {
+  color: var(--footer-link);
+}
+
+/* Focus state: 2px ring Rinsing Rivulet, 2px offset */
+.cdit-footer__link:focus-visible {
+  outline: 2px solid var(--footer-focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Current site indicator (Column 1 only) - non-clickable, muted */
+.cdit-footer__link--current {
+  color: rgba(39, 47, 56, 0.6); /* Muted carbon */
+  cursor: default;
+}
+
+.cdit-footer__link--current:hover {
+  color: rgba(39, 47, 56, 0.6); /* No hover effect */
+  text-decoration: none;
+}
+
+/* ============================================================
+   Column 3: Groups
+   24px spacing between groups
+   ============================================================ */
+
+.cdit-footer__column--secondary {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ============================================================
+   Social Icons (Column 2, optional)
+   36×36px buttons, 18px glyphs, circular, 12px gap, 16px top margin
+   ============================================================ */
+
+.cdit-footer__social {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* Vertical layout option */
+.cdit-footer__social[data-layout="vertical"] {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.cdit-footer__social-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(39, 47, 56, 0.12); /* borderSubtle */
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(39, 47, 56, 0.72); /* textMuted */
+  transition: all 150ms ease-in-out;
+}
+
+.cdit-footer__social-icon:hover {
+  color: var(--footer-link);
+  border-color: rgba(31, 93, 160, 0.35);
+}
+
+.cdit-footer__social-icon:focus-visible {
+  outline: 2px solid var(--footer-focus);
+  outline-offset: 2px;
+}
+
+/* Brand colors per network */
+.cdit-footer__social-icon[data-network="linkedin"]  { --social-brand: 210, 80%, 42%; }
+.cdit-footer__social-icon[data-network="github"]    { --social-brand: 0, 0%, 15%; }
+.cdit-footer__social-icon[data-network="instagram"] { --social-brand: 330, 75%, 55%; }
+.cdit-footer__social-icon[data-network="rss"]       { --social-brand: 33, 90%, 50%; }
+.cdit-footer__social-icon[data-network="whatsapp"]  { --social-brand: 142, 70%, 41%; }
+.cdit-footer__social-icon[data-network="x"]         { --social-brand: 0, 0%, 0%; }
+.cdit-footer__social-icon[data-network="facebook"]  { --social-brand: 220, 46%, 48%; }
+.cdit-footer__social-icon[data-network="youtube"]   { --social-brand: 0, 100%, 50%; }
+
+/* Outline mode: brand-color icon/border, transparent bg */
+.cdit-footer__social[data-social-style="outline"] .cdit-footer__social-icon {
+  color: hsl(var(--social-brand));
+  border-color: hsla(var(--social-brand), 0.35);
+  background: transparent;
+}
+
+.cdit-footer__social[data-social-style="outline"] .cdit-footer__social-icon:hover {
+  color: #fff;
+  background: hsl(var(--social-brand));
+  border-color: hsl(var(--social-brand));
+}
+
+/* Filled mode: brand-color bg, white icon */
+.cdit-footer__social[data-social-style="filled"] .cdit-footer__social-icon {
+  color: #fff;
+  background: hsl(var(--social-brand));
+  border-color: hsl(var(--social-brand));
+}
+
+.cdit-footer__social[data-social-style="filled"] .cdit-footer__social-icon:hover {
+  color: hsl(var(--social-brand));
+  background: transparent;
+  border-color: hsla(var(--social-brand), 0.35);
+}
+
+/* FontAwesome SVG icons (social) */
+.cdit-footer__icon-svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+/* FontAwesome SVG icons (primary items) */
+.cdit-footer__primary-icon {
+  width: 14px;
+  height: 14px;
+  display: block;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   Divider
+   1px borderSubtle, 40px top / 24px bottom margin
+   ============================================================ */
+
+.cdit-footer__divider {
+  height: 1px;
+  background: rgba(39, 47, 56, 0.12); /* borderSubtle */
+  margin: 40px 0 24px 0;
+}
+
+/* ============================================================
+   Meta Rows
+   Inter, 14px, textFaint, 16px spacing between rows
+   ============================================================ */
+
+.cdit-footer__meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.cdit-footer__meta-row:last-child {
+  margin-bottom: 0;
+}
+
+.cdit-footer__meta-text {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(39, 47, 56, 0.52); /* textFaint */
+  margin: 0;
+}
+
+.cdit-footer__version {
+  font-size: 13px;
+  color: rgba(39, 47, 56, 0.4);
+}
+
+/* Language toggle - Glass Pill Design */
+.cdit-footer__language {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.cdit-footer__language-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 12px;
+  border-radius: 20px; /* Full pill shape */
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--footer-text);
+  text-decoration: none;
+  transition: background 150ms ease-in-out, border-color 150ms ease-in-out;
+}
+
+/* Glass blur effect with graceful degradation */
+@supports (backdrop-filter: blur(4px)) {
+  .cdit-footer__language-link {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+}
+
+.cdit-footer__language-link:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.cdit-footer__language-link:focus-visible {
+  outline: 2px solid var(--footer-link);
+  outline-offset: 2px;
+}
+
+.cdit-footer__language-link--active {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.4);
+  font-weight: 500;
+}
+
+.cdit-footer__language-flag {
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* Meta right side (legal links or location) */
+.cdit-footer__meta-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cdit-footer__meta-link {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(39, 47, 56, 0.52); /* textFaint */
+  text-decoration: none;
+  transition: all 150ms ease-in-out;
+}
+
+.cdit-footer__meta-link:hover {
+  color: var(--footer-link);
+}
+
+.cdit-footer__meta-link:focus-visible {
+  outline: 2px solid var(--footer-focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.cdit-footer__meta-separator {
+  color: rgba(39, 47, 56, 0.28);
+  font-size: 14px;
+  user-select: none;
+}
+
+/* Mobile: Stack meta rows */
+@media (max-width: 767px) {
+  .cdit-footer__meta-row {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    padding: 0 1rem;
+  }
+
+  .cdit-footer__language {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .cdit-footer__language-link {
+    padding: 5px 10px;
+    font-size: 13px;
+    min-height: 32px;
+  }
+
+  .cdit-footer__meta-right {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cdit-footer__divider {
+    margin: 32px 0 24px 0;
+  }
+}
+
+/* ============================================================
+   Accessibility: Reduced Motion
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .cdit-footer__link,
+  .cdit-footer__social-icon,
+  .cdit-footer__language-link,
+  .cdit-footer__meta-link {
+    transition: none;
+  }
+}
