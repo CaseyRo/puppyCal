@@ -1067,7 +1067,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
       const dogGoalInput = container.querySelector('#dog-goal') as HTMLSelectElement | null;
       const dogForm = container.querySelector('#dog-form');
 
-      const syncDog = (): void => {
+      const syncDog = (event: Event): void => {
         config = { ...config };
         config.name = dogNameInput?.value ?? config.name;
         config.dob = dogDobInput?.value ?? config.dob;
@@ -1088,7 +1088,9 @@ export async function runApp(container: HTMLElement): Promise<void> {
         }
         errors = validate(config);
         applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
-        render();
+        if (event.type !== 'input') {
+          render();
+        }
       };
 
       dogForm?.addEventListener('input', syncDog);
