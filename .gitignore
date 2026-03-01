@@ -39,3 +39,6 @@ screenshots/
 
 # Tool artifacts
 .lighthouseci/
+coverage/
+images/
+.claude/agent-memory/
