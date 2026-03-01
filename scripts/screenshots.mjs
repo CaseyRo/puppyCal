@@ -27,7 +27,7 @@ const SCREENSHOTS_DIR = join(root, 'screenshots');
 // Realistic dog data
 const DOG = {
   name: 'Bram',
-  dob: '2025-11-01',      // ~4 months old puppy
+  dob: '2025-11-01', // ~4 months old puppy
   start: '2025-03-01',
   weightKg: 7,
   weightG: 300,
