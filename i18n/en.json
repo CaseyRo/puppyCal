@@ -161,7 +161,8 @@
     "assumption_model": "Reference model reverse-engineered from public calculator behavior; exact vendor internals are unknown.",
     "assumption_kcal": "Uses kcal density {density} kcal/kg.",
     "assumption_kcal_fallback": "Uses kcal density {density} kcal/kg (fallback reference when product calories are missing).",
-    "assumption_advisory": "Advisory planning aid only; not veterinary advice."
+    "assumption_advisory": "Advisory planning aid only; not veterinary advice.",
+    "result_more_info": "More info"
   },
   "facts": {
     "generic": [

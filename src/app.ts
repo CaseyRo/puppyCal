@@ -440,17 +440,20 @@ export async function runApp(container: HTMLElement): Promise<void> {
     let heroCard: string;
     if (selectedFood && result) {
       const finePrint = `
-        <div class="mt-4 pt-3 border-t border-muted text-xs text-gray-500 space-y-1 text-left">
-          <p>${t('result_advisory')}</p>
-          <p><a class="underline hover:text-primary" href="${selectedFood.sourceUrl}" target="_blank" rel="noreferrer">${t('result_source')}</a> (${selectedFood.sourceDate})</p>
-        </div>`;
+        <details class="mt-4" ${!(config.name || config.dob) ? 'open' : ''}>
+          <summary class="text-xs font-medium text-gray-500 cursor-pointer select-none hover:text-gray-700 py-1">${t('result_more_info')}</summary>
+          <div class="pt-3 border-t border-muted text-xs text-gray-500 space-y-1 text-left">
+            <p>${t('result_advisory')}</p>
+            <p><a class="underline hover:text-primary" href="${selectedFood.sourceUrl}" target="_blank" rel="noreferrer">${t('result_source')}</a> (${selectedFood.sourceDate})</p>
+          </div>
+        </details>`;
 
       if (mixedCanApply && mixedSplit) {
         heroCard = `
           <div class="rounded-2xl bg-surface p-6 text-center animate-scale-in shadow-sm">
-            <div class="flex flex-wrap items-center justify-center gap-1.5 mb-3">
-              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-[11px] font-medium truncate max-w-[45%]"><span class="font-semibold">${selectedFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}</span> ${escapeHtml(selectedFood.productName)}</span>
-              ${secondFood ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-600 text-[11px] font-medium truncate max-w-[45%]"><span class="font-semibold">${secondFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}</span> ${escapeHtml(secondFood.productName)}</span>` : ''}
+            <div class="flex flex-col items-center gap-1 mb-3">
+              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-[11px] font-medium max-w-full"><span class="font-semibold shrink-0">${selectedFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}</span> <span class="truncate">${escapeHtml(selectedFood.productName)}</span></span>
+              ${secondFood ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-600 text-[11px] font-medium max-w-full"><span class="font-semibold shrink-0">${secondFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}</span> <span class="truncate">${escapeHtml(secondFood.productName)}</span></span>` : ''}
             </div>
             <div class="flex items-baseline justify-center gap-3 mt-3">
               <div>
@@ -475,14 +478,17 @@ export async function runApp(container: HTMLElement): Promise<void> {
             })}</p>
             <p class="text-sm text-gray-400 mt-1">${config.meals > 1 ? t('result_daily_summary', { grams: String(result.gramsPerDay), kcal: String(result.estimatedKcalPerDay) }) : t('result_kcal', { kcal: String(result.estimatedKcalPerDay) })}</p>
             ${copyBtn}
-            <div class="mt-4 pt-3 border-t border-muted text-xs text-gray-500 space-y-1.5 text-left">
-              <p>${t('result_advisory')}</p>
-              <p>${t('mixed_rounding_note')}</p>
-              <div class="space-y-0.5">
-                <p>${selectedFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}: <a class="underline hover:text-primary" href="${selectedFood.sourceUrl}" target="_blank" rel="noreferrer">${t('result_source')}</a> (${selectedFood.sourceDate})</p>
-                ${secondFood ? `<p>${secondFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}: <a class="underline hover:text-primary" href="${secondFood.sourceUrl}" target="_blank" rel="noreferrer">${t('result_source')}</a> (${secondFood.sourceDate})</p>` : ''}
+            <details class="mt-4" ${!(config.name || config.dob) ? 'open' : ''}>
+              <summary class="text-xs font-medium text-gray-500 cursor-pointer select-none hover:text-gray-700 py-1">${t('result_more_info')}</summary>
+              <div class="pt-3 border-t border-muted text-xs text-gray-500 space-y-1.5 text-left">
+                <p>${t('result_advisory')}</p>
+                <p>${t('mixed_rounding_note')}</p>
+                <div class="space-y-0.5">
+                  <p>${selectedFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}: <a class="underline hover:text-primary" href="${selectedFood.sourceUrl}" target="_blank" rel="noreferrer">${t('result_source')}</a> (${selectedFood.sourceDate})</p>
+                  ${secondFood ? `<p>${secondFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}: <a class="underline hover:text-primary" href="${secondFood.sourceUrl}" target="_blank" rel="noreferrer">${t('result_source')}</a> (${secondFood.sourceDate})</p>` : ''}
+                </div>
               </div>
-            </div>
+            </details>
           </div>`;
       } else {
         heroCard = `
@@ -582,12 +588,8 @@ export async function runApp(container: HTMLElement): Promise<void> {
       ${heroCard}
       ${assumptionsBlock}
 
-      <details class="mt-5 group" open>
-        <summary class="flex items-center justify-between cursor-pointer select-none py-2">
-          <span class="text-sm font-semibold text-gray-700">${t('section_food_settings')}</span>
-          <svg class="w-3.5 h-3.5 text-gray-400 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
-        </summary>
-        <form id="food-form" class="space-y-3 pt-3" novalidate>
+      <form id="food-form" class="space-y-3 mt-5" novalidate>
+          ${ageField}
           <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">${t('section_food_selection')}</p>
           <div>
             <label for="food-supplier" class="block text-xs font-medium text-gray-600 mb-1">${t('label_supplier')}</label>
@@ -679,13 +681,8 @@ export async function runApp(container: HTMLElement): Promise<void> {
           </div>`
               : ''
           }
-          <div class="border-t border-gray-100 pt-3 mt-1 space-y-3">
-            <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">${t('section_dog_profile_settings')}</p>
-            ${ageField}
-            ${profileSummaryLine}
-          </div>
+          ${profileSummaryLine}
         </form>
-      </details>
       </section>
     `;
   }

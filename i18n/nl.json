@@ -161,7 +161,8 @@
     "assumption_model": "Referentiemodel op basis van openbaar calculatorgedrag; exacte interne werking van de leverancier is onbekend.",
     "assumption_kcal": "Gebruikt kcal-dichtheid {density} kcal/kg.",
     "assumption_kcal_fallback": "Gebruikt kcal-dichtheid {density} kcal/kg (referentiewaarde bij ontbrekende productcalorieën).",
-    "assumption_advisory": "Alleen een planningshulpmiddel; geen veterinair advies."
+    "assumption_advisory": "Alleen een planningshulpmiddel; geen veterinair advies.",
+    "result_more_info": "Meer info"
   },
   "facts": {
     "generic": [
