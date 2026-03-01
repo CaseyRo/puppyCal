@@ -651,7 +651,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
             </div>
             <div>
               <label for="food-wet-percent" class="block text-xs font-medium text-gray-600 mb-1">${t('label_mixed_split')}</label>
-              <input id="food-wet-percent" type="range" min="1" max="99" step="1" value="${wetPercent}" class="w-full accent-primary"/>
+              <input id="food-wet-percent" type="range" min="1" max="99" step="1" value="${wetPercent}" class="w-full"/>
               <p class="text-xs text-gray-500 mt-1">${t('mixed_split_preview', {
                 wet: String(wetPercent),
                 dry: String(dryPercent),
