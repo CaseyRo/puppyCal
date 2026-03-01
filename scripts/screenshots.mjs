@@ -79,7 +79,8 @@ function startServer(server, port) {
 async function serveStatic(dir) {
   return new Promise((resolve, reject) => {
     const server = createServer((req, res) => {
-      const path = req.url === '/' ? '/index.html' : req.url;
+      const urlPath = new URL(req.url ?? '/', 'http://localhost').pathname;
+      const path = urlPath === '/' ? '/index.html' : urlPath;
       const file = join(dir, path.replace(/^\//, ''));
       if (!file.startsWith(dir)) {
         res.writeHead(403).end();
