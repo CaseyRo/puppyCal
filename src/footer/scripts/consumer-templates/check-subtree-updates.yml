@@ -1,0 +1,137 @@
+# GitHub Action: Check for Footer Subtree Updates
+# Copy this file to your consuming project's .github/workflows/ directory
+#
+# This workflow runs weekly and creates a PR if the footer subtree has updates available.
+
+name: Check Footer Updates
+
+on:
+  schedule:
+    # Run every Monday at 9am UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  check-updates:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for upstream footer updates
+        id: check
+        run: |
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Add the footer remote
+          git remote add footer https://github.com/CaseyRo/CYB_Footer.git 2>/dev/null || true
+          git fetch footer main
+
+          # Get the current subtree commit (approximate - based on last subtree merge)
+          CURRENT=$(git log --oneline --grep="Squashed.*footer" -1 --format="%h" 2>/dev/null || echo "none")
+
+          # Get latest upstream commit
+          UPSTREAM=$(git rev-parse --short footer/main)
+
+          # Check if there are new commits in upstream
+          # We compare by checking if upstream commits exist that aren't in our subtree
+          SUBTREE_PREFIX="src/components/footer"
+
+          # Get commits in upstream that might be new
+          NEW_COMMITS=$(git log footer/main --oneline -10 --format="%h %s")
+
+          if [ -n "$NEW_COMMITS" ]; then
+            echo "has_updates=true" >> $GITHUB_OUTPUT
+            echo "upstream_sha=$UPSTREAM" >> $GITHUB_OUTPUT
+            echo "commit_summary<<EOF" >> $GITHUB_OUTPUT
+            echo "$NEW_COMMITS" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "has_updates=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create update branch and PR
+        if: steps.check.outputs.has_updates == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          BRANCH_NAME="chore/update-footer-subtree-$(date +%Y%m%d)"
+          SUBTREE_PREFIX="src/components/footer"
+
+          # Check if branch already exists
+          if git ls-remote --heads origin "$BRANCH_NAME" | grep -q "$BRANCH_NAME"; then
+            echo "Branch $BRANCH_NAME already exists, skipping"
+            exit 0
+          fi
+
+          # Check if there's already an open PR for footer updates
+          EXISTING_PR=$(gh pr list --search "Update footer subtree" --state open --json number --jq '.[0].number' || echo "")
+          if [ -n "$EXISTING_PR" ]; then
+            echo "PR #$EXISTING_PR already exists for footer updates, skipping"
+            exit 0
+          fi
+
+          # Create new branch
+          git checkout -b "$BRANCH_NAME"
+
+          # Attempt subtree pull
+          if git subtree pull --prefix="$SUBTREE_PREFIX" \
+              https://github.com/CaseyRo/CYB_Footer.git \
+              main --squash -m "Update footer subtree to latest"; then
+
+            # Push branch
+            git push -u origin "$BRANCH_NAME"
+
+            # Create PR
+            gh pr create \
+              --title "Update footer subtree" \
+              --body "$(cat <<EOF
+          ## Summary
+          - Automated update of the footer subtree component
+          - Upstream commit: \`${{ steps.check.outputs.upstream_sha }}\`
+
+          ## Recent upstream commits
+          \`\`\`
+          ${{ steps.check.outputs.commit_summary }}
+          \`\`\`
+
+          ## Checklist
+          - [ ] Review the changes
+          - [ ] Test locally with \`npm run build\` and \`npm run dev\`
+          - [ ] Verify footer displays correctly
+          EOF
+          )" \
+              --label "dependencies"
+          else
+            echo "Subtree pull failed or had conflicts - manual intervention needed"
+            # Create an issue instead
+            gh issue create \
+              --title "Footer subtree has updates available (manual pull needed)" \
+              --body "$(cat <<EOF
+          The footer subtree has updates available but automatic pull failed (likely due to conflicts).
+
+          ## Manual update steps
+          \`\`\`bash
+          git subtree pull --prefix=$SUBTREE_PREFIX \\
+            https://github.com/CaseyRo/CYB_Footer.git \\
+            main --squash
+          \`\`\`
+
+          ## Recent upstream commits
+          \`\`\`
+          ${{ steps.check.outputs.commit_summary }}
+          \`\`\`
+
+          Resolve any conflicts and commit the update.
+          EOF
+          )" \
+              --label "dependencies"
+          fi
