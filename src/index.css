@@ -19,53 +19,7 @@ body {
   font-family: 'Fraunces', Georgia, serif;
 }
 
-/* ── PuppyCal Footer ── */
-
-.puppycal-footer {
-  border-top: 1px solid var(--color-muted);
-  padding-top: 1.5rem;
-  padding-bottom: 2rem;
-}
-
-.puppycal-footer__inner {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  align-items: center;
-  text-align: center;
-}
-
-.puppycal-footer__disclaimer {
-  font-size: 11px;
-  color: rgba(39, 47, 56, 0.45);
-  margin: 0;
-}
-
-.puppycal-footer__links {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 0.375rem;
-}
-
-.puppycal-footer__link {
-  font-size: 12px;
-  color: rgba(39, 47, 56, 0.52);
-  text-decoration: none;
-  transition: color 150ms ease;
-}
-
-.puppycal-footer__link:hover {
-  color: var(--color-primary);
-  text-decoration: underline;
-}
-
-.puppycal-footer__sep {
-  font-size: 12px;
-  color: rgba(39, 47, 56, 0.25);
-  user-select: none;
-}
+@import './footer/src/vanilla/footer.css';
 
 /* ── Animations ── */
 

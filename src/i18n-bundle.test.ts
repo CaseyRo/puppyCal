@@ -16,10 +16,6 @@ describe('planner i18n bundles', () => {
     'hint_notes',
     'footer_about_1',
     'footer_about_2',
-    'footer_label',
-    'footer_buy_coffee',
-    'footer_email_cta',
-    'footer_disclaimer',
     'label_age_years',
     'error_months_max',
     'share_social',
@@ -28,7 +24,6 @@ describe('planner i18n bundles', () => {
     'share_on',
     'label_breed',
     'breed_stabyhoun',
-    'footer_brand_text',
     'fact_source_default_label',
     'fact_source_default_url',
   ];

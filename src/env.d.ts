@@ -8,6 +8,7 @@ declare global {
     privacyUrl: string;
     impressumUrl: string;
     repoUrl: string;
+    umamiWebsiteId: string;
   };
 
   interface Window {

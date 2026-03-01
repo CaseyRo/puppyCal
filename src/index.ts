@@ -1,4 +1,5 @@
 import './index.css';
+import './footer';
 import { runApp } from './app';
 import { inject } from '@vercel/analytics';
 import { injectSpeedInsights } from '@vercel/speed-insights';

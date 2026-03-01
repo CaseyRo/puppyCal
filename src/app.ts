@@ -42,10 +42,6 @@ import {
   normalizeFoodSelection,
 } from './app-helpers';
 
-const BUY_ME_A_COFFEE_URL = 'https://buymeacoffee.com/caseyberlin';
-const CASEY_DIT_URL = 'https://casey.berlin/DIT';
-const DEFAULT_REPO_URL = __CONFIG__.repoUrl || 'https://github.com/CaseyRo/puppyCal';
-
 function escapeHtml(str: string): string {
   return str
     .replace(/&/g, '&amp;')
@@ -57,11 +53,6 @@ function escapeHtml(str: string): string {
 
 function currentCanonicalUrl(): string {
   return `${window.location.origin}${window.location.pathname}${window.location.search}`;
-}
-
-function mailtoWithContext(to: string, subject: string, intro: string): string {
-  const body = `${intro}\n\nPage reference: ${window.location.href}`;
-  return `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
 async function fallbackShare(url: string, text: string): Promise<boolean> {
@@ -690,26 +681,6 @@ export async function runApp(container: HTMLElement): Promise<void> {
   function render(): void {
     const valid = isValid(errors);
     const titleText = config.name ? t('title_for', { name: escapeHtml(config.name) }) : t('title');
-    const generalEmailHref = mailtoWithContext(
-      'DIT@casey.berlin',
-      'Hey Casey lets talk',
-      'Hey Casey lets talk'
-    );
-    const foodDataEmailHref = mailtoWithContext(
-      'DIT@casey.berlin',
-      'Add your food data to our widget',
-      'Hey Casey, I want to add food data to your widget.'
-    );
-    const middleCta =
-      activeTab === 'walkies'
-        ? `<a id="footer-repo-link" href="${DEFAULT_REPO_URL}" target="_blank" rel="noreferrer"
-             class="text-gray-600 hover:text-primary underline text-[11px]">
-             ${t('footer_repo_cta')}
-           </a>`
-        : `<a id="footer-food-data-link" href="${foodDataEmailHref}"
-             class="text-gray-600 hover:text-primary underline text-[11px]">
-             ${t('footer_food_data_cta')}
-           </a>`;
 
     container.innerHTML = `
       <div class="min-h-screen bg-background text-gray-800 font-sans px-4 py-6 max-w-lg mx-auto">
@@ -746,24 +717,6 @@ export async function runApp(container: HTMLElement): Promise<void> {
 
         ${activeTab === 'walkies' ? renderWalkies(valid) : activeTab === 'dog' ? renderDog() : renderFood()}
 
-        <footer class="puppycal-footer mt-8" aria-label="${t('footer_label')}">
-          <div class="puppycal-footer__inner">
-            <p class="puppycal-footer__disclaimer">${t('footer_disclaimer')}</p>
-            <div class="puppycal-footer__links">
-              <a id="footer-brand-link" href="${CASEY_DIT_URL}" target="_blank" rel="noreferrer"
-                class="puppycal-footer__link">${t('footer_brand_text')}</a>
-              <span class="puppycal-footer__sep" aria-hidden="true">·</span>
-              <a id="footer-email-link" href="${generalEmailHref}"
-                class="puppycal-footer__link">${t('footer_email_cta')}</a>
-              <span class="puppycal-footer__sep" aria-hidden="true">·</span>
-              <a id="footer-coffee-link" href="${BUY_ME_A_COFFEE_URL}" target="_blank" rel="noreferrer"
-                class="puppycal-footer__link">${t('footer_buy_coffee')}</a>
-              <span class="puppycal-footer__sep" aria-hidden="true">·</span>
-              ${middleCta.replace(/class="[^"]*"/g, 'class="puppycal-footer__link"').replace(/id="[^"]*"\s*/g, 'id="footer-middle-cta" ')}
-            </div>
-          </div>
-        </footer>
-
       </div>
       ${feedback ? `<p class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-sm font-medium px-4 py-2 rounded-full shadow-lg z-50" role="status">${feedback}</p>` : ''}
     `;
@@ -792,25 +745,6 @@ export async function runApp(container: HTMLElement): Promise<void> {
       trackEvent(ANALYTICS_EVENTS.TAB_VIEWED, { tab: 'dog' });
       applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
       render();
-    });
-
-    container.querySelector('#footer-coffee-link')?.addEventListener('click', () => {
-      trackEvent(ANALYTICS_EVENTS.CTA_BUY_ME_A_COFFEE_CLICK, { tab: activeTab, surface: 'footer' });
-    });
-    container.querySelector('#footer-brand-link')?.addEventListener('click', () => {
-      trackEvent(ANALYTICS_EVENTS.CTA_ATTRIBUTION_LINK_CLICK, {
-        tab: activeTab,
-        surface: 'footer',
-      });
-    });
-    container.querySelector('#footer-email-link')?.addEventListener('click', () => {
-      trackEvent(ANALYTICS_EVENTS.CTA_GENERAL_EMAIL_CLICK, { tab: activeTab, surface: 'footer' });
-    });
-    container.querySelector('#footer-repo-link')?.addEventListener('click', () => {
-      trackEvent(ANALYTICS_EVENTS.CTA_REPO_COLLAB_CLICK, { tab: activeTab, surface: 'footer' });
-    });
-    container.querySelector('#footer-food-data-link')?.addEventListener('click', () => {
-      trackEvent(ANALYTICS_EVENTS.CTA_FOOD_DATA_EMAIL_CLICK, { tab: activeTab, surface: 'footer' });
     });
 
     if (activeTab === 'walkies') {

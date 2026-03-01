@@ -32,6 +32,13 @@ module.exports = [
     },
   },
   {
-    ignores: ['dist/**', 'node_modules/**', 'web/**', '*.config.js', '*.config.cjs'],
+    ignores: [
+      'dist/**',
+      'node_modules/**',
+      'web/**',
+      '*.config.js',
+      '*.config.cjs',
+      'src/footer/**',
+    ],
   },
 ];
