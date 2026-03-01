@@ -3,5 +3,5 @@ import { footerConfig } from './footer.config';
 
 document.addEventListener('DOMContentLoaded', () => {
   const el = document.getElementById('cyb-footer');
-  if (el) renderFooter(el, footerConfig);
+  if (el) renderFooter(el, footerConfig, { bgImageUrl: '/bg-puppycal.png' });
 });
