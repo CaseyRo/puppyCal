@@ -17,5 +17,5 @@ if ('serviceWorker' in navigator) {
 const app = document.getElementById('app');
 if (app) {
   app.innerHTML = '<p class="text-lg text-gray-800 p-4">Loading…</p>';
-  runApp(app);
+  void runApp(app);
 }

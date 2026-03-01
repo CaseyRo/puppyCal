@@ -20,13 +20,18 @@ module.exports = [
         setTimeout: 'readonly',
         clearTimeout: 'readonly',
       },
+      parserOptions: {
+        project: true,
+        tsconfigRootDir: __dirname,
+      },
     },
     rules: {
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-floating-promises': 'error',
     },
   },
   {
-    ignores: ['dist/**', 'node_modules/**', 'web/**', 'scripts/**', '*.config.js', '*.config.cjs'],
+    ignores: ['dist/**', 'node_modules/**', 'web/**', '*.config.js', '*.config.cjs'],
   },
 ];

@@ -22,8 +22,8 @@ repos:
         language: system
         files: \.(js|ts|json|html|css|md)$
 
-      - id: screenshots
-        name: screenshots
-        entry: node scripts/screenshots.mjs
+      - id: test
+        name: test
+        entry: npm test
         language: system
-        files: ^(src/|dist/|index\.html|scripts/screenshots)
+        pass_filenames: false
