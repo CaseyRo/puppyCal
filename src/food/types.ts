@@ -51,4 +51,6 @@ export interface PortionResult {
   gramsPerDay: number;
   estimatedKcalPerDay: number;
   assumptions: string[];
+  densityKcalPerKg: number;
+  usedFallbackKcal: boolean;
 }

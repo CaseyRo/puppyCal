@@ -68,7 +68,7 @@
     "mixed_validation_min_total": "Mixed mode requires at least {min} g/day total. Use single-food mode below that.",
     "label_age_months": "Current age (months)",
     "label_age_years": "Current age (years)",
-    "label_weight_kg": "Current weight (kg)",
+    "label_weight_kg": "Current weight",
     "label_activity": "Activity level",
     "label_neutered": "Neutered / spayed",
     "label_breed_size": "Breed size",
@@ -127,9 +127,14 @@
     "dog_hint_empty": "Add your dog's profile for personalised results",
     "dog_hint_cta": "Set up profile",
     "dog_derived_age": "Age: {months} months (from date of birth)",
+    "dog_derived_age_one": "Age: 1 month (from date of birth)",
     "food_profile_summary": "Profile: {weight} kg · {size} · {activity}",
     "mixed_no_opposite": "Add a food of the opposite type to enable mixed mode.",
-    "lang_toggle_label": "Language"
+    "lang_toggle_label": "Language",
+    "assumption_model": "Reference model reverse-engineered from public calculator behavior; exact vendor internals are unknown.",
+    "assumption_kcal": "Uses kcal density {density} kcal/kg.",
+    "assumption_kcal_fallback": "Uses kcal density {density} kcal/kg (fallback reference when product calories are missing).",
+    "assumption_advisory": "Advisory planning aid only; not veterinary advice."
   },
   "facts": [
     "Stabyhoun Fact: The name 'Stabyhoun' roughly translates from Frisian to 'Stand by me dog'.",

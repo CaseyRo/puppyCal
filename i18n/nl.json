@@ -68,7 +68,7 @@
     "mixed_validation_min_total": "Gemengde modus vereist minimaal {min} g/dag totaal. Gebruik daaronder enkelvoudige modus.",
     "label_age_months": "Leeftijd nu (maanden)",
     "label_age_years": "Leeftijd nu (jaren)",
-    "label_weight_kg": "Gewicht nu (kg)",
+    "label_weight_kg": "Gewicht nu",
     "label_activity": "Activiteitsniveau",
     "label_neutered": "Gecastreerd / gesteriliseerd",
     "label_breed_size": "Rasgrootte",
@@ -127,9 +127,14 @@
     "dog_hint_empty": "Voeg het profiel van je hond toe voor gepersonaliseerde resultaten",
     "dog_hint_cta": "Profiel instellen",
     "dog_derived_age": "Leeftijd: {months} maanden (van geboortedatum)",
+    "dog_derived_age_one": "Leeftijd: 1 maand (van geboortedatum)",
     "food_profile_summary": "Profiel: {weight} kg · {size} · {activity}",
     "mixed_no_opposite": "Voeg een voer van het tegengestelde type toe om gemengde modus te activeren.",
-    "lang_toggle_label": "Taal"
+    "lang_toggle_label": "Taal",
+    "assumption_model": "Referentiemodel op basis van openbaar calculatorgedrag; exacte interne werking van de leverancier is onbekend.",
+    "assumption_kcal": "Gebruikt kcal-dichtheid {density} kcal/kg.",
+    "assumption_kcal_fallback": "Gebruikt kcal-dichtheid {density} kcal/kg (referentiewaarde bij ontbrekende productcalorieën).",
+    "assumption_advisory": "Alleen een planningshulpmiddel; geen veterinair advies."
   },
   "facts": [
     "Stabyhoun-feit: De naam 'Stabyhoun' vertaalt uit het Fries ongeveer naar 'sta mij bij hond'.",

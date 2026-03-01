@@ -287,12 +287,22 @@ export async function runApp(container: HTMLElement): Promise<void> {
           <label for="dog-dob" class="block text-sm font-medium mb-1">${t('label_dob')} ${infoIcon(t('hint_dob'))}</label>
           <input type="date" id="dog-dob" value="${config.dob}"
             class="w-full border border-gray-300 rounded px-3 py-2"/>
-          ${config.dob ? `<p class="text-xs text-gray-500 mt-1">${t('dog_derived_age', { months: String(foodState.ageMonths) })}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_dob')}</p>`}
+          ${config.dob ? `<p class="text-xs text-gray-500 mt-1">${foodState.ageMonths === 1 ? t('dog_derived_age_one') : t('dog_derived_age', { months: String(foodState.ageMonths) })}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_dob')}</p>`}
         </div>
         <div>
-          <label for="dog-weight" class="block text-sm font-medium mb-1">${t('label_weight_kg')}</label>
-          <input type="number" id="dog-weight" min="0.5" max="80" step="0.1" value="${foodState.weightKg}"
-            class="w-full border border-gray-300 rounded px-3 py-2"/>
+          <label class="block text-sm font-medium mb-1">${t('label_weight_kg')}</label>
+          <div class="flex gap-2">
+            <div class="flex items-center gap-1.5">
+              <input type="number" id="dog-weight-kg" min="0" max="80" step="1" value="${Math.floor(foodState.weightKg)}"
+                class="w-20 border border-gray-300 rounded px-3 py-2"/>
+              <span class="text-sm text-gray-600">kg</span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <input type="number" id="dog-weight-g" min="0" max="990" step="10" value="${Math.round((foodState.weightKg - Math.floor(foodState.weightKg)) * 1000)}"
+                class="w-20 border border-gray-300 rounded px-3 py-2"/>
+              <span class="text-sm text-gray-600">g</span>
+            </div>
+          </div>
         </div>
         <div>
           <label for="dog-breed-size" class="block text-sm font-medium mb-1">${t('label_breed_size')}</label>
@@ -469,7 +479,9 @@ export async function runApp(container: HTMLElement): Promise<void> {
         ? `<details class="mt-3">
             <summary class="text-xs font-medium text-gray-500 cursor-pointer select-none hover:text-gray-700">${t('result_assumptions')}</summary>
             <ul class="text-xs list-disc pl-5 mt-1 text-gray-500">
-              ${result.assumptions.map((item) => `<li>${item}</li>`).join('')}
+              <li>${t('assumption_model')}</li>
+              <li>${result.usedFallbackKcal ? t('assumption_kcal_fallback', { density: String(result.densityKcalPerKg) }) : t('assumption_kcal', { density: String(result.densityKcalPerKg) })}</li>
+              <li>${t('assumption_advisory')}</li>
             </ul>
           </details>`
         : '';
@@ -515,7 +527,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
 
     // Age field: only shown when DOB is not set (else DOB auto-calculates it)
     const ageField = config.dob
-      ? `<p class="text-xs text-gray-400 mt-1 italic">${t('dog_derived_age', { months: String(foodState.ageMonths) })}</p>`
+      ? `<p class="text-xs text-gray-400 mt-1 italic">${foodState.ageMonths === 1 ? t('dog_derived_age_one') : t('dog_derived_age', { months: String(foodState.ageMonths) })}</p>`
       : `<div>
           <label for="food-age" class="block text-xs font-medium text-gray-600 mb-1">${ageLabel} ${infoIcon(ageHint)}</label>
           <input id="food-age" type="number" min="1" max="${profile.isPuppy ? 24 : 20}" step="1" value="${displayedAge}"
@@ -1058,7 +1070,8 @@ export async function runApp(container: HTMLElement): Promise<void> {
     } else if (activeTab === 'dog') {
       const dogNameInput = container.querySelector('#dog-name') as HTMLInputElement | null;
       const dogDobInput = container.querySelector('#dog-dob') as HTMLInputElement | null;
-      const dogWeightInput = container.querySelector('#dog-weight') as HTMLInputElement | null;
+      const dogWeightKgInput = container.querySelector('#dog-weight-kg') as HTMLInputElement | null;
+      const dogWeightGInput = container.querySelector('#dog-weight-g') as HTMLInputElement | null;
       const dogBreedSizeInput = container.querySelector(
         '#dog-breed-size'
       ) as HTMLSelectElement | null;
@@ -1073,7 +1086,11 @@ export async function runApp(container: HTMLElement): Promise<void> {
         config.dob = dogDobInput?.value ?? config.dob;
         foodState = {
           ...foodState,
-          weightKg: Math.max(0.5, parseFloat(dogWeightInput?.value ?? '12') || 12),
+          weightKg: Math.max(
+            0.5,
+            (parseInt(dogWeightKgInput?.value ?? '0', 10) || 0) +
+              Math.min(990, parseInt(dogWeightGInput?.value ?? '0', 10) || 0) / 1000
+          ),
           breedSize: (dogBreedSizeInput?.value as BreedSize) || foodState.breedSize,
           activityLevel: (dogActivityInput?.value as ActivityLevel) || foodState.activityLevel,
           neutered: dogNeuteredInput?.checked ?? foodState.neutered,

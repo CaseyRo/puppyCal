@@ -39,15 +39,18 @@ export function calculateDailyPortion(inputs: PortionInputs, kcalPerKg?: number)
     GOAL_FACTOR[inputs.weightGoal] *
     neuterFactor;
 
-  const density = kcalPerKg && kcalPerKg > 0 ? kcalPerKg : FALLBACK_KCAL_PER_KG;
+  const usedFallbackKcal = !kcalPerKg || kcalPerKg <= 0;
+  const density = usedFallbackKcal ? FALLBACK_KCAL_PER_KG : kcalPerKg;
   const gramsPerDay = Math.max(1, Math.round((estimatedKcalPerDay / density) * 1000));
 
   return {
     gramsPerDay,
     estimatedKcalPerDay: Math.round(estimatedKcalPerDay),
+    densityKcalPerKg: density,
+    usedFallbackKcal,
     assumptions: [
       'Reference model reverse-engineered from public calculator behavior; exact vendor internals are unknown.',
-      `Uses kcal density ${density} kcal/kg${kcalPerKg ? '' : ' (fallback reference when product calories are missing)'}.`,
+      `Uses kcal density ${density} kcal/kg${usedFallbackKcal ? ' (fallback reference when product calories are missing)' : ''}.`,
       'Advisory planning aid only; not veterinary advice.',
     ],
   };
