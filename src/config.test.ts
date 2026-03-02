@@ -79,7 +79,7 @@ describe('planner query parse/serialize', () => {
 
   it('serializes deterministically and omits default-equivalent values', () => {
     const serialized = serializePlannerStateToSearch(buildState(), defaultFood);
-    expect(serialized).toBe('?dob=2025-01-01');
+    expect(serialized).toBe('?lang=nl&dob=2025-01-01');
 
     const changed = serializePlannerStateToSearch(
       buildState({
@@ -98,7 +98,7 @@ describe('planner query parse/serialize', () => {
     );
 
     expect(changed).toBe(
-      '?dob=2025-01-01&foodMixed=1&foodSecondSupplier=royal-canin&foodSecondId=royal-canin-maxi-puppy&foodWetPercent=60&foodAge=8&foodNeutered=1'
+      '?lang=nl&dob=2025-01-01&foodMixed=1&foodSecondSupplier=royal-canin&foodSecondId=royal-canin-maxi-puppy&foodWetPercent=60&foodAge=8&foodNeutered=1'
     );
   });
 

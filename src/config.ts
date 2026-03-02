@@ -332,7 +332,7 @@ export function parsePlannerStateFromSearch(
 export function serializeConfigToSearch(config: Config): string {
   const defaults = getDefaults();
   const p = new URLSearchParams();
-  if (config.lang !== defaults.lang) p.set('lang', config.lang);
+  p.set('lang', config.lang);
   if (config.dob) p.set('dob', config.dob);
   if (config.months !== defaults.months) p.set('months', String(config.months));
   if (config.start !== defaults.start) p.set('start', config.start);
@@ -359,7 +359,7 @@ export function serializePlannerStateToSearch(
   const { config, food, activeTab } = plannerState;
 
   // Canonical key order and omission rules for stable, concise links.
-  if (config.lang !== defaults.lang) p.set('lang', config.lang);
+  p.set('lang', config.lang);
   if (config.dob) p.set('dob', config.dob);
   if (config.months !== defaults.months) p.set('months', String(config.months));
   if (config.start !== defaults.start) p.set('start', config.start);
