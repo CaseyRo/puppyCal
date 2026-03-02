@@ -5,11 +5,13 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 require('dotenv').config();
 
+const pkg = require('./package.json');
+
 module.exports = {
   entry: './src/index.ts',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'main.js',
+    filename: 'main.[contenthash:8].js',
     clean: true,
   },
   resolve: {
@@ -43,11 +45,23 @@ module.exports = {
       template: 'src/index.html',
       inject: 'body',
     }),
-    new MiniCssExtractPlugin({ filename: 'main.css' }),
+    new MiniCssExtractPlugin({ filename: 'main.[contenthash:8].css' }),
     new CopyWebpackPlugin({
       patterns: [
         { from: 'i18n', to: 'i18n' },
-        { from: 'public', to: '.' },
+        {
+          from: 'public',
+          to: '.',
+          globOptions: { ignore: ['**/icon-master-square.png', '**/icon-original-full.png'] },
+          transform: {
+            transformer(content, absoluteFrom) {
+              if (absoluteFrom.endsWith('sw.js')) {
+                return content.toString().replace('__VERSION__', pkg.version);
+              }
+              return content;
+            },
+          },
+        },
       ],
     }),
   ],

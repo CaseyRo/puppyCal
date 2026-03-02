@@ -1,0 +1,6 @@
+memory/
+screenshots/
+scripts/
+web/
+.lighthouserc.json
+*.test.ts

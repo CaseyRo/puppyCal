@@ -1,10 +1,8 @@
-const CACHE = 'puppycal-v1';
+const CACHE = 'puppycal-__VERSION__';
 
 const PRECACHE = [
   '/',
   '/index.html',
-  '/main.js',
-  '/main.css',
   '/i18n/nl.json',
   '/i18n/en.json',
   '/icons/icon-192.png',

@@ -1,4 +1,2 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://puppycal.vercel.app/sitemap.xml
