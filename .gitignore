@@ -34,8 +34,10 @@ Thumbs.db
 .env.test
 *.pem
 
-# Generated screenshots (pre-commit hook)
-screenshots/
+# Generated screenshots (raw captures, not committed)
+screenshots/*.png
+# Mockups ARE committed (used in README)
+!screenshots/mockups/
 
 # Tool artifacts
 .lighthouseci/
