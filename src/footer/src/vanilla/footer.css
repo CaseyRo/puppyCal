@@ -262,7 +262,8 @@
 .cdit-footer__social-icon[data-network="whatsapp"]  { --social-brand: 142, 70%, 41%; }
 .cdit-footer__social-icon[data-network="x"]         { --social-brand: 0, 0%, 0%; }
 .cdit-footer__social-icon[data-network="facebook"]  { --social-brand: 220, 46%, 48%; }
-.cdit-footer__social-icon[data-network="youtube"]   { --social-brand: 0, 100%, 50%; }
+.cdit-footer__social-icon[data-network="youtube"]       { --social-brand: 0, 100%, 50%; }
+.cdit-footer__social-icon[data-network="buymeacoffee"]  { --social-brand: 40, 100%, 50%; }
 
 /* Outline mode: brand-color icon/border, transparent bg */
 .cdit-footer__social[data-social-style="outline"] .cdit-footer__social-icon {

@@ -39,6 +39,7 @@ module.exports = {
         impressumUrl: process.env.IMPRESSUM_URL || '',
         repoUrl: process.env.REPO_URL || 'https://github.com/CaseyRo/puppyCal',
         umamiWebsiteId: process.env.UMAMI_WEBSITE_ID?.trim() || '',
+        version: pkg.version,
       }),
     }),
     new HtmlWebpackPlugin({

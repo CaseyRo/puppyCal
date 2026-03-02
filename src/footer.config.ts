@@ -1,6 +1,6 @@
 import type { FooterConfig } from './footer/src/core/config';
 
-declare const __CONFIG__: { umamiWebsiteId: string; [k: string]: string };
+declare const __CONFIG__: { umamiWebsiteId: string; version: string; [k: string]: string };
 
 export const footerConfig: FooterConfig = {
   outlet: 'puppycal',
@@ -37,6 +37,7 @@ export const footerConfig: FooterConfig = {
       ],
     },
   },
+  version: __CONFIG__.version,
   meta: { rightSide: { type: 'location', text: 'Berlin, DE' } },
   ...(__CONFIG__.umamiWebsiteId ? { analytics: { websiteId: __CONFIG__.umamiWebsiteId } } : {}),
 };
