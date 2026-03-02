@@ -14,11 +14,6 @@ import type { FooterConfig } from './types';
 import { validateConfig } from './core/config';
 import { renderFooterHtml } from './core/html';
 import type { ResolvedFooterOptions } from './core/i18n';
-import { getImage } from 'astro:assets';
-import bgCdit from './assets/bg-cdit.png';
-import bgCv from './assets/bg-cv.png';
-import bgWritings from './assets/bg-writings.png';
-
 interface Props {
   config: FooterConfig;
 }
@@ -33,20 +28,7 @@ if (!validation.valid) {
 }
 
 // Resolve Astro-specific values: image optimization, locale, base path
-const defaultBgByOutlet: Record<string, ImageMetadata> = {
-  cdit: bgCdit,
-  cv: bgCv,
-  writings: bgWritings,
-};
-
 let resolvedBgUrl = config.visuals?.bgImageUrl || config.visuals?.bgImage || null;
-if (!resolvedBgUrl && config.outlet) {
-  const defaultBg = defaultBgByOutlet[config.outlet];
-  if (defaultBg) {
-    const img = await getImage({ src: defaultBg });
-    resolvedBgUrl = img.src;
-  }
-}
 
 // Build ResolvedFooterOptions from Astro context
 const resolvedOptions: ResolvedFooterOptions = {

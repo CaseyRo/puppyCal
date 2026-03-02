@@ -24,9 +24,6 @@ function validateConfig(config: FooterConfig): ValidationResult {
   const errors: string[] = [];
 
   // Check required fields
-  if (!config.outlet) {
-    errors.push('"outlet" is required');
-  }
   if (!config.network?.title) {
     errors.push('"network.title" is required');
   }
@@ -38,14 +35,6 @@ function validateConfig(config: FooterConfig): ValidationResult {
   }
   if (!config.meta?.madeWithTextKey) {
     errors.push('"meta.madeWithTextKey" is required');
-  }
-
-  // Validate outlet value
-  if (config.outlet) {
-    const validOutlets = ['cdit', 'cv', 'writings'];
-    if (!validOutlets.includes(config.outlet)) {
-      errors.push(`"outlet" must be one of ${validOutlets.join(', ')}, got "${config.outlet}"`);
-    }
   }
 
   // Validate network.items

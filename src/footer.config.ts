@@ -3,7 +3,6 @@ import type { FooterConfig } from './footer/src/core/config';
 declare const __CONFIG__: { umamiWebsiteId: string; version: string; [k: string]: string };
 
 export const footerConfig: FooterConfig = {
-  outlet: 'puppycal',
   network: {
     title: 'CDIT',
     items: [

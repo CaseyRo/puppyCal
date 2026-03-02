@@ -1080,13 +1080,21 @@ export async function runApp(container: HTMLElement): Promise<void> {
       });
 
       wetPercentInput?.addEventListener('input', () => {
-        foodState = {
-          ...foodState,
-          wetPercent: clampWetPercent(
-            parseInt(wetPercentInput.value ?? String(foodState.wetPercent), 10)
-          ),
-        };
+        const wp = clampWetPercent(
+          parseInt(wetPercentInput.value ?? String(foodState.wetPercent), 10)
+        );
+        foodState = { ...foodState, wetPercent: wp };
         applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
+        // Update preview text in-place so dragging isn't interrupted by a full re-render
+        const preview = wetPercentInput.parentElement?.querySelector('p');
+        if (preview) {
+          preview.textContent = t('mixed_split_preview', {
+            wet: String(wp),
+            dry: String(100 - wp),
+          });
+        }
+      });
+      wetPercentInput?.addEventListener('change', () => {
         render();
       });
       container.querySelectorAll('.food-wet-preset').forEach((button) => {

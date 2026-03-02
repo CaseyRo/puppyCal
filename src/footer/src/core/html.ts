@@ -93,10 +93,6 @@ export function renderFooterHtml(config: FooterConfig, options: ResolvedFooterOp
   const logoHtml = config.network.logo ? renderLogo(config.network.logo) : '';
 
   const networkItemsHtml = (config.network.items || []).map((item) => {
-    const isCurrentSite = item.id === config.outlet;
-    if (isCurrentSite) {
-      return `<li><span class="cdit-footer__link cdit-footer__link--current">${escapeHtml(item.label)}</span></li>`;
-    }
     return `<li><a href="${escapeHtml(item.href)}" class="cdit-footer__link">${escapeHtml(item.label)}</a></li>`;
   }).join('\n          ');
 

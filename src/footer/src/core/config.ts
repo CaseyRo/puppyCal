@@ -107,8 +107,6 @@ export interface FooterVisuals {
  * - Column 3 (groups): 1-3 groups max, ≤5 links per group
  */
 export interface FooterConfig {
-  outlet: OutletId;
-
   /**
    * Column 1: Network Switcher (FIXED - identical across all outlets)
    */
@@ -221,20 +219,11 @@ function checkHref(href: string, fieldName: string): { valid: boolean; error?: s
  */
 export function validateConfig(config: FooterConfig): { valid: boolean; error?: string } {
   // Required fields
-  if (!config.outlet) {
-    return { valid: false, error: 'Footer config error: "outlet" is required' };
-  }
   if (!config.network?.title) {
     return { valid: false, error: 'Footer config error: "network.title" is required' };
   }
   if (!config.columns?.primary?.title) {
     return { valid: false, error: 'Footer config error: "columns.primary.title" is required' };
-  }
-
-  // Validate outlet value
-  const validOutlets: OutletId[] = ['cdit', 'cv', 'writings', 'puppycal'];
-  if (!validOutlets.includes(config.outlet)) {
-    return { valid: false, error: `Footer config error: "outlet" must be one of ${validOutlets.join(', ')}, got "${config.outlet}"` };
   }
 
   // Validate href values — network items
