@@ -20,7 +20,7 @@ repos:
         name: prettier
         entry: npx prettier --write
         language: system
-        files: \.(js|ts|json|html|css|md)$
+        files: \.(js|mjs|ts|json|html|css|md)$
 
       - id: test
         name: test

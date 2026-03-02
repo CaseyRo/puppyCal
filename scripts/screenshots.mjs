@@ -281,8 +281,19 @@ function bgSvg(w, h) {
 }
 
 function phoneFrameSvg() {
-  const { bodyW: w, bodyH: h, screenX: sx, screenY: sy, screenW: sw, screenH: sh, outerRx, innerRx } = PHONE;
-  const diW = 120, diH = 36, diRx = 18;
+  const {
+    bodyW: w,
+    bodyH: h,
+    screenX: sx,
+    screenY: sy,
+    screenW: sw,
+    screenH: sh,
+    outerRx,
+    innerRx,
+  } = PHONE;
+  const diW = 120,
+    diH = 36,
+    diRx = 18;
   const diX = Math.round((w - diW) / 2);
   const diY = Math.round(sy / 2 - diH / 2 + 2);
   return Buffer.from(
@@ -316,8 +327,21 @@ function phoneFrameSvg() {
 }
 
 function monitorFrameSvg() {
-  const { bodyW: w, bodyH: h, screenX: sx, screenY: sy, screenW: sw, screenH: sh, outerRx,
-          neckTop, neckBottom, neckHeight, baseW, baseH, baseRx } = MONITOR;
+  const {
+    bodyW: w,
+    bodyH: h,
+    screenX: sx,
+    screenY: sy,
+    screenW: sw,
+    screenH: sh,
+    outerRx,
+    neckTop,
+    neckBottom,
+    neckHeight,
+    baseW,
+    baseH,
+    baseRx,
+  } = MONITOR;
   const cx = w / 2;
   const totalH = h + neckHeight + baseH;
   return Buffer.from(
@@ -450,8 +474,8 @@ async function createMonitorMockup(sharp, tab, outputPath) {
   const desktopSrc = join(SCREENSHOTS_DIR, `desktop-${tab}.png`);
   if (!existsSync(desktopSrc)) return;
 
-  const { pad, bodyW, bodyH, screenX, screenY, screenW, screenH, outerRx,
-          neckHeight, baseH } = MONITOR;
+  const { pad, bodyW, bodyH, screenX, screenY, screenW, screenH, outerRx, neckHeight, baseH } =
+    MONITOR;
   const totalDeviceH = bodyH + neckHeight + baseH;
   const cw = bodyW + pad * 2;
   const ch = totalDeviceH + pad * 2;
@@ -465,7 +489,7 @@ async function createMonitorMockup(sharp, tab, outputPath) {
     .composite([{ input: mask, blend: 'dest-in' }])
     .toBuffer();
 
-  const shadow = await createShadow(sharp, bodyW, bodyH, outerRx, 15, 40, 0.20, cw, ch);
+  const shadow = await createShadow(sharp, bodyW, bodyH, outerRx, 15, 40, 0.2, cw, ch);
   const bg = await createBackground(sharp, cw, ch);
   const glare = monitorGlareSvg(screenW, screenH, 4);
 
@@ -506,7 +530,17 @@ async function createDeviceOnTransparent(sharp, type, tab) {
   const offX = Math.round((canvasW - bodyW) / 2);
   const offY = Math.round((canvasH - totalH) / 2);
 
-  const shadow = await createShadow(sharp, bodyW, bodyH, outerRx, 15, 35, isPhone ? 0.28 : 0.20, canvasW, canvasH);
+  const shadow = await createShadow(
+    sharp,
+    bodyW,
+    bodyH,
+    outerRx,
+    15,
+    35,
+    isPhone ? 0.28 : 0.2,
+    canvasW,
+    canvasH
+  );
 
   const frame = isPhone ? phoneFrameSvg() : monitorFrameSvg();
   const glare = isPhone
@@ -514,7 +548,12 @@ async function createDeviceOnTransparent(sharp, type, tab) {
     : monitorGlareSvg(screenW, screenH, innerRx);
 
   const transparent = await sharp({
-    create: { width: canvasW, height: canvasH, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } },
+    create: {
+      width: canvasW,
+      height: canvasH,
+      channels: 4,
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+    },
   })
     .composite([
       { input: shadow, left: 0, top: 0 },
@@ -525,11 +564,18 @@ async function createDeviceOnTransparent(sharp, type, tab) {
     .png()
     .toBuffer();
 
-  return { buffer: transparent, width: canvasW, height: canvasH, deviceLeft: offX, deviceTop: offY };
+  return {
+    buffer: transparent,
+    width: canvasW,
+    height: canvasH,
+    deviceLeft: offX,
+    deviceTop: offY,
+  };
 }
 
 async function createHeroComposition(sharp, tab, outputPath) {
-  const heroW = 1600, heroH = 1000;
+  const heroW = 1600,
+    heroH = 1000;
 
   const [desktop, phone] = await Promise.all([
     createDeviceOnTransparent(sharp, 'desktop', tab),
@@ -556,10 +602,7 @@ async function createHeroComposition(sharp, tab, outputPath) {
     layers.push({ input: phoneBuf, left: 1100, top: 420 });
   }
 
-  await sharp(bg)
-    .composite(layers)
-    .png()
-    .toFile(outputPath);
+  await sharp(bg).composite(layers).png().toFile(outputPath);
   console.log(`Hero: ${outputPath.split('/').pop()}`);
 }
 
