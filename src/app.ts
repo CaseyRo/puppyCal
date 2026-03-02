@@ -201,18 +201,36 @@ export async function runApp(container: HTMLElement): Promise<void> {
 
     const hasPlanData = Boolean(config.dob || config.start || config.name);
     const logoInCard = `<div class="hidden lg:flex lg:justify-center lg:mb-3"><img src="/icons/icon-original.png" alt="" class="h-10 w-auto" aria-hidden="true" /></div>`;
+    const walkiesButtons = `
+      <div class="flex justify-center gap-2 mt-4">
+        <button type="button" id="btn-download" ${!valid ? 'disabled' : ''}
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border transition-colors ${valid ? 'text-white bg-primary border-primary hover:opacity-90' : 'text-gray-400 bg-gray-100 border-gray-200 cursor-not-allowed'}"
+          aria-label="${t('download')}">
+          <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          ${t('download')}
+        </button>
+        <button type="button" id="btn-share"
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 rounded-full border border-muted bg-white/60 hover:bg-white hover:text-primary transition-colors"
+          aria-label="${t('share_social')}">
+          <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          ${t('share_social')}
+        </button>
+      </div>`;
+
     const planSummaryCard = hasPlanData
-      ? `<div class="rounded-xl bg-surface p-4 mb-4 space-y-1">
+      ? `<div class="rounded-xl bg-surface p-4 space-y-1">
           ${logoInCard}
           <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-2">${t('section_walkies')}</p>
           ${config.name ? `<p class="text-sm text-gray-700 font-medium">${escapeHtml(config.name)}</p>` : ''}
           ${config.dob ? `<p class="text-sm text-gray-600"><span class="text-gray-400">${t('label_dob')}:</span> ${config.dob.split('-').reverse().join('-')}</p>` : ''}
           ${config.start ? `<p class="text-sm text-gray-600"><span class="text-gray-400">${t('label_start')}:</span> ${config.start.split('-').reverse().join('-')}</p>` : ''}
           <p class="text-sm text-gray-600"><span class="text-gray-400">${t('label_months')}:</span> ${config.months}</p>
+          ${walkiesButtons}
         </div>`
-      : `<div class="rounded-xl border border-dashed border-gray-200 p-4 mb-4">
+      : `<div class="rounded-xl border border-dashed border-gray-200 p-4">
           ${logoInCard}
           <p class="text-sm text-gray-400">${t('result_empty_hint')}</p>
+          ${walkiesButtons}
         </div>`;
 
     return `
@@ -258,20 +276,6 @@ export async function runApp(container: HTMLElement): Promise<void> {
         </div>
         <div class="mt-6 lg:mt-0 lg:sticky lg:top-8 lg:rounded-2xl lg:bg-surface/30 lg:p-6 lg:border lg:border-gray-200 lg:shadow-sm">
           ${planSummaryCard}
-          <div class="flex gap-2 mt-4">
-            <button type="button" id="btn-download" ${!valid ? 'disabled' : ''}
-              class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border transition-colors ${valid ? 'text-white bg-primary border-primary hover:opacity-90' : 'text-gray-400 bg-gray-100 border-gray-200 cursor-not-allowed'}"
-              aria-label="${t('download')}">
-              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              ${t('download')}
-            </button>
-            <button type="button" id="btn-share"
-              class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 rounded-full border border-muted bg-white/60 hover:bg-white hover:text-primary transition-colors"
-              aria-label="${t('share_social')}">
-              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-              ${t('share_social')}
-            </button>
-          </div>
           ${sharePicker}
         </div>
       </div>
@@ -306,21 +310,6 @@ export async function runApp(container: HTMLElement): Promise<void> {
           <dt class="text-gray-400">${t('label_activity')}</dt><dd class="text-gray-700 font-medium">${activityLabel}</dd>
           <dt class="text-gray-400">${t('label_goal')}</dt><dd class="text-gray-700 font-medium">${goalLabel}</dd>
         </dl>
-      </div>`;
-
-    const langToggle = `
-      <div class="pt-2 border-t border-gray-100">
-        <p class="text-sm font-medium mb-2">${t('lang_toggle_label')}</p>
-        <div class="inline-flex rounded-lg border border-gray-200 overflow-hidden">
-          <button type="button" id="lang-en"
-            class="px-4 py-1.5 text-sm font-medium ${config.lang === 'en' ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}">
-            EN
-          </button>
-          <button type="button" id="lang-nl"
-            class="px-4 py-1.5 text-sm font-medium ${config.lang === 'nl' ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}">
-            NL
-          </button>
-        </div>
       </div>`;
 
     return `
@@ -415,7 +404,6 @@ export async function runApp(container: HTMLElement): Promise<void> {
                 </select>
               </div>
             </fieldset>
-            ${langToggle}
           </form>
         </div>
         <div class="mt-6 lg:mt-0 lg:sticky lg:top-8 lg:rounded-2xl lg:bg-surface/30 lg:p-6 lg:border lg:border-gray-200 lg:shadow-sm">
@@ -750,7 +738,8 @@ export async function runApp(container: HTMLElement): Promise<void> {
           <img src="/icons/icon-original.png" alt="PuppyCal" class="h-28 w-auto mx-auto animate-mascot-in lg:hidden" width="104" height="112" />
           <h1 class="text-2xl font-display font-semibold text-gray-900 leading-tight mt-3">${titleText}</h1>
         </header>
-        <div class="mb-4 inline-flex rounded-lg border border-gray-200 overflow-hidden" role="tablist" aria-label="Planner tabs">
+        <div class="mb-4 flex items-center justify-between flex-wrap gap-2">
+        <div class="inline-flex rounded-lg border border-gray-200 overflow-hidden" role="tablist" aria-label="Planner tabs">
           <button type="button" id="tab-food" role="tab" aria-selected="${activeTab === 'food'}"
             class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium transition-colors ${
               activeTab === 'food'
@@ -775,6 +764,17 @@ export async function runApp(container: HTMLElement): Promise<void> {
             }">
             <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4L1.5 1.5l2.5 1M13 4l1.5-2.5L12 2.5"/><circle cx="8" cy="10" r="4.5"/><circle cx="6.5" cy="9.5" r="0.75" fill="currentColor" stroke="none"/><circle cx="9.5" cy="9.5" r="0.75" fill="currentColor" stroke="none"/><path d="M6.5 12s.7 1 1.5 1 1.5-1 1.5-1"/></svg>
             ${config.name ? escapeHtml(config.name) : t('tab_dog')}</button>
+        </div>
+        <div class="inline-flex rounded-lg border border-gray-200 overflow-hidden">
+          <button type="button" id="lang-en"
+            class="px-3 py-1.5 text-xs font-medium transition-colors ${config.lang === 'en' ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}">
+            EN
+          </button>
+          <button type="button" id="lang-nl"
+            class="px-3 py-1.5 text-xs font-medium transition-colors ${config.lang === 'nl' ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}">
+            NL
+          </button>
+        </div>
         </div>
 
         ${activeTab === 'walkies' ? renderWalkies(valid) : activeTab === 'dog' ? renderDog() : renderFood()}
@@ -1185,24 +1185,25 @@ export async function runApp(container: HTMLElement): Promise<void> {
 
       dogForm?.addEventListener('input', syncDog);
       dogForm?.addEventListener('change', syncDog);
-
-      container.querySelector('#lang-en')?.addEventListener('click', () => {
-        if (config.lang !== 'en') {
-          config = { ...config, lang: 'en' };
-          trackEvent(ANALYTICS_EVENTS.LANGUAGE_CHANGED, { lang: 'en' });
-          applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
-          window.location.reload();
-        }
-      });
-      container.querySelector('#lang-nl')?.addEventListener('click', () => {
-        if (config.lang !== 'nl') {
-          config = { ...config, lang: 'nl' };
-          trackEvent(ANALYTICS_EVENTS.LANGUAGE_CHANGED, { lang: 'nl' });
-          applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
-          window.location.reload();
-        }
-      });
     }
+
+    // Language toggle (always in top bar)
+    container.querySelector('#lang-en')?.addEventListener('click', () => {
+      if (config.lang !== 'en') {
+        config = { ...config, lang: 'en' };
+        trackEvent(ANALYTICS_EVENTS.LANGUAGE_CHANGED, { lang: 'en' });
+        applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
+        window.location.reload();
+      }
+    });
+    container.querySelector('#lang-nl')?.addEventListener('click', () => {
+      if (config.lang !== 'nl') {
+        config = { ...config, lang: 'nl' };
+        trackEvent(ANALYTICS_EVENTS.LANGUAGE_CHANGED, { lang: 'nl' });
+        applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
+        window.location.reload();
+      }
+    });
   }
 
   render();
