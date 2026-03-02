@@ -199,66 +199,78 @@ export async function runApp(container: HTMLElement): Promise<void> {
       </div>
     `;
 
+    const hasPlanData = Boolean(config.dob || config.start || config.name);
+    const planSummaryCard = hasPlanData
+      ? `<div class="rounded-xl bg-surface p-4 mb-4 space-y-1">
+          <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-2">${t('section_walkies')}</p>
+          ${config.name ? `<p class="text-sm text-gray-700 font-medium">${escapeHtml(config.name)}</p>` : ''}
+          ${config.dob ? `<p class="text-sm text-gray-600"><span class="text-gray-400">${t('label_dob')}:</span> ${config.dob.split('-').reverse().join('-')}</p>` : ''}
+          ${config.start ? `<p class="text-sm text-gray-600"><span class="text-gray-400">${t('label_start')}:</span> ${config.start.split('-').reverse().join('-')}</p>` : ''}
+          <p class="text-sm text-gray-600"><span class="text-gray-400">${t('label_months')}:</span> ${config.months}</p>
+        </div>`
+      : `<div class="rounded-xl border border-dashed border-gray-200 p-4 mb-4">
+          <p class="text-sm text-gray-400">${t('result_empty_hint')}</p>
+        </div>`;
+
     return `
       <section aria-label="${t('section_walkies')}">
       <h2 class="text-lg font-semibold mb-4">${t('section_walkies')}</h2>
-      <form id="walkies-form" class="space-y-4" novalidate data-surface="walkies-form">
+      <div class="lg:grid lg:grid-cols-2 lg:gap-10 lg:items-start">
         <div>
-          <label for="dob" class="block text-sm font-medium mb-1">${t('label_dob')} ${infoIcon(
-            t('hint_dob')
-          )}</label>
-          <input type="date" id="dob" value="${config.dob}" aria-describedby="dob-err" aria-invalid="${visibleDobError ? 'true' : 'false'}"
-            class="w-full border rounded px-3 py-2 ${visibleDobError ? 'border-red-600 ring-1 ring-red-600' : 'border-gray-300'}"/>
-          ${visibleDobError ? `<p id="dob-err" class="text-red-600 text-sm mt-1" role="alert">${t(visibleDobError)}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_dob')}</p>`}
+          <form id="walkies-form" class="space-y-4" novalidate data-surface="walkies-form">
+            <div>
+              <label for="dob" class="block text-sm font-medium mb-1">${t('label_dob')} ${infoIcon(t('hint_dob'))}</label>
+              <input type="date" id="dob" value="${config.dob}" aria-describedby="dob-err" aria-invalid="${visibleDobError ? 'true' : 'false'}"
+                class="w-full border rounded px-3 py-2 ${visibleDobError ? 'border-red-600 ring-1 ring-red-600' : 'border-gray-300'}"/>
+              ${visibleDobError ? `<p id="dob-err" class="text-red-600 text-sm mt-1" role="alert">${t(visibleDobError)}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_dob')}</p>`}
+            </div>
+            <div>
+              <label for="months" class="block text-sm font-medium mb-1">${t('label_months')} ${infoIcon(t('hint_months'))}</label>
+              <div class="inline-flex items-center gap-2">
+                <button type="button" id="months-decrease" class="h-8 w-8 rounded border border-gray-300 text-gray-700 hover:bg-gray-100" aria-label="${t('months_decrease')}">-</button>
+                <input type="number" id="months" min="1" max="12" value="${config.months}" aria-describedby="months-err" aria-invalid="${visibleMonthsError ? 'true' : 'false'}"
+                  class="w-16 text-center border rounded px-2 py-1 ${visibleMonthsError ? 'border-red-600 ring-1 ring-red-600' : 'border-gray-300'}"/>
+                <button type="button" id="months-increase" class="h-8 w-8 rounded border border-gray-300 text-gray-700 hover:bg-gray-100" aria-label="${t('months_increase')}">+</button>
+              </div>
+              ${visibleMonthsError ? `<p id="months-err" class="text-red-600 text-sm mt-1" role="alert">${t(visibleMonthsError)}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_months')}</p>`}
+            </div>
+            <div>
+              <label for="start" class="block text-sm font-medium mb-1">${t('label_start')} ${infoIcon(t('hint_start'))}</label>
+              <input type="date" id="start" value="${config.start}" aria-describedby="start-err" aria-invalid="${visibleStartError ? 'true' : 'false'}"
+                class="w-full border rounded px-3 py-2 ${visibleStartError ? 'border-red-600 ring-1 ring-red-600' : 'border-gray-300'}"/>
+              ${visibleStartError ? `<p id="start-err" class="text-red-600 text-sm mt-1" role="alert">${t(visibleStartError)}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_start')}</p>`}
+            </div>
+            <div>
+              <label for="name" class="block text-sm font-medium mb-1">${t('label_name')} ${infoIcon(t('hint_name'))}</label>
+              <input type="text" id="name" value="${escapeHtml(config.name)}" placeholder=""
+                class="w-full border border-gray-300 rounded px-3 py-2"/>
+              <p class="text-xs text-gray-500 mt-1">${t('hint_name')}</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="checkbox" id="birthday" ${config.birthday ? 'checked' : ''}
+                class="rounded border-gray-300 text-primary focus:ring-primary"/>
+              <label for="birthday" class="text-sm font-medium">${t('label_birthday')} ${infoIcon(t('hint_birthday'))}</label>
+            </div>
+          </form>
         </div>
-        <div>
-          <label for="months" class="block text-sm font-medium mb-1">${t('label_months')} ${infoIcon(
-            t('hint_months')
-          )}</label>
-          <div class="inline-flex items-center gap-2">
-            <button type="button" id="months-decrease" class="h-8 w-8 rounded border border-gray-300 text-gray-700 hover:bg-gray-100" aria-label="${t('months_decrease')}">-</button>
-            <input type="number" id="months" min="1" max="12" value="${config.months}" aria-describedby="months-err" aria-invalid="${visibleMonthsError ? 'true' : 'false'}"
-              class="w-16 text-center border rounded px-2 py-1 ${visibleMonthsError ? 'border-red-600 ring-1 ring-red-600' : 'border-gray-300'}"/>
-            <button type="button" id="months-increase" class="h-8 w-8 rounded border border-gray-300 text-gray-700 hover:bg-gray-100" aria-label="${t('months_increase')}">+</button>
+        <div class="mt-6 lg:mt-0 lg:sticky lg:top-8 lg:rounded-2xl lg:bg-surface/30 lg:p-6 lg:border lg:border-gray-200 lg:shadow-sm">
+          <div class="hidden lg:flex lg:justify-center lg:mb-4">
+            <img src="/icons/icon-original.png" alt="" class="h-16 w-auto" width="59" height="64" aria-hidden="true" />
           </div>
-          ${visibleMonthsError ? `<p id="months-err" class="text-red-600 text-sm mt-1" role="alert">${t(visibleMonthsError)}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_months')}</p>`}
+          ${planSummaryCard}
+          <div class="mt-6 flex flex-col sm:flex-row gap-3">
+            <button type="button" id="btn-download" ${!valid ? 'disabled' : ''}
+              class="px-4 py-3 rounded font-medium bg-primary text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
+              ${t('download')}
+            </button>
+            <button type="button" id="btn-share"
+              class="px-4 py-3 rounded font-medium border border-gray-300 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
+              ${t('share_social')}
+            </button>
+          </div>
+          ${sharePicker}
         </div>
-        <div>
-          <label for="start" class="block text-sm font-medium mb-1">${t('label_start')} ${infoIcon(
-            t('hint_start')
-          )}</label>
-          <input type="date" id="start" value="${config.start}" aria-describedby="start-err" aria-invalid="${visibleStartError ? 'true' : 'false'}"
-            class="w-full border rounded px-3 py-2 ${visibleStartError ? 'border-red-600 ring-1 ring-red-600' : 'border-gray-300'}"/>
-          ${visibleStartError ? `<p id="start-err" class="text-red-600 text-sm mt-1" role="alert">${t(visibleStartError)}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_start')}</p>`}
-        </div>
-        <div>
-          <label for="name" class="block text-sm font-medium mb-1">${t('label_name')} ${infoIcon(
-            t('hint_name')
-          )}</label>
-          <input type="text" id="name" value="${escapeHtml(config.name)}" placeholder=""
-            class="w-full border border-gray-300 rounded px-3 py-2"/>
-          <p class="text-xs text-gray-500 mt-1">${t('hint_name')}</p>
-        </div>
-        <div class="flex items-center gap-2">
-          <input type="checkbox" id="birthday" ${config.birthday ? 'checked' : ''}
-            class="rounded border-gray-300 text-primary focus:ring-primary"/>
-          <label for="birthday" class="text-sm font-medium">${t('label_birthday')} ${infoIcon(
-            t('hint_birthday')
-          )}</label>
-        </div>
-      </form>
-
-      <div class="mt-6 flex flex-col sm:flex-row gap-3">
-        <button type="button" id="btn-download" ${!valid ? 'disabled' : ''}
-          class="px-4 py-3 rounded font-medium bg-primary text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
-          ${t('download')}
-        </button>
-        <button type="button" id="btn-share"
-          class="px-4 py-3 rounded font-medium border border-gray-300 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
-          ${t('share_social')}
-        </button>
       </div>
-      ${sharePicker}
       </section>
     `;
   }
@@ -267,106 +279,141 @@ export async function runApp(container: HTMLElement): Promise<void> {
     const infoIcon = (text: string): string =>
       `<span class="inline-flex items-center justify-center w-4 h-4 rounded-full border border-gray-300 text-[10px] text-gray-500 ml-1" title="${text}" aria-label="${text}">i</span>`;
 
+    const activityLabel =
+      { low: t('activity_low'), moderate: t('activity_moderate'), high: t('activity_high') }[
+        foodState.activityLevel
+      ] ?? foodState.activityLevel;
+    const goalLabel =
+      { maintain: t('goal_maintain'), lose: t('goal_lose') }[foodState.weightGoal] ??
+      foodState.weightGoal;
+    const breedLabel = config.breed ? t('breed_' + config.breed.replace(/-/g, '_')) : '—';
+
+    const dogIdCard = `
+      <div class="rounded-xl bg-surface p-4 mb-4">
+        <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-3">${t('dog_profile_title')}</p>
+        <dl class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+          <dt class="text-gray-400">${t('label_name')}</dt><dd class="text-gray-700 font-medium truncate">${config.name ? escapeHtml(config.name) : '—'}</dd>
+          <dt class="text-gray-400">${t('label_dob')}</dt><dd class="text-gray-700 font-medium">${config.dob ? config.dob.split('-').reverse().join('-') : '—'}</dd>
+          <dt class="text-gray-400">${t('label_weight_kg')}</dt><dd class="text-gray-700 font-medium">${foodState.weightKg.toFixed(1)} kg</dd>
+          <dt class="text-gray-400">${t('label_breed')}</dt><dd class="text-gray-700 font-medium truncate">${breedLabel}</dd>
+          <dt class="text-gray-400">${t('label_activity')}</dt><dd class="text-gray-700 font-medium">${activityLabel}</dd>
+          <dt class="text-gray-400">${t('label_goal')}</dt><dd class="text-gray-700 font-medium">${goalLabel}</dd>
+        </dl>
+      </div>`;
+
+    const langToggle = `
+      <div class="pt-2 border-t border-gray-100">
+        <p class="text-sm font-medium mb-2">${t('lang_toggle_label')}</p>
+        <div class="inline-flex rounded-lg border border-gray-200 overflow-hidden">
+          <button type="button" id="lang-en"
+            class="px-4 py-1.5 text-sm font-medium ${config.lang === 'en' ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}">
+            EN
+          </button>
+          <button type="button" id="lang-nl"
+            class="px-4 py-1.5 text-sm font-medium ${config.lang === 'nl' ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}">
+            NL
+          </button>
+        </div>
+      </div>`;
+
     return `
       <section aria-label="${t('dog_profile_title')}">
       <h2 class="text-lg font-semibold mb-4">${t('dog_profile_title')}</h2>
-      <form id="dog-form" class="space-y-4" novalidate>
+      <div class="lg:grid lg:grid-cols-2 lg:gap-10 lg:items-start">
         <div>
-          <label for="dog-name" class="block text-sm font-medium mb-1">${t('label_name')} ${infoIcon(t('hint_name'))}</label>
-          <input type="text" id="dog-name" value="${escapeHtml(config.name)}" placeholder=""
-            class="w-full border border-gray-300 rounded px-3 py-2"/>
-        </div>
-        <div>
-          <label for="dog-dob" class="block text-sm font-medium mb-1">${t('label_dob')} ${infoIcon(t('hint_dob'))}</label>
-          <input type="date" id="dog-dob" value="${config.dob}"
-            class="w-full border border-gray-300 rounded px-3 py-2"/>
-          ${config.dob ? `<p class="text-xs text-gray-500 mt-1">${foodState.ageMonths === 1 ? t('dog_derived_age_one', { dob: config.dob.split('-').reverse().join('-') }) : t('dog_derived_age', { months: String(foodState.ageMonths), dob: config.dob.split('-').reverse().join('-') })}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_dob')}</p>`}
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1">${t('label_weight_kg')}</label>
-          <div class="flex gap-2">
-            <div class="flex items-center gap-1.5">
-              <input type="number" id="dog-weight-kg" min="0" max="80" step="1" value="${Math.floor(foodState.weightKg)}"
-                class="w-20 border border-gray-300 rounded px-3 py-2"/>
-              <span class="text-sm text-gray-600">kg</span>
+          <form id="dog-form" class="space-y-4" novalidate>
+            <div>
+              <label for="dog-name" class="block text-sm font-medium mb-1">${t('label_name')} ${infoIcon(t('hint_name'))}</label>
+              <input type="text" id="dog-name" value="${escapeHtml(config.name)}" placeholder=""
+                class="w-full border border-gray-300 rounded px-3 py-2"/>
             </div>
-            <div class="flex items-center gap-1.5">
-              <input type="number" id="dog-weight-g" min="0" max="990" step="10" value="${Math.round((foodState.weightKg - Math.floor(foodState.weightKg)) * 1000)}"
-                class="w-20 border border-gray-300 rounded px-3 py-2"/>
-              <span class="text-sm text-gray-600">g</span>
+            <div>
+              <label for="dog-dob" class="block text-sm font-medium mb-1">${t('label_dob')} ${infoIcon(t('hint_dob'))}</label>
+              <input type="date" id="dog-dob" value="${config.dob}"
+                class="w-full border border-gray-300 rounded px-3 py-2"/>
+              ${config.dob ? `<p class="text-xs text-gray-500 mt-1">${foodState.ageMonths === 1 ? t('dog_derived_age_one', { dob: config.dob.split('-').reverse().join('-') }) : t('dog_derived_age', { months: String(foodState.ageMonths), dob: config.dob.split('-').reverse().join('-') })}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_dob')}</p>`}
             </div>
+            <div>
+              <label class="block text-sm font-medium mb-1">${t('label_weight_kg')}</label>
+              <div class="flex gap-2">
+                <div class="flex items-center gap-1.5">
+                  <input type="number" id="dog-weight-kg" min="0" max="80" step="1" value="${Math.floor(foodState.weightKg)}"
+                    class="w-20 border border-gray-300 rounded px-3 py-2"/>
+                  <span class="text-sm text-gray-600">kg</span>
+                </div>
+                <div class="flex items-center gap-1.5">
+                  <input type="number" id="dog-weight-g" min="0" max="990" step="10" value="${Math.round((foodState.weightKg - Math.floor(foodState.weightKg)) * 1000)}"
+                    class="w-20 border border-gray-300 rounded px-3 py-2"/>
+                  <span class="text-sm text-gray-600">g</span>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label for="dog-breed" class="block text-sm font-medium mb-1">${t('label_breed')}</label>
+              <select id="dog-breed" class="w-full border border-gray-300 rounded px-3 py-2">
+                <optgroup label="${t('breed_group_dutch')}">
+                  ${BREEDS.filter((b) => b.isNativeDutch)
+                    .map(
+                      (b) =>
+                        `<option value="${b.id}" ${config.breed === b.id ? 'selected' : ''}>${t('breed_' + b.id.replace(/-/g, '_'))}</option>`
+                    )
+                    .join('')}
+                </optgroup>
+                <optgroup label="${t('breed_group_other')}">
+                  ${BREEDS.filter((b) => !b.isNativeDutch)
+                    .map(
+                      (b) =>
+                        `<option value="${b.id}" ${config.breed === b.id ? 'selected' : ''}>${t('breed_' + b.id.replace(/-/g, '_'))}</option>`
+                    )
+                    .join('')}
+                </optgroup>
+              </select>
+            </div>
+            <div>
+              <label for="dog-breed-size" class="block text-sm font-medium mb-1">${t('label_breed_size')}</label>
+              <select id="dog-breed-size" class="w-full border border-gray-300 rounded px-3 py-2">
+                <option value="small" ${foodState.breedSize === 'small' ? 'selected' : ''}>${t('breed_small')}</option>
+                <option value="medium" ${foodState.breedSize === 'medium' ? 'selected' : ''}>${t('breed_medium')}</option>
+                <option value="large" ${foodState.breedSize === 'large' ? 'selected' : ''}>${t('breed_large')}</option>
+                <option value="giant" ${foodState.breedSize === 'giant' ? 'selected' : ''}>${t('breed_giant')}</option>
+              </select>
+            </div>
+            <div>
+              <label for="dog-activity" class="block text-sm font-medium mb-1">${t('label_activity')}</label>
+              <select id="dog-activity" class="w-full border border-gray-300 rounded px-3 py-2">
+                <option value="low" ${foodState.activityLevel === 'low' ? 'selected' : ''}>${t('activity_low')}</option>
+                <option value="moderate" ${foodState.activityLevel === 'moderate' ? 'selected' : ''}>${t('activity_moderate')}</option>
+                <option value="high" ${foodState.activityLevel === 'high' ? 'selected' : ''}>${t('activity_high')}</option>
+              </select>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="checkbox" id="dog-neutered" ${foodState.neutered ? 'checked' : ''}
+                class="rounded border-gray-300 text-primary focus:ring-primary"/>
+              <label for="dog-neutered" class="text-sm font-medium">${t('label_neutered')}</label>
+            </div>
+            <div>
+              <label for="dog-goal" class="block text-sm font-medium mb-1">${t('label_goal')}</label>
+              <select id="dog-goal" class="w-full border border-gray-300 rounded px-3 py-2">
+                <option value="maintain" ${foodState.weightGoal === 'maintain' ? 'selected' : ''}>${t('goal_maintain')}</option>
+                <option value="lose" ${foodState.weightGoal === 'lose' ? 'selected' : ''}>${t('goal_lose')}</option>
+              </select>
+            </div>
+            <div>
+              <label for="dog-meals" class="block text-sm font-medium mb-1">${t('label_meals_per_day')}</label>
+              <select id="dog-meals" class="w-full border border-gray-300 rounded px-3 py-2">
+                ${[1, 2, 3, 4].map((n) => `<option value="${n}" ${config.meals === n ? 'selected' : ''}>${n}×</option>`).join('')}
+              </select>
+            </div>
+            ${langToggle}
+          </form>
+        </div>
+        <div class="mt-6 lg:mt-0 lg:sticky lg:top-8 lg:rounded-2xl lg:bg-surface/30 lg:p-6 lg:border lg:border-gray-200 lg:shadow-sm">
+          <div class="hidden lg:flex lg:justify-center lg:mb-4">
+            <img src="/icons/icon-original.png" alt="" class="h-24 w-auto" width="88" height="96" aria-hidden="true" />
           </div>
+          ${dogIdCard}
         </div>
-        <div>
-          <label for="dog-breed" class="block text-sm font-medium mb-1">${t('label_breed')}</label>
-          <select id="dog-breed" class="w-full border border-gray-300 rounded px-3 py-2">
-            <optgroup label="${t('breed_group_dutch')}">
-              ${BREEDS.filter((b) => b.isNativeDutch)
-                .map(
-                  (b) =>
-                    `<option value="${b.id}" ${config.breed === b.id ? 'selected' : ''}>${t('breed_' + b.id.replace(/-/g, '_'))}</option>`
-                )
-                .join('')}
-            </optgroup>
-            <optgroup label="${t('breed_group_other')}">
-              ${BREEDS.filter((b) => !b.isNativeDutch)
-                .map(
-                  (b) =>
-                    `<option value="${b.id}" ${config.breed === b.id ? 'selected' : ''}>${t('breed_' + b.id.replace(/-/g, '_'))}</option>`
-                )
-                .join('')}
-            </optgroup>
-          </select>
-        </div>
-        <div>
-          <label for="dog-breed-size" class="block text-sm font-medium mb-1">${t('label_breed_size')}</label>
-          <select id="dog-breed-size" class="w-full border border-gray-300 rounded px-3 py-2">
-            <option value="small" ${foodState.breedSize === 'small' ? 'selected' : ''}>${t('breed_small')}</option>
-            <option value="medium" ${foodState.breedSize === 'medium' ? 'selected' : ''}>${t('breed_medium')}</option>
-            <option value="large" ${foodState.breedSize === 'large' ? 'selected' : ''}>${t('breed_large')}</option>
-            <option value="giant" ${foodState.breedSize === 'giant' ? 'selected' : ''}>${t('breed_giant')}</option>
-          </select>
-        </div>
-        <div>
-          <label for="dog-activity" class="block text-sm font-medium mb-1">${t('label_activity')}</label>
-          <select id="dog-activity" class="w-full border border-gray-300 rounded px-3 py-2">
-            <option value="low" ${foodState.activityLevel === 'low' ? 'selected' : ''}>${t('activity_low')}</option>
-            <option value="moderate" ${foodState.activityLevel === 'moderate' ? 'selected' : ''}>${t('activity_moderate')}</option>
-            <option value="high" ${foodState.activityLevel === 'high' ? 'selected' : ''}>${t('activity_high')}</option>
-          </select>
-        </div>
-        <div class="flex items-center gap-2">
-          <input type="checkbox" id="dog-neutered" ${foodState.neutered ? 'checked' : ''}
-            class="rounded border-gray-300 text-primary focus:ring-primary"/>
-          <label for="dog-neutered" class="text-sm font-medium">${t('label_neutered')}</label>
-        </div>
-        <div>
-          <label for="dog-goal" class="block text-sm font-medium mb-1">${t('label_goal')}</label>
-          <select id="dog-goal" class="w-full border border-gray-300 rounded px-3 py-2">
-            <option value="maintain" ${foodState.weightGoal === 'maintain' ? 'selected' : ''}>${t('goal_maintain')}</option>
-            <option value="lose" ${foodState.weightGoal === 'lose' ? 'selected' : ''}>${t('goal_lose')}</option>
-          </select>
-        </div>
-        <div>
-          <label for="dog-meals" class="block text-sm font-medium mb-1">${t('label_meals_per_day')}</label>
-          <select id="dog-meals" class="w-full border border-gray-300 rounded px-3 py-2">
-            ${[1, 2, 3, 4].map((n) => `<option value="${n}" ${config.meals === n ? 'selected' : ''}>${n}×</option>`).join('')}
-          </select>
-        </div>
-        <div class="pt-2 border-t border-gray-100">
-          <p class="text-sm font-medium mb-2">${t('lang_toggle_label')}</p>
-          <div class="inline-flex rounded-lg border border-gray-200 overflow-hidden">
-            <button type="button" id="lang-en"
-              class="px-4 py-1.5 text-sm font-medium ${config.lang === 'en' ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}">
-              EN
-            </button>
-            <button type="button" id="lang-nl"
-              class="px-4 py-1.5 text-sm font-medium ${config.lang === 'nl' ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}">
-              NL
-            </button>
-          </div>
-        </div>
-      </form>
+      </div>
       </section>
     `;
   }
@@ -574,106 +621,113 @@ export async function runApp(container: HTMLElement): Promise<void> {
           ? `<p class="text-sm text-red-700 mb-3">${t('data_error_prefix')} ${catalogValidation.errors[0]}</p>`
           : ''
       }
-
-      ${dogHintCard}
-      ${heroCard}
-      ${assumptionsBlock}
-
-      <form id="food-form" class="space-y-3 mt-5" novalidate>
-          ${ageField}
-          <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">${t('section_food_selection')}</p>
-          <div>
-            <label for="food-supplier" class="block text-xs font-medium text-gray-600 mb-1">${t('label_supplier')}</label>
-            <select id="food-supplier" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
-              ${suppliers
-                .map((supplier) => {
-                  const label = SUPPLIER_NAMES[supplier] ?? supplier;
-                  return `<option value="${supplier}" ${
-                    supplier === foodState.selectedSupplier ? 'selected' : ''
-                  }>${label}</option>`;
-                })
-                .join('')}
-            </select>
-          </div>
-          <div>
-            <label for="food-product" class="block text-xs font-medium text-gray-600 mb-1">${t('label_product')}</label>
-            <select id="food-product" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
-              ${foodsForSupplier
-                .map(
-                  (food) =>
-                    `<option value="${food.id}" ${
-                      food.id === foodState.selectedFoodId ? 'selected' : ''
-                    }>${food.brand} — ${food.productName} (${food.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')})</option>`
-                )
-                .join('')}
-            </select>
-          </div>
-          <div class="flex items-center gap-2">
-            <input id="food-mixed-mode" type="checkbox" ${
-              foodState.mixedMode ? 'checked' : ''
-            } ${!hasOppositeType ? 'disabled' : ''} class="rounded border-gray-300 text-primary focus:ring-primary disabled:opacity-50"/>
-            <label for="food-mixed-mode" class="text-xs font-medium text-gray-600">${t('label_mixed_mode')}</label>
-          </div>
-          ${!hasOppositeType ? `<p class="text-xs text-gray-400">${t('mixed_no_opposite')}</p>` : ''}
-          ${
-            foodState.mixedMode && hasOppositeType
-              ? `<div class="rounded-lg border border-gray-200 p-3 bg-white/50 space-y-3">
-            <p class="text-xs text-gray-500">${t('mixed_mode_hint')}</p>
+      <div class="lg:grid lg:grid-cols-2 lg:gap-10 lg:items-start">
+        <div>
+          ${dogHintCard}
+          <form id="food-form" class="space-y-3" novalidate>
+            ${ageField}
+            <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">${t('section_food_selection')}</p>
             <div>
-              <label for="food-second-supplier" class="block text-xs font-medium text-gray-600 mb-1">${t('label_second_supplier')}</label>
-              <select id="food-second-supplier" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
+              <label for="food-supplier" class="block text-xs font-medium text-gray-600 mb-1">${t('label_supplier')}</label>
+              <select id="food-supplier" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
                 ${suppliers
-                  .map(
-                    (supplier) =>
-                      `<option value="${supplier}" ${
-                        supplier === foodState.secondSupplier ? 'selected' : ''
-                      }>${SUPPLIER_NAMES[supplier] ?? supplier}</option>`
-                  )
+                  .map((supplier) => {
+                    const label = SUPPLIER_NAMES[supplier] ?? supplier;
+                    return `<option value="${supplier}" ${
+                      supplier === foodState.selectedSupplier ? 'selected' : ''
+                    }>${label}</option>`;
+                  })
                   .join('')}
               </select>
             </div>
             <div>
-              <label for="food-second-product" class="block text-xs font-medium text-gray-600 mb-1">${t('label_second_product')}</label>
-              <select id="food-second-product" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
-                <option value="">${t('mixed_select_placeholder')}</option>
-                ${filteredSecondFoods
+              <label for="food-product" class="block text-xs font-medium text-gray-600 mb-1">${t('label_product')}</label>
+              <select id="food-product" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
+                ${foodsForSupplier
                   .map(
                     (food) =>
                       `<option value="${food.id}" ${
-                        food.id === foodState.secondFoodId ? 'selected' : ''
+                        food.id === foodState.selectedFoodId ? 'selected' : ''
                       }>${food.brand} — ${food.productName} (${food.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')})</option>`
                   )
                   .join('')}
               </select>
-              <button type="button" id="food-second-clear" class="mt-2 text-xs underline text-gray-500 hover:text-primary">${t(
-                'mixed_remove_second_food'
-              )}</button>
             </div>
-            <div>
-              <label for="food-wet-percent" class="block text-xs font-medium text-gray-600 mb-1">${t('label_mixed_split')}</label>
-              <input id="food-wet-percent" type="range" min="1" max="99" step="1" value="${wetPercent}" class="w-full"/>
-              <p class="text-xs text-gray-500 mt-1">${t('mixed_split_preview', {
-                wet: String(wetPercent),
-                dry: String(dryPercent),
-              })}</p>
-              <div class="mt-2 flex gap-2">
-                <button type="button" class="food-wet-preset text-xs rounded border border-gray-200 px-2 py-1 hover:bg-surface" data-wet-preset="75">75/25</button>
-                <button type="button" class="food-wet-preset text-xs rounded border border-gray-200 px-2 py-1 hover:bg-surface" data-wet-preset="50">50/50</button>
-                <button type="button" class="food-wet-preset text-xs rounded border border-gray-200 px-2 py-1 hover:bg-surface" data-wet-preset="25">25/75</button>
-              </div>
+            <div class="flex items-center gap-2">
+              <input id="food-mixed-mode" type="checkbox" ${
+                foodState.mixedMode ? 'checked' : ''
+              } ${!hasOppositeType ? 'disabled' : ''} class="rounded border-gray-300 text-primary focus:ring-primary disabled:opacity-50"/>
+              <label for="food-mixed-mode" class="text-xs font-medium text-gray-600">${t('label_mixed_mode')}</label>
             </div>
+            ${!hasOppositeType ? `<p class="text-xs text-gray-400">${t('mixed_no_opposite')}</p>` : ''}
             ${
-              mixedValidationKey
-                ? `<p class="text-sm text-amber-700">${t(mixedValidationKey, {
-                    min: String(MIXED_MIN_TOTAL_GRAMS),
-                  })}</p>`
+              foodState.mixedMode && hasOppositeType
+                ? `<div class="rounded-lg border border-gray-200 p-3 bg-white/50 space-y-3">
+              <p class="text-xs text-gray-500">${t('mixed_mode_hint')}</p>
+              <div>
+                <label for="food-second-supplier" class="block text-xs font-medium text-gray-600 mb-1">${t('label_second_supplier')}</label>
+                <select id="food-second-supplier" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
+                  ${suppliers
+                    .map(
+                      (supplier) =>
+                        `<option value="${supplier}" ${
+                          supplier === foodState.secondSupplier ? 'selected' : ''
+                        }>${SUPPLIER_NAMES[supplier] ?? supplier}</option>`
+                    )
+                    .join('')}
+                </select>
+              </div>
+              <div>
+                <label for="food-second-product" class="block text-xs font-medium text-gray-600 mb-1">${t('label_second_product')}</label>
+                <select id="food-second-product" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
+                  <option value="">${t('mixed_select_placeholder')}</option>
+                  ${filteredSecondFoods
+                    .map(
+                      (food) =>
+                        `<option value="${food.id}" ${
+                          food.id === foodState.secondFoodId ? 'selected' : ''
+                        }>${food.brand} — ${food.productName} (${food.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')})</option>`
+                    )
+                    .join('')}
+                </select>
+                <button type="button" id="food-second-clear" class="mt-2 text-xs underline text-gray-500 hover:text-primary">${t(
+                  'mixed_remove_second_food'
+                )}</button>
+              </div>
+              <div>
+                <label for="food-wet-percent" class="block text-xs font-medium text-gray-600 mb-1">${t('label_mixed_split')}</label>
+                <input id="food-wet-percent" type="range" min="1" max="99" step="1" value="${wetPercent}" class="w-full"/>
+                <p class="text-xs text-gray-500 mt-1">${t('mixed_split_preview', {
+                  wet: String(wetPercent),
+                  dry: String(dryPercent),
+                })}</p>
+                <div class="mt-2 flex gap-2">
+                  <button type="button" class="food-wet-preset text-xs rounded border border-gray-200 px-2 py-1 hover:bg-surface" data-wet-preset="75">75/25</button>
+                  <button type="button" class="food-wet-preset text-xs rounded border border-gray-200 px-2 py-1 hover:bg-surface" data-wet-preset="50">50/50</button>
+                  <button type="button" class="food-wet-preset text-xs rounded border border-gray-200 px-2 py-1 hover:bg-surface" data-wet-preset="25">25/75</button>
+                </div>
+              </div>
+              ${
+                mixedValidationKey
+                  ? `<p class="text-sm text-amber-700">${t(mixedValidationKey, {
+                      min: String(MIXED_MIN_TOTAL_GRAMS),
+                    })}</p>`
+                  : ''
+              }
+            </div>`
                 : ''
             }
-          </div>`
-              : ''
-          }
+          </form>
+        </div>
+        <div class="mt-6 lg:mt-0 lg:sticky lg:top-8 lg:rounded-2xl lg:bg-surface/30 lg:p-6 lg:border lg:border-gray-200 lg:shadow-sm">
+          <div class="hidden lg:flex lg:justify-center lg:mb-4">
+            <img src="/icons/icon-original.png" alt="" class="h-16 w-auto" width="59" height="64" aria-hidden="true" />
+          </div>
+          ${heroCard}
+          ${assumptionsBlock}
           ${profileSummaryLine}
-        </form>
+        </div>
+      </div>
       </section>
     `;
   }
@@ -683,9 +737,9 @@ export async function runApp(container: HTMLElement): Promise<void> {
     const titleText = config.name ? t('title_for', { name: escapeHtml(config.name) }) : t('title');
 
     container.innerHTML = `
-      <div class="min-h-screen bg-background text-gray-800 font-sans px-4 py-6 max-w-lg mx-auto">
+      <div class="min-h-screen bg-background text-gray-800 font-sans px-4 py-6 max-w-lg mx-auto lg:max-w-5xl lg:px-8">
         <header class="text-center mb-8">
-          <img src="/icons/icon-original.png" alt="PuppyCal" class="h-28 w-auto mx-auto animate-mascot-in" width="104" height="112" />
+          <img src="/icons/icon-original.png" alt="PuppyCal" class="h-28 w-auto mx-auto animate-mascot-in lg:hidden" width="104" height="112" />
           <h1 class="text-2xl font-display font-semibold text-gray-900 leading-tight mt-3">${titleText}</h1>
         </header>
         <div class="mb-4 inline-flex rounded-lg border border-gray-200 overflow-hidden" role="tablist" aria-label="Planner tabs">
