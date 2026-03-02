@@ -6,7 +6,15 @@
  * No-ops with exit 0 if no built app (dist/ or build/) exists.
  */
 import { spawn } from 'child_process';
-import { createReadStream, existsSync, mkdirSync, readFileSync, statSync } from 'fs';
+import {
+  createReadStream,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  rmSync,
+  statSync,
+} from 'fs';
 import { createServer } from 'http';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
@@ -221,6 +229,150 @@ async function fillData(page) {
   }
 }
 
+// ── Device mockup constants ─────────────────────────────────────────────────
+
+const PHONE = {
+  screenW: 390,
+  screenH: 844,
+  bodyW: 430,
+  bodyH: 932,
+  screenX: 20,
+  screenY: 44,
+  pad: 72,
+};
+const MONITOR = {
+  screenW: 1280,
+  screenH: 720,
+  bodyW: 1336,
+  bodyH: 840,
+  screenX: 28,
+  screenY: 24,
+  pad: 72,
+};
+
+function bgSvg(w, h) {
+  return Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
+      <defs>
+        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#f0ede8"/>
+          <stop offset="100%" stop-color="#e2dbd0"/>
+        </linearGradient>
+      </defs>
+      <rect width="${w}" height="${h}" fill="url(#g)"/>
+    </svg>`
+  );
+}
+
+function shadowSvg(w, h, rx, pad, bodyW, bodyH) {
+  return Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
+      <defs>
+        <filter id="s" x="-30%" y="-15%" width="160%" height="140%">
+          <feDropShadow dx="0" dy="14" stdDeviation="22" flood-color="#000" flood-opacity="0.22"/>
+        </filter>
+      </defs>
+      <rect x="${pad}" y="${pad}" width="${bodyW}" height="${bodyH}" rx="${rx}" fill="#1C1C1E" filter="url(#s)"/>
+    </svg>`
+  );
+}
+
+function phoneFrameSvg() {
+  const { bodyW: w, bodyH: h, screenX: sx, screenY: sy, screenW: sw, screenH: sh } = PHONE;
+  return Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
+      <defs>
+        <mask id="m">
+          <rect width="${w}" height="${h}" rx="50" fill="white"/>
+          <rect x="${sx}" y="${sy}" width="${sw}" height="${sh}" rx="5" fill="black"/>
+        </mask>
+      </defs>
+      <rect width="${w}" height="${h}" rx="50" fill="#1C1C1E" mask="url(#m)"/>
+      <rect x="170" y="16" width="90" height="24" rx="12" fill="#0A0A0A"/>
+      <rect x="${sx}" y="${sy}" width="${sw}" height="${sh}" rx="5" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="1"/>
+    </svg>`
+  );
+}
+
+function monitorFrameSvg() {
+  const { bodyW: w, bodyH: h, screenX: sx, screenY: sy, screenW: sw, screenH: sh } = MONITOR;
+  const monH = h - 48; // monitor head height (excl stand)
+  const cx = w / 2;
+  return Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
+      <defs>
+        <mask id="m">
+          <rect width="${w}" height="${monH}" rx="12" fill="white"/>
+          <rect x="${sx}" y="${sy}" width="${sw}" height="${sh}" fill="black"/>
+        </mask>
+        <linearGradient id="chin" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#D0D0D5"/>
+          <stop offset="100%" stop-color="#C4C4C9"/>
+        </linearGradient>
+      </defs>
+      <rect width="${w}" height="${monH}" rx="12" fill="#D8D8DD" mask="url(#m)"/>
+      <rect x="0" y="${monH - 48}" width="${w}" height="48" rx="0" fill="url(#chin)"/>
+      <circle cx="${cx}" cy="12" r="4" fill="#9E9EA3"/>
+      <rect x="${sx}" y="${sy}" width="${sw}" height="${sh}" fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>
+      <rect x="${cx - 100}" y="${monH}" width="200" height="22" rx="4" fill="#C8C8CD"/>
+      <rect x="${cx - 220}" y="${monH + 22}" width="440" height="26" rx="13" fill="#C4C4C9"/>
+    </svg>`
+  );
+}
+
+async function createMockups() {
+  const { default: sharp } = await import('sharp');
+  const mockupDir = join(SCREENSHOTS_DIR, 'mockups');
+  mkdirSync(mockupDir, { recursive: true });
+  // Clear stale mockups
+  readdirSync(mockupDir)
+    .filter((f) => f.endsWith('.png'))
+    .forEach((f) => rmSync(join(mockupDir, f)));
+
+  const phoneFrame = phoneFrameSvg();
+  const monitorFrame = monitorFrameSvg();
+
+  for (const tab of TABS) {
+    // ── Phone ──────────────────────────────────────────────────────────────
+    const phoneSrc = join(SCREENSHOTS_DIR, `phone-${tab}.png`);
+    if (existsSync(phoneSrc)) {
+      const { pad, bodyW, bodyH, screenX, screenY, screenW, screenH } = PHONE;
+      const cw = bodyW + pad * 2;
+      const ch = bodyH + pad * 2;
+      const screen = await sharp(phoneSrc)
+        .extract({ left: 0, top: 0, width: screenW, height: screenH })
+        .toBuffer();
+      await sharp(bgSvg(cw, ch))
+        .composite([
+          { input: shadowSvg(cw, ch, 50, pad, bodyW, bodyH) },
+          { input: screen, left: pad + screenX, top: pad + screenY },
+          { input: phoneFrame, left: pad, top: pad },
+        ])
+        .png()
+        .toFile(join(mockupDir, `phone-${tab}.png`));
+      console.log(`Mockup: phone-${tab}.png`);
+    }
+
+    // ── Desktop monitor ────────────────────────────────────────────────────
+    const desktopSrc = join(SCREENSHOTS_DIR, `desktop-${tab}.png`);
+    if (existsSync(desktopSrc)) {
+      const { pad, bodyW, bodyH, screenX, screenY, screenW, screenH } = MONITOR;
+      const cw = bodyW + pad * 2;
+      const ch = bodyH + pad * 2;
+      const screen = await sharp(desktopSrc).resize(screenW, screenH).toBuffer();
+      await sharp(bgSvg(cw, ch))
+        .composite([
+          { input: shadowSvg(cw, ch, 12, pad, bodyW, bodyH - 48) },
+          { input: screen, left: pad + screenX, top: pad + screenY },
+          { input: monitorFrame, left: pad, top: pad },
+        ])
+        .png()
+        .toFile(join(mockupDir, `desktop-${tab}.png`));
+      console.log(`Mockup: desktop-${tab}.png`);
+    }
+  }
+}
+
 async function main() {
   let dir = findBuildDir();
   if (!dir) {
@@ -234,7 +386,6 @@ async function main() {
 
   mkdirSync(SCREENSHOTS_DIR, { recursive: true });
   // Remove existing screenshots before capturing fresh ones
-  const { rmSync, readdirSync } = await import('fs');
   readdirSync(SCREENSHOTS_DIR)
     .filter((f) => f.endsWith('.png'))
     .forEach((f) => rmSync(`${SCREENSHOTS_DIR}/${f}`));
@@ -274,6 +425,8 @@ async function main() {
   } finally {
     server.close();
   }
+
+  await createMockups();
 
   process.exit(0);
 }
