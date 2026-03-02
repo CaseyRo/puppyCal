@@ -42,6 +42,8 @@ import {
   normalizeFoodSelection,
 } from './app-helpers';
 import { renderCalendarPreview } from './calendar-preview';
+import { initCustomSelect } from './custom-select';
+import type { FoodEntry } from './food/types';
 
 function escapeHtml(str: string): string {
   return str
@@ -50,6 +52,60 @@ function escapeHtml(str: string): string {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
+}
+
+function foodBadges(food: FoodEntry, t: (key: string) => string): string {
+  const lifeBg = food.isPuppy ? 'bg-amber-50 text-amber-700' : 'bg-gray-100 text-gray-500';
+  const lifeLabel = food.isPuppy ? t('life_stage_puppy') : t('life_stage_adult');
+  const typeBg =
+    food.foodType === 'wet' ? 'bg-blue-50 text-blue-700' : 'bg-orange-50 text-orange-700';
+  const typeLabel = food.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry');
+  return (
+    `<span class="shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-medium ${lifeBg}">${lifeLabel}</span>` +
+    `<span class="text-sm truncate flex-1">${escapeHtml(food.brand)} — ${escapeHtml(food.productName)}</span>` +
+    `<span class="shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-medium ${typeBg}">${typeLabel}</span>`
+  );
+}
+
+function renderFoodSelect(
+  selectId: string,
+  foods: FoodEntry[],
+  selectedId: string,
+  t: (key: string) => string,
+  placeholder?: string
+): string {
+  const selectedFood = foods.find((f) => f.id === selectedId);
+  const triggerContent = selectedFood
+    ? foodBadges(selectedFood, t)
+    : `<span class="text-sm text-gray-400">${escapeHtml(placeholder ?? '')}</span>`;
+
+  const optionsHtml =
+    (placeholder
+      ? `<div role="option" data-value="" aria-selected="${!selectedId ? 'true' : 'false'}"
+        class="flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-gray-50 text-sm text-gray-400">
+        ${escapeHtml(placeholder)}
+      </div>`
+      : '') +
+    foods
+      .map(
+        (food) =>
+          `<div role="option" data-value="${food.id}" aria-selected="${food.id === selectedId ? 'true' : 'false'}"
+            class="flex items-center gap-2 px-3 py-2 cursor-pointer hover:bg-gray-50">
+            ${foodBadges(food, t)}
+          </div>`
+      )
+      .join('');
+
+  return `<div class="custom-select relative" data-select-id="${selectId}">
+    <button type="button" data-trigger
+      class="w-full border border-gray-200 rounded px-3 py-2 text-sm text-left flex items-center gap-2 bg-white"
+      aria-haspopup="listbox" aria-expanded="false">
+      ${triggerContent}
+    </button>
+    <div role="listbox" class="hidden absolute z-50 w-full mt-1 border border-gray-200 rounded-lg shadow-lg bg-white max-h-60 overflow-y-auto">
+      ${optionsHtml}
+    </div>
+  </div>`;
 }
 
 function currentCanonicalUrl(): string {
@@ -642,17 +698,8 @@ export async function runApp(container: HTMLElement): Promise<void> {
               </select>
             </div>
             <div>
-              <label for="food-product" class="block text-xs font-medium text-gray-600 mb-1">${t('label_product')}</label>
-              <select id="food-product" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
-                ${foodsForSupplier
-                  .map(
-                    (food) =>
-                      `<option value="${food.id}" ${
-                        food.id === foodState.selectedFoodId ? 'selected' : ''
-                      }>${food.brand} — ${food.productName} (${food.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')})</option>`
-                  )
-                  .join('')}
-              </select>
+              <label class="block text-xs font-medium text-gray-600 mb-1">${t('label_product')}</label>
+              ${renderFoodSelect('food-product', foodsForSupplier, foodState.selectedFoodId, t)}
             </div>
             <div class="flex items-center gap-2">
               <input id="food-mixed-mode" type="checkbox" ${
@@ -679,18 +726,8 @@ export async function runApp(container: HTMLElement): Promise<void> {
                 </select>
               </div>
               <div>
-                <label for="food-second-product" class="block text-xs font-medium text-gray-600 mb-1">${t('label_second_product')}</label>
-                <select id="food-second-product" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
-                  <option value="">${t('mixed_select_placeholder')}</option>
-                  ${filteredSecondFoods
-                    .map(
-                      (food) =>
-                        `<option value="${food.id}" ${
-                          food.id === foodState.secondFoodId ? 'selected' : ''
-                        }>${food.brand} — ${food.productName} (${food.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')})</option>`
-                    )
-                    .join('')}
-                </select>
+                <label class="block text-xs font-medium text-gray-600 mb-1">${t('label_second_product')}</label>
+                ${renderFoodSelect('food-second-product', filteredSecondFoods, foodState.secondFoodId, t, t('mixed_select_placeholder'))}
                 <button type="button" id="food-second-clear" class="mt-2 text-xs underline text-gray-500 hover:text-primary">${t(
                   'mixed_remove_second_food'
                 )}</button>
@@ -929,14 +966,16 @@ export async function runApp(container: HTMLElement): Promise<void> {
       });
 
       const supplierInput = container.querySelector('#food-supplier') as HTMLSelectElement | null;
-      const productInput = container.querySelector('#food-product') as HTMLSelectElement | null;
+      const productWrapper = container.querySelector(
+        '[data-select-id="food-product"]'
+      ) as HTMLElement | null;
       const mixedModeInput = container.querySelector('#food-mixed-mode') as HTMLInputElement | null;
       const secondSupplierInput = container.querySelector(
         '#food-second-supplier'
       ) as HTMLSelectElement | null;
-      const secondProductInput = container.querySelector(
-        '#food-second-product'
-      ) as HTMLSelectElement | null;
+      const secondProductWrapper = container.querySelector(
+        '[data-select-id="food-second-product"]'
+      ) as HTMLElement | null;
       const secondClearButton = container.querySelector(
         '#food-second-clear'
       ) as HTMLButtonElement | null;
@@ -969,27 +1008,29 @@ export async function runApp(container: HTMLElement): Promise<void> {
         render();
       });
 
-      productInput?.addEventListener('change', () => {
-        const currentSelectedFood = findFoodById(foodState.selectedFoodId) ?? null;
-        const nextSelectedFood = findFoodById(productInput.value) ?? null;
-        const before = getFoodProfile(currentSelectedFood);
-        const after = getFoodProfile(nextSelectedFood);
-        foodState = {
-          ...foodState,
-          selectedFoodId: productInput.value,
-        };
-        foodState = resetForProfileSwitch(
-          foodState,
-          before.isPuppy,
-          after.isPuppy,
-          fallbackFoodState
-        );
-        trackEvent(ANALYTICS_EVENTS.FOOD_PRODUCT_SELECTED, {
-          supplier: foodState.selectedSupplier,
+      if (productWrapper) {
+        initCustomSelect(productWrapper, (value) => {
+          const currentSelectedFood = findFoodById(foodState.selectedFoodId) ?? null;
+          const nextSelectedFood = findFoodById(value) ?? null;
+          const before = getFoodProfile(currentSelectedFood);
+          const after = getFoodProfile(nextSelectedFood);
+          foodState = {
+            ...foodState,
+            selectedFoodId: value,
+          };
+          foodState = resetForProfileSwitch(
+            foodState,
+            before.isPuppy,
+            after.isPuppy,
+            fallbackFoodState
+          );
+          trackEvent(ANALYTICS_EVENTS.FOOD_PRODUCT_SELECTED, {
+            supplier: foodState.selectedSupplier,
+          });
+          applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
+          render();
         });
-        applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
-        render();
-      });
+      }
 
       mixedModeInput?.addEventListener('change', () => {
         const enabled = mixedModeInput.checked;
@@ -1034,23 +1075,24 @@ export async function runApp(container: HTMLElement): Promise<void> {
         render();
       });
 
-      secondProductInput?.addEventListener('change', () => {
-        const nextSecondId = secondProductInput.value;
-        if (!nextSecondId) {
-          foodState = {
-            ...foodState,
-            mixedMode: false,
-            secondFoodId: '',
-          };
-        } else {
-          foodState = {
-            ...foodState,
-            secondFoodId: nextSecondId,
-          };
-        }
-        applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
-        render();
-      });
+      if (secondProductWrapper) {
+        initCustomSelect(secondProductWrapper, (value) => {
+          if (!value) {
+            foodState = {
+              ...foodState,
+              mixedMode: false,
+              secondFoodId: '',
+            };
+          } else {
+            foodState = {
+              ...foodState,
+              secondFoodId: value,
+            };
+          }
+          applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
+          render();
+        });
+      }
 
       secondClearButton?.addEventListener('click', () => {
         foodState = {
@@ -1064,8 +1106,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
 
       ageInput?.addEventListener('input', () => {
         if (config.dob) return; // DOB takes priority — age is read-only
-        const nextSelectedFood =
-          findFoodById(productInput?.value || foodState.selectedFoodId) ?? null;
+        const nextSelectedFood = findFoodById(foodState.selectedFoodId) ?? null;
         const profile = getFoodProfile(nextSelectedFood);
         const ageValue = parseInt(ageInput.value ?? '1', 10) || 1;
         const newAgeMonths = fromDisplayedAge(ageValue, profile.isPuppy);

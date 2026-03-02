@@ -158,6 +158,8 @@
     "result_more_info": "More info",
     "puppy_adult_fields_disabled": "Not relevant for puppies under 6 months — defaults are applied automatically.",
     "adult_settings_group": "Adult dog settings",
+    "life_stage_puppy": "Puppy",
+    "life_stage_adult": "Adult",
     "preview_title": "Schedule preview",
     "preview_empty": "Fill in your puppy's details to preview the schedule",
     "preview_hint": "First 7 days of your calendar",

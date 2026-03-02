@@ -25,5 +25,38 @@
     },
     "sourceUrl": "https://kivopetfood.nl/p/rund-kip-compleet-portie/",
     "sourceDate": "2026-02-28"
+  },
+  {
+    "id": "kivo-rund-eend-puppy",
+    "supplier": "kivo",
+    "brand": "Kivo Pet Food",
+    "productName": "Rund & Eend Puppy (Wet)",
+    "isPuppy": true,
+    "lifeStage": "puppy",
+    "breedSizeTarget": "medium",
+    "foodType": "wet",
+    "packageSize": "500g portie",
+    "ingredients": [
+      "rundvlees",
+      "eend",
+      "spiervlees",
+      "orgaanvlees (lever, milt, nier, long, maag)",
+      "bot (eendkarkas)"
+    ],
+    "guaranteedAnalysis": {
+      "proteinMinPercent": 14.2,
+      "fatMinPercent": 14.7,
+      "fiberMaxPercent": 1.1,
+      "moistureMaxPercent": 68
+    },
+    "feedingGuide": {
+      "reference": "40-50g per kg lichaamsgewicht per dag, verdeeld over 2-4 maaltijden afhankelijk van leeftijd."
+    },
+    "calories": {
+      "kcalPerKg": 1890,
+      "note": "189 kcal per 100g per producent (kivopetfood.nl)."
+    },
+    "sourceUrl": "https://kivopetfood.nl/p/rund-eend-puppy/",
+    "sourceDate": "2026-03-02"
   }
 ]
