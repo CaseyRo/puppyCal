@@ -27,6 +27,7 @@ export const footerConfig: FooterConfig = {
         { label: 'Instagram', href: 'https://instagram.com/caseyromkes', icon: 'instagram' },
         { label: 'GitHub', href: 'https://github.com/caseyro', icon: 'github' },
       ],
+      socialStyle: 'filled',
     },
     secondary: {
       groups: [
