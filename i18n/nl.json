@@ -155,7 +155,9 @@
     "assumption_kcal": "Gebruikt kcal-dichtheid {density} kcal/kg.",
     "assumption_kcal_fallback": "Gebruikt kcal-dichtheid {density} kcal/kg (referentiewaarde bij ontbrekende productcalorieën).",
     "assumption_advisory": "Alleen een planningshulpmiddel; geen veterinair advies.",
-    "result_more_info": "Meer info"
+    "result_more_info": "Meer info",
+    "puppy_adult_fields_disabled": "Niet relevant voor puppy's jonger dan 6 maanden — standaardwaarden worden automatisch toegepast.",
+    "adult_settings_group": "Instellingen voor volwassen honden"
   },
   "facts": {
     "generic": [

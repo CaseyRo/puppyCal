@@ -200,8 +200,10 @@ export async function runApp(container: HTMLElement): Promise<void> {
     `;
 
     const hasPlanData = Boolean(config.dob || config.start || config.name);
+    const logoInCard = `<div class="hidden lg:flex lg:justify-center lg:mb-3"><img src="/icons/icon-original.png" alt="" class="h-10 w-auto" aria-hidden="true" /></div>`;
     const planSummaryCard = hasPlanData
       ? `<div class="rounded-xl bg-surface p-4 mb-4 space-y-1">
+          ${logoInCard}
           <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-2">${t('section_walkies')}</p>
           ${config.name ? `<p class="text-sm text-gray-700 font-medium">${escapeHtml(config.name)}</p>` : ''}
           ${config.dob ? `<p class="text-sm text-gray-600"><span class="text-gray-400">${t('label_dob')}:</span> ${config.dob.split('-').reverse().join('-')}</p>` : ''}
@@ -209,6 +211,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
           <p class="text-sm text-gray-600"><span class="text-gray-400">${t('label_months')}:</span> ${config.months}</p>
         </div>`
       : `<div class="rounded-xl border border-dashed border-gray-200 p-4 mb-4">
+          ${logoInCard}
           <p class="text-sm text-gray-400">${t('result_empty_hint')}</p>
         </div>`;
 
@@ -254,17 +257,18 @@ export async function runApp(container: HTMLElement): Promise<void> {
           </form>
         </div>
         <div class="mt-6 lg:mt-0 lg:sticky lg:top-8 lg:rounded-2xl lg:bg-surface/30 lg:p-6 lg:border lg:border-gray-200 lg:shadow-sm">
-          <div class="hidden lg:flex lg:justify-center lg:mb-4">
-            <img src="/icons/icon-original.png" alt="" class="h-16 w-auto" width="59" height="64" aria-hidden="true" />
-          </div>
           ${planSummaryCard}
-          <div class="mt-6 flex flex-col sm:flex-row gap-3">
+          <div class="flex gap-2 mt-4">
             <button type="button" id="btn-download" ${!valid ? 'disabled' : ''}
-              class="px-4 py-3 rounded font-medium bg-primary text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed">
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full border transition-colors ${valid ? 'text-white bg-primary border-primary hover:opacity-90' : 'text-gray-400 bg-gray-100 border-gray-200 cursor-not-allowed'}"
+              aria-label="${t('download')}">
+              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
               ${t('download')}
             </button>
             <button type="button" id="btn-share"
-              class="px-4 py-3 rounded font-medium border border-gray-300 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2">
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 rounded-full border border-muted bg-white/60 hover:bg-white hover:text-primary transition-colors"
+              aria-label="${t('share_social')}">
+              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
               ${t('share_social')}
             </button>
           </div>
@@ -279,6 +283,8 @@ export async function runApp(container: HTMLElement): Promise<void> {
     const infoIcon = (text: string): string =>
       `<span class="inline-flex items-center justify-center w-4 h-4 rounded-full border border-gray-300 text-[10px] text-gray-500 ml-1" title="${text}" aria-label="${text}">i</span>`;
 
+    const isPuppy = foodState.ageMonths < 6;
+
     const activityLabel =
       { low: t('activity_low'), moderate: t('activity_moderate'), high: t('activity_high') }[
         foodState.activityLevel
@@ -290,6 +296,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
 
     const dogIdCard = `
       <div class="rounded-xl bg-surface p-4 mb-4">
+        <div class="hidden lg:flex lg:justify-center lg:mb-3"><img src="/icons/icon-original.png" alt="" class="h-10 w-auto" aria-hidden="true" /></div>
         <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-3">${t('dog_profile_title')}</p>
         <dl class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
           <dt class="text-gray-400">${t('label_name')}</dt><dd class="text-gray-700 font-medium truncate">${config.name ? escapeHtml(config.name) : '—'}</dd>
@@ -379,38 +386,39 @@ export async function runApp(container: HTMLElement): Promise<void> {
               </select>
             </div>
             <div>
-              <label for="dog-activity" class="block text-sm font-medium mb-1">${t('label_activity')}</label>
-              <select id="dog-activity" class="w-full border border-gray-300 rounded px-3 py-2">
-                <option value="low" ${foodState.activityLevel === 'low' ? 'selected' : ''}>${t('activity_low')}</option>
-                <option value="moderate" ${foodState.activityLevel === 'moderate' ? 'selected' : ''}>${t('activity_moderate')}</option>
-                <option value="high" ${foodState.activityLevel === 'high' ? 'selected' : ''}>${t('activity_high')}</option>
-              </select>
-            </div>
-            <div class="flex items-center gap-2">
-              <input type="checkbox" id="dog-neutered" ${foodState.neutered ? 'checked' : ''}
-                class="rounded border-gray-300 text-primary focus:ring-primary"/>
-              <label for="dog-neutered" class="text-sm font-medium">${t('label_neutered')}</label>
-            </div>
-            <div>
-              <label for="dog-goal" class="block text-sm font-medium mb-1">${t('label_goal')}</label>
-              <select id="dog-goal" class="w-full border border-gray-300 rounded px-3 py-2">
-                <option value="maintain" ${foodState.weightGoal === 'maintain' ? 'selected' : ''}>${t('goal_maintain')}</option>
-                <option value="lose" ${foodState.weightGoal === 'lose' ? 'selected' : ''}>${t('goal_lose')}</option>
-              </select>
-            </div>
-            <div>
               <label for="dog-meals" class="block text-sm font-medium mb-1">${t('label_meals_per_day')}</label>
               <select id="dog-meals" class="w-full border border-gray-300 rounded px-3 py-2">
                 ${[1, 2, 3, 4].map((n) => `<option value="${n}" ${config.meals === n ? 'selected' : ''}>${n}×</option>`).join('')}
               </select>
             </div>
+            <fieldset class="space-y-4 rounded-lg border border-gray-200 p-4 ${isPuppy ? 'opacity-50' : ''}" ${isPuppy ? 'disabled' : ''}>
+              <legend class="text-xs font-medium text-gray-500 px-1">${t('adult_settings_group')}</legend>
+              ${isPuppy ? `<p class="text-xs text-gray-400 -mt-2">${t('puppy_adult_fields_disabled')}</p>` : ''}
+              <div>
+                <label for="dog-activity" class="block text-sm font-medium mb-1">${t('label_activity')}</label>
+                <select id="dog-activity" class="w-full border border-gray-300 rounded px-3 py-2">
+                  <option value="low" ${foodState.activityLevel === 'low' ? 'selected' : ''}>${t('activity_low')}</option>
+                  <option value="moderate" ${foodState.activityLevel === 'moderate' ? 'selected' : ''}>${t('activity_moderate')}</option>
+                  <option value="high" ${foodState.activityLevel === 'high' ? 'selected' : ''}>${t('activity_high')}</option>
+                </select>
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="checkbox" id="dog-neutered" ${foodState.neutered ? 'checked' : ''}
+                  class="rounded border-gray-300 text-primary focus:ring-primary"/>
+                <label for="dog-neutered" class="text-sm font-medium">${t('label_neutered')}</label>
+              </div>
+              <div>
+                <label for="dog-goal" class="block text-sm font-medium mb-1">${t('label_goal')}</label>
+                <select id="dog-goal" class="w-full border border-gray-300 rounded px-3 py-2">
+                  <option value="maintain" ${foodState.weightGoal === 'maintain' ? 'selected' : ''}>${t('goal_maintain')}</option>
+                  <option value="lose" ${foodState.weightGoal === 'lose' ? 'selected' : ''}>${t('goal_lose')}</option>
+                </select>
+              </div>
+            </fieldset>
             ${langToggle}
           </form>
         </div>
         <div class="mt-6 lg:mt-0 lg:sticky lg:top-8 lg:rounded-2xl lg:bg-surface/30 lg:p-6 lg:border lg:border-gray-200 lg:shadow-sm">
-          <div class="hidden lg:flex lg:justify-center lg:mb-4">
-            <img src="/icons/icon-original.png" alt="" class="h-24 w-auto" width="88" height="96" aria-hidden="true" />
-          </div>
           ${dogIdCard}
         </div>
       </div>
@@ -489,6 +497,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
       if (mixedCanApply && mixedSplit) {
         heroCard = `
           <div class="rounded-2xl bg-surface p-6 text-center animate-scale-in shadow-sm">
+            <div class="hidden lg:flex lg:justify-center lg:mb-3"><img src="/icons/icon-original.png" alt="" class="h-10 w-auto" aria-hidden="true" /></div>
             <div class="flex flex-col items-center gap-1 mb-3">
               <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-[11px] font-medium max-w-full"><span class="font-semibold shrink-0">${selectedFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}</span> <span class="truncate">${escapeHtml(selectedFood.productName)}</span></span>
               ${secondFood ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-600 text-[11px] font-medium max-w-full"><span class="font-semibold shrink-0">${secondFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}</span> <span class="truncate">${escapeHtml(secondFood.productName)}</span></span>` : ''}
@@ -531,6 +540,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
       } else {
         heroCard = `
           <div class="rounded-2xl bg-surface p-6 text-center animate-scale-in shadow-sm">
+            <div class="hidden lg:flex lg:justify-center lg:mb-3"><img src="/icons/icon-original.png" alt="" class="h-10 w-auto" aria-hidden="true" /></div>
             <p class="text-xs text-gray-400 mb-3 truncate">${escapeHtml(selectedFood.brand)} ${escapeHtml(selectedFood.productName)} · ${selectedFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}</p>
             <p class="font-display text-6xl font-semibold text-primary leading-none">
               ${config.meals > 1 ? Math.ceil(result.gramsPerDay / config.meals) : result.gramsPerDay}<span class="text-2xl ml-1">g</span>
@@ -545,6 +555,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
     } else {
       heroCard = `
         <div class="rounded-2xl bg-surface p-6 text-center">
+          <div class="hidden lg:flex lg:justify-center lg:mb-3"><img src="/icons/icon-original.png" alt="" class="h-10 w-auto" aria-hidden="true" /></div>
           <p class="text-sm font-medium text-gray-500 tracking-wide uppercase">${t('result_title')}</p>
           <p class="font-display text-5xl font-semibold text-muted mt-3 leading-tight select-none" aria-hidden="true">
             --<span class="text-2xl ml-1">g</span>
@@ -720,9 +731,6 @@ export async function runApp(container: HTMLElement): Promise<void> {
           </form>
         </div>
         <div class="mt-6 lg:mt-0 lg:sticky lg:top-8 lg:rounded-2xl lg:bg-surface/30 lg:p-6 lg:border lg:border-gray-200 lg:shadow-sm">
-          <div class="hidden lg:flex lg:justify-center lg:mb-4">
-            <img src="/icons/icon-original.png" alt="" class="h-16 w-auto" width="59" height="64" aria-hidden="true" />
-          </div>
           ${heroCard}
           ${assumptionsBlock}
           ${profileSummaryLine}
@@ -766,7 +774,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
                 : 'bg-white text-gray-700 hover:bg-gray-50'
             }">
             <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4L1.5 1.5l2.5 1M13 4l1.5-2.5L12 2.5"/><circle cx="8" cy="10" r="4.5"/><circle cx="6.5" cy="9.5" r="0.75" fill="currentColor" stroke="none"/><circle cx="9.5" cy="9.5" r="0.75" fill="currentColor" stroke="none"/><path d="M6.5 12s.7 1 1.5 1 1.5-1 1.5-1"/></svg>
-            ${t('tab_dog')}</button>
+            ${config.name ? escapeHtml(config.name) : t('tab_dog')}</button>
         </div>
 
         ${activeTab === 'walkies' ? renderWalkies(valid) : activeTab === 'dog' ? renderDog() : renderFood()}
