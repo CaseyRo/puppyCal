@@ -233,6 +233,12 @@ async function main() {
   }
 
   mkdirSync(SCREENSHOTS_DIR, { recursive: true });
+  // Remove existing screenshots before capturing fresh ones
+  const { rmSync, readdirSync } = await import('fs');
+  readdirSync(SCREENSHOTS_DIR)
+    .filter((f) => f.endsWith('.png'))
+    .forEach((f) => rmSync(`${SCREENSHOTS_DIR}/${f}`));
+
   const { server, port } = await serveStatic(dir);
   await wait(500);
 
