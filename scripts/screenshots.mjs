@@ -374,14 +374,15 @@ async function createMockups() {
 }
 
 async function main() {
-  let dir = findBuildDir();
+  const buildOk = await runBuild();
+  if (!buildOk) {
+    console.error('Build failed. Aborting screenshots.');
+    process.exit(1);
+  }
+  const dir = findBuildDir();
   if (!dir) {
-    await runBuild();
-    dir = findBuildDir();
-    if (!dir) {
-      console.log('No built app to screenshot (no dist/ or build/). Skipping.');
-      process.exit(0);
-    }
+    console.log('No built app to screenshot (no dist/ or build/). Skipping.');
+    process.exit(0);
   }
 
   mkdirSync(SCREENSHOTS_DIR, { recursive: true });
