@@ -41,6 +41,7 @@ import {
   defaultFoodState,
   normalizeFoodSelection,
 } from './app-helpers';
+import { renderCalendarPreview } from './calendar-preview';
 
 function escapeHtml(str: string): string {
   return str
@@ -277,6 +278,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
         <div class="mt-6 lg:mt-0 lg:sticky lg:top-8 lg:rounded-2xl lg:bg-surface/30 lg:p-6 lg:border lg:border-gray-200 lg:shadow-sm">
           ${planSummaryCard}
           ${sharePicker}
+          ${renderCalendarPreview(config, i18n, t, config.lang)}
         </div>
       </div>
       </section>

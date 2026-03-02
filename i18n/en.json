@@ -157,7 +157,13 @@
     "assumption_advisory": "Advisory planning aid only; not veterinary advice.",
     "result_more_info": "More info",
     "puppy_adult_fields_disabled": "Not relevant for puppies under 6 months — defaults are applied automatically.",
-    "adult_settings_group": "Adult dog settings"
+    "adult_settings_group": "Adult dog settings",
+    "preview_title": "Schedule preview",
+    "preview_empty": "Fill in your puppy's details to preview the schedule",
+    "preview_hint": "First 7 days of your calendar",
+    "preview_walk": "{mins} min × 2",
+    "preview_age": "{weeks} weeks",
+    "preview_birthday": "Birthday!"
   },
   "facts": {
     "generic": [

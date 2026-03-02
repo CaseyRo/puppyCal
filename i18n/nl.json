@@ -157,7 +157,13 @@
     "assumption_advisory": "Alleen een planningshulpmiddel; geen veterinair advies.",
     "result_more_info": "Meer info",
     "puppy_adult_fields_disabled": "Niet relevant voor puppy's jonger dan 6 maanden — standaardwaarden worden automatisch toegepast.",
-    "adult_settings_group": "Instellingen voor volwassen honden"
+    "adult_settings_group": "Instellingen voor volwassen honden",
+    "preview_title": "Schemavoorbeeld",
+    "preview_empty": "Vul de gegevens van je pup in om het schema te bekijken",
+    "preview_hint": "Eerste 7 dagen van je kalender",
+    "preview_walk": "{mins} min × 2",
+    "preview_age": "{weeks} weken",
+    "preview_birthday": "Verjaardag!"
   },
   "facts": {
     "generic": [
