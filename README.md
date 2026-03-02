@@ -4,6 +4,15 @@ Generate a Stabyhoun puppy walking schedule as an ICS calendar file.
 
 **Repository:** [github.com/CaseyRo/puppyCal](https://github.com/CaseyRo/puppyCal)
 
+## Screenshots
+
+| Food                                                         | Walkies                                                            | My Dog                                                     |
+| ------------------------------------------------------------ | ------------------------------------------------------------------ | ---------------------------------------------------------- |
+| ![Food tab on phone](screenshots/mockups/phone-food.png)     | ![Walkies tab on phone](screenshots/mockups/phone-walkies.png)     | ![Dog tab on phone](screenshots/mockups/phone-dog.png)     |
+| ![Food tab on desktop](screenshots/mockups/desktop-food.png) | ![Walkies tab on desktop](screenshots/mockups/desktop-walkies.png) | ![Dog tab on desktop](screenshots/mockups/desktop-dog.png) |
+
+![Hero — Food tab on desktop and phone](screenshots/mockups/hero-food.png)
+
 ## Versioning
 
 Version is defined in **package.json** (single source of truth). Bump with `npm version patch|minor|major` or by editing `package.json`. Run `npm run version:sync` to write the current version to the root **VERSION** file (for tooling or the static app to read). The built app can inject `package.json` version at build time.

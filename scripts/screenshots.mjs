@@ -234,90 +234,333 @@ async function fillData(page) {
 const PHONE = {
   screenW: 390,
   screenH: 844,
-  bodyW: 430,
-  bodyH: 932,
-  screenX: 20,
-  screenY: 44,
-  pad: 72,
+  bodyW: 414,
+  bodyH: 868,
+  screenX: 12,
+  screenY: 12,
+  pad: 80,
+  outerRx: 48,
+  innerRx: 40,
 };
 const MONITOR = {
   screenW: 1280,
   screenH: 720,
-  bodyW: 1336,
-  bodyH: 840,
-  screenX: 28,
-  screenY: 24,
-  pad: 72,
+  bodyW: 1300,
+  bodyH: 740,
+  screenX: 10,
+  screenY: 10,
+  pad: 100,
+  outerRx: 12,
+  // Stand dimensions
+  neckTop: 80,
+  neckBottom: 100,
+  neckHeight: 100,
+  baseW: 300,
+  baseH: 10,
+  baseRx: 5,
 };
 
+// ── SVG generators ──────────────────────────────────────────────────────────
+
 function bgSvg(w, h) {
+  const cx = Math.round(w / 2);
+  const cy = Math.round(h * 0.4);
+  const r = Math.round(Math.max(w, h) * 0.8);
   return Buffer.from(
     `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
       <defs>
-        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stop-color="#f0ede8"/>
-          <stop offset="100%" stop-color="#e2dbd0"/>
-        </linearGradient>
+        <radialGradient id="g" cx="${cx}" cy="${cy}" r="${r}" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#f5f0e8"/>
+          <stop offset="70%" stop-color="#ebe4d8"/>
+          <stop offset="100%" stop-color="#ddd5c5"/>
+        </radialGradient>
       </defs>
       <rect width="${w}" height="${h}" fill="url(#g)"/>
     </svg>`
   );
 }
 
-function shadowSvg(w, h, rx, pad, bodyW, bodyH) {
-  return Buffer.from(
-    `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
-      <defs>
-        <filter id="s" x="-30%" y="-15%" width="160%" height="140%">
-          <feDropShadow dx="0" dy="14" stdDeviation="22" flood-color="#000" flood-opacity="0.22"/>
-        </filter>
-      </defs>
-      <rect x="${pad}" y="${pad}" width="${bodyW}" height="${bodyH}" rx="${rx}" fill="#1C1C1E" filter="url(#s)"/>
-    </svg>`
-  );
-}
-
 function phoneFrameSvg() {
-  const { bodyW: w, bodyH: h, screenX: sx, screenY: sy, screenW: sw, screenH: sh } = PHONE;
+  const { bodyW: w, bodyH: h, screenX: sx, screenY: sy, screenW: sw, screenH: sh, outerRx, innerRx } = PHONE;
+  const diW = 120, diH = 36, diRx = 18;
+  const diX = Math.round((w - diW) / 2);
+  const diY = Math.round(sy / 2 - diH / 2 + 2);
   return Buffer.from(
     `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
       <defs>
         <mask id="m">
-          <rect width="${w}" height="${h}" rx="50" fill="white"/>
-          <rect x="${sx}" y="${sy}" width="${sw}" height="${sh}" rx="5" fill="black"/>
+          <rect width="${w}" height="${h}" rx="${outerRx}" fill="white"/>
+          <rect x="${sx}" y="${sy}" width="${sw}" height="${sh}" rx="${innerRx}" fill="black"/>
         </mask>
       </defs>
-      <rect width="${w}" height="${h}" rx="50" fill="#1C1C1E" mask="url(#m)"/>
-      <rect x="170" y="16" width="90" height="24" rx="12" fill="#0A0A0A"/>
-      <rect x="${sx}" y="${sy}" width="${sw}" height="${sh}" rx="5" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="1"/>
+      <!-- Body with screen cutout -->
+      <rect width="${w}" height="${h}" rx="${outerRx}" fill="#1A1A1C" mask="url(#m)"/>
+      <!-- Stainless steel edge highlight -->
+      <rect x="0.5" y="0.5" width="${w - 1}" height="${h - 1}" rx="${outerRx}" fill="none"
+            stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+      <!-- Dynamic Island -->
+      <rect x="${diX}" y="${diY}" width="${diW}" height="${diH}" rx="${diRx}" fill="#0A0A0A"/>
+      <!-- Side buttons: power (right) -->
+      <rect x="${w - 1}" y="180" width="3" height="60" rx="1.5" fill="#2A2A2C"/>
+      <!-- Volume up (left) -->
+      <rect x="-2" y="160" width="3" height="36" rx="1.5" fill="#2A2A2C"/>
+      <!-- Volume down (left) -->
+      <rect x="-2" y="210" width="3" height="36" rx="1.5" fill="#2A2A2C"/>
+      <!-- Mute switch (left) -->
+      <rect x="-2" y="130" width="3" height="18" rx="1.5" fill="#2A2A2C"/>
+      <!-- Screen inset stroke -->
+      <rect x="${sx}" y="${sy}" width="${sw}" height="${sh}" rx="${innerRx}" fill="none"
+            stroke="rgba(0,0,0,0.2)" stroke-width="0.5"/>
     </svg>`
   );
 }
 
 function monitorFrameSvg() {
-  const { bodyW: w, bodyH: h, screenX: sx, screenY: sy, screenW: sw, screenH: sh } = MONITOR;
-  const monH = h - 48; // monitor head height (excl stand)
+  const { bodyW: w, bodyH: h, screenX: sx, screenY: sy, screenW: sw, screenH: sh, outerRx,
+          neckTop, neckBottom, neckHeight, baseW, baseH, baseRx } = MONITOR;
   const cx = w / 2;
+  const totalH = h + neckHeight + baseH;
+  return Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${totalH}">
+      <defs>
+        <mask id="m">
+          <rect width="${w}" height="${h}" rx="${outerRx}" fill="white"/>
+          <rect x="${sx}" y="${sy}" width="${sw}" height="${sh}" rx="4" fill="black"/>
+        </mask>
+        <linearGradient id="stand" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#A8A8AC"/>
+          <stop offset="50%" stop-color="#C0C0C4"/>
+          <stop offset="100%" stop-color="#A8A8AC"/>
+        </linearGradient>
+      </defs>
+      <!-- Display body: dark space-gray bezels -->
+      <rect width="${w}" height="${h}" rx="${outerRx}" fill="#2C2C2E" mask="url(#m)"/>
+      <!-- Subtle edge highlight -->
+      <rect x="0.5" y="0.5" width="${w - 1}" height="${h - 1}" rx="${outerRx}" fill="none"
+            stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+      <!-- Screen inset stroke -->
+      <rect x="${sx}" y="${sy}" width="${sw}" height="${sh}" rx="4" fill="none"
+            stroke="rgba(0,0,0,0.15)" stroke-width="0.5"/>
+      <!-- Stand neck (tapered trapezoid) -->
+      <path d="M${cx - neckTop / 2},${h} L${cx + neckTop / 2},${h} L${cx + neckBottom / 2},${h + neckHeight} L${cx - neckBottom / 2},${h + neckHeight} Z"
+            fill="url(#stand)"/>
+      <!-- Stand base -->
+      <rect x="${cx - baseW / 2}" y="${h + neckHeight}" width="${baseW}" height="${baseH}" rx="${baseRx}" fill="url(#stand)"/>
+    </svg>`
+  );
+}
+
+function phoneGlareSvg(w, h, rx) {
   return Buffer.from(
     `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
       <defs>
-        <mask id="m">
-          <rect width="${w}" height="${monH}" rx="12" fill="white"/>
-          <rect x="${sx}" y="${sy}" width="${sw}" height="${sh}" fill="black"/>
-        </mask>
-        <linearGradient id="chin" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#D0D0D5"/>
-          <stop offset="100%" stop-color="#C4C4C9"/>
+        <linearGradient id="glare" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="rgba(255,255,255,0.10)"/>
+          <stop offset="50%" stop-color="rgba(255,255,255,0.03)"/>
+          <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
         </linearGradient>
+        <clipPath id="clip"><rect width="${w}" height="${h}" rx="${rx}"/></clipPath>
       </defs>
-      <rect width="${w}" height="${monH}" rx="12" fill="#D8D8DD" mask="url(#m)"/>
-      <rect x="0" y="${monH - 48}" width="${w}" height="48" rx="0" fill="url(#chin)"/>
-      <circle cx="${cx}" cy="12" r="4" fill="#9E9EA3"/>
-      <rect x="${sx}" y="${sy}" width="${sw}" height="${sh}" fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>
-      <rect x="${cx - 100}" y="${monH}" width="200" height="22" rx="4" fill="#C8C8CD"/>
-      <rect x="${cx - 220}" y="${monH + 22}" width="440" height="26" rx="13" fill="#C4C4C9"/>
+      <rect width="${w}" height="${h}" rx="${rx}" fill="url(#glare)" clip-path="url(#clip)"/>
     </svg>`
   );
+}
+
+function monitorGlareSvg(w, h, rx) {
+  return Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
+      <defs>
+        <linearGradient id="glare" x1="0" y1="0" x2="0.8" y2="1">
+          <stop offset="0%" stop-color="rgba(255,255,255,0.08)"/>
+          <stop offset="40%" stop-color="rgba(255,255,255,0.02)"/>
+          <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+        </linearGradient>
+        <clipPath id="clip"><rect width="${w}" height="${h}" rx="${rx}"/></clipPath>
+      </defs>
+      <rect width="${w}" height="${h}" rx="${rx}" fill="url(#glare)" clip-path="url(#clip)"/>
+    </svg>`
+  );
+}
+
+// ── Sharp pipeline helpers ──────────────────────────────────────────────────
+
+async function createBackground(sharp, w, h) {
+  return sharp(bgSvg(w, h)).ensureAlpha().toBuffer();
+}
+
+async function createShadow(sharp, bodyW, bodyH, rx, offsetY, blur, opacity, canvasW, canvasH) {
+  // Build the shadow at canvas size so it never exceeds composite bounds
+  const cx = Math.round(canvasW / 2);
+  const cy = Math.round(canvasH / 2) + offsetY;
+  const x = cx - Math.round(bodyW / 2);
+  const y = cy - Math.round(bodyH / 2);
+  const shadowSvg = Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${canvasW}" height="${canvasH}">
+      <rect x="${x}" y="${y}" width="${bodyW}" height="${bodyH}" rx="${rx}" fill="rgba(0,0,0,${opacity})"/>
+    </svg>`
+  );
+  return sharp(shadowSvg).blur(blur).toBuffer();
+}
+
+function roundCornersMask(w, h, rx) {
+  return Buffer.from(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
+      <rect width="${w}" height="${h}" rx="${rx}" fill="white"/>
+    </svg>`
+  );
+}
+
+// ── Mockup builders ─────────────────────────────────────────────────────────
+
+async function createPhoneMockup(sharp, tab, outputPath) {
+  const phoneSrc = join(SCREENSHOTS_DIR, `phone-${tab}.png`);
+  if (!existsSync(phoneSrc)) return;
+
+  const { pad, bodyW, bodyH, screenX, screenY, screenW, screenH, outerRx, innerRx } = PHONE;
+  const cw = bodyW + pad * 2;
+  const ch = bodyH + pad * 2;
+
+  // Round-corner the screen content
+  const rawScreen = await sharp(phoneSrc)
+    .resize(screenW, screenH, { fit: 'cover', position: 'top' })
+    .ensureAlpha()
+    .toBuffer();
+  const mask = roundCornersMask(screenW, screenH, innerRx);
+  const screen = await sharp(rawScreen)
+    .composite([{ input: mask, blend: 'dest-in' }])
+    .toBuffer();
+
+  const shadow = await createShadow(sharp, bodyW, bodyH, outerRx, 15, 40, 0.22, cw, ch);
+  const bg = await createBackground(sharp, cw, ch);
+  const glare = phoneGlareSvg(screenW, screenH, innerRx);
+
+  await sharp(bg)
+    .composite([
+      { input: shadow, left: 0, top: 0 },
+      { input: screen, left: pad + screenX, top: pad + screenY },
+      { input: phoneFrameSvg(), left: pad, top: pad },
+      { input: glare, left: pad + screenX, top: pad + screenY, blend: 'screen' },
+    ])
+    .png()
+    .toFile(outputPath);
+  console.log(`Mockup: ${outputPath.split('/').pop()}`);
+}
+
+async function createMonitorMockup(sharp, tab, outputPath) {
+  const desktopSrc = join(SCREENSHOTS_DIR, `desktop-${tab}.png`);
+  if (!existsSync(desktopSrc)) return;
+
+  const { pad, bodyW, bodyH, screenX, screenY, screenW, screenH, outerRx,
+          neckHeight, baseH } = MONITOR;
+  const totalDeviceH = bodyH + neckHeight + baseH;
+  const cw = bodyW + pad * 2;
+  const ch = totalDeviceH + pad * 2;
+
+  const rawScreen = await sharp(desktopSrc)
+    .resize(screenW, screenH, { fit: 'cover', position: 'top' })
+    .ensureAlpha()
+    .toBuffer();
+  const mask = roundCornersMask(screenW, screenH, 4);
+  const screen = await sharp(rawScreen)
+    .composite([{ input: mask, blend: 'dest-in' }])
+    .toBuffer();
+
+  const shadow = await createShadow(sharp, bodyW, bodyH, outerRx, 15, 40, 0.20, cw, ch);
+  const bg = await createBackground(sharp, cw, ch);
+  const glare = monitorGlareSvg(screenW, screenH, 4);
+
+  await sharp(bg)
+    .composite([
+      { input: shadow, left: 0, top: 0 },
+      { input: screen, left: pad + screenX, top: pad + screenY },
+      { input: monitorFrameSvg(), left: pad, top: pad },
+      { input: glare, left: pad + screenX, top: pad + screenY, blend: 'screen' },
+    ])
+    .png()
+    .toFile(outputPath);
+  console.log(`Mockup: ${outputPath.split('/').pop()}`);
+}
+
+async function createDeviceOnTransparent(sharp, type, tab) {
+  const isPhone = type === 'phone';
+  const src = join(SCREENSHOTS_DIR, `${isPhone ? 'phone' : 'desktop'}-${tab}.png`);
+  if (!existsSync(src)) return null;
+
+  const cfg = isPhone ? PHONE : MONITOR;
+  const { bodyW, bodyH, screenX, screenY, screenW, screenH, outerRx } = cfg;
+  const totalH = isPhone ? bodyH : bodyH + MONITOR.neckHeight + MONITOR.baseH;
+  const shadowPad = 120;
+
+  const rawScreen = await sharp(src)
+    .resize(screenW, screenH, { fit: 'cover', position: 'top' })
+    .ensureAlpha()
+    .toBuffer();
+  const innerRx = isPhone ? cfg.innerRx : 4;
+  const mask = roundCornersMask(screenW, screenH, innerRx);
+  const screen = await sharp(rawScreen)
+    .composite([{ input: mask, blend: 'dest-in' }])
+    .toBuffer();
+
+  const canvasW = bodyW + shadowPad;
+  const canvasH = totalH + shadowPad + 15;
+  const offX = Math.round((canvasW - bodyW) / 2);
+  const offY = Math.round((canvasH - totalH) / 2);
+
+  const shadow = await createShadow(sharp, bodyW, bodyH, outerRx, 15, 35, isPhone ? 0.28 : 0.20, canvasW, canvasH);
+
+  const frame = isPhone ? phoneFrameSvg() : monitorFrameSvg();
+  const glare = isPhone
+    ? phoneGlareSvg(screenW, screenH, innerRx)
+    : monitorGlareSvg(screenW, screenH, innerRx);
+
+  const transparent = await sharp({
+    create: { width: canvasW, height: canvasH, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } },
+  })
+    .composite([
+      { input: shadow, left: 0, top: 0 },
+      { input: screen, left: offX + screenX, top: offY + screenY },
+      { input: frame, left: offX, top: offY },
+      { input: glare, left: offX + screenX, top: offY + screenY, blend: 'screen' },
+    ])
+    .png()
+    .toBuffer();
+
+  return { buffer: transparent, width: canvasW, height: canvasH, deviceLeft: offX, deviceTop: offY };
+}
+
+async function createHeroComposition(sharp, tab, outputPath) {
+  const heroW = 1600, heroH = 1000;
+
+  const [desktop, phone] = await Promise.all([
+    createDeviceOnTransparent(sharp, 'desktop', tab),
+    createDeviceOnTransparent(sharp, 'phone', tab),
+  ]);
+  if (!desktop && !phone) return;
+
+  const bg = await createBackground(sharp, heroW, heroH);
+  const layers = [];
+
+  if (desktop) {
+    const desktopScale = 1200 / desktop.width;
+    const dW = Math.round(desktop.width * desktopScale);
+    const dH = Math.round(desktop.height * desktopScale);
+    const desktopBuf = await sharp(desktop.buffer).resize(dW, dH).toBuffer();
+    layers.push({ input: desktopBuf, left: 60, top: 50 });
+  }
+
+  if (phone) {
+    const phoneScale = 280 / phone.width;
+    const pW = Math.round(phone.width * phoneScale);
+    const pH = Math.round(phone.height * phoneScale);
+    const phoneBuf = await sharp(phone.buffer).resize(pW, pH).toBuffer();
+    layers.push({ input: phoneBuf, left: 1100, top: 420 });
+  }
+
+  await sharp(bg)
+    .composite(layers)
+    .png()
+    .toFile(outputPath);
+  console.log(`Hero: ${outputPath.split('/').pop()}`);
 }
 
 async function createMockups() {
@@ -329,47 +572,10 @@ async function createMockups() {
     .filter((f) => f.endsWith('.png'))
     .forEach((f) => rmSync(join(mockupDir, f)));
 
-  const phoneFrame = phoneFrameSvg();
-  const monitorFrame = monitorFrameSvg();
-
   for (const tab of TABS) {
-    // ── Phone ──────────────────────────────────────────────────────────────
-    const phoneSrc = join(SCREENSHOTS_DIR, `phone-${tab}.png`);
-    if (existsSync(phoneSrc)) {
-      const { pad, bodyW, bodyH, screenX, screenY, screenW, screenH } = PHONE;
-      const cw = bodyW + pad * 2;
-      const ch = bodyH + pad * 2;
-      const screen = await sharp(phoneSrc)
-        .extract({ left: 0, top: 0, width: screenW, height: screenH })
-        .toBuffer();
-      await sharp(bgSvg(cw, ch))
-        .composite([
-          { input: shadowSvg(cw, ch, 50, pad, bodyW, bodyH) },
-          { input: screen, left: pad + screenX, top: pad + screenY },
-          { input: phoneFrame, left: pad, top: pad },
-        ])
-        .png()
-        .toFile(join(mockupDir, `phone-${tab}.png`));
-      console.log(`Mockup: phone-${tab}.png`);
-    }
-
-    // ── Desktop monitor ────────────────────────────────────────────────────
-    const desktopSrc = join(SCREENSHOTS_DIR, `desktop-${tab}.png`);
-    if (existsSync(desktopSrc)) {
-      const { pad, bodyW, bodyH, screenX, screenY, screenW, screenH } = MONITOR;
-      const cw = bodyW + pad * 2;
-      const ch = bodyH + pad * 2;
-      const screen = await sharp(desktopSrc).resize(screenW, screenH).toBuffer();
-      await sharp(bgSvg(cw, ch))
-        .composite([
-          { input: shadowSvg(cw, ch, 12, pad, bodyW, bodyH - 48) },
-          { input: screen, left: pad + screenX, top: pad + screenY },
-          { input: monitorFrame, left: pad, top: pad },
-        ])
-        .png()
-        .toFile(join(mockupDir, `desktop-${tab}.png`));
-      console.log(`Mockup: desktop-${tab}.png`);
-    }
+    await createPhoneMockup(sharp, tab, join(mockupDir, `phone-${tab}.png`));
+    await createMonitorMockup(sharp, tab, join(mockupDir, `desktop-${tab}.png`));
+    await createHeroComposition(sharp, tab, join(mockupDir, `hero-${tab}.png`));
   }
 }
 
