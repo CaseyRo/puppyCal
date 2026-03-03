@@ -32,6 +32,8 @@ const ALLOWED_PAYLOAD_KEYS = new Set([
   'breed',
   'size',
   'enabled',
+  'format',
+  'milestone',
 ]);
 
 function sanitizePayload(payload: Record<string, EventValue>): Record<string, EventValue> {

@@ -191,8 +191,8 @@ input[type='range']:focus-visible::-moz-range-thumb {
 }
 
 .share-dialog-close {
-  width: 28px;
-  height: 28px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -202,6 +202,7 @@ input[type='range']:focus-visible::-moz-range-thumb {
   color: #6b7280;
   cursor: pointer;
   border-radius: 6px;
+  margin: -8px -8px -8px 0;
 }
 
 .share-dialog-close:hover {
@@ -222,6 +223,12 @@ input[type='range']:focus-visible::-moz-range-thumb {
   border-radius: 12px;
   border: 1px solid var(--color-muted);
   background: var(--color-background);
+  max-height: 420px;
+  transition: opacity 0.2s ease;
+}
+
+.share-preview-wrapper.fading {
+  opacity: 0;
 }
 
 .share-format-picker {
@@ -284,6 +291,72 @@ input[type='range']:focus-visible::-moz-range-thumb {
   color: #6b7280;
   margin: 0;
   min-height: 18px;
+}
+
+.share-toast {
+  font-size: 13px;
+  color: #059669;
+  margin: 0;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.share-toast.hidden {
+  opacity: 0;
+}
+
+.share-copy-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+  background: none;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.share-copy-link-btn:hover {
+  background: #f9fafb;
+}
+
+.share-captions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.share-caption-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #6b7280;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.15s;
+}
+
+.share-caption-btn:hover {
+  background: #f3f4f6;
+}
+
+.share-caption-copied {
+  font-size: 11px;
+  color: #059669;
+  font-weight: 500;
+  flex-shrink: 0;
+  margin-left: 8px;
 }
 
 /* ── Dog photo avatar ── */

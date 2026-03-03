@@ -393,8 +393,16 @@ describe('openShareModal', () => {
     expect(active?.textContent).toBe('Square');
   });
 
-  it('copies canonical URL to clipboard on open', () => {
+  it('does NOT auto-copy to clipboard on open', () => {
     openShareModal('food', deps);
+    expect(navigator.clipboard.writeText).not.toHaveBeenCalled();
+  });
+
+  it('copies URL when copy link button is clicked', () => {
+    openShareModal('food', deps);
+    const copyBtn = document.querySelector('#share-copy-link-btn') as HTMLButtonElement;
+    expect(copyBtn).not.toBeNull();
+    copyBtn.click();
     expect(navigator.clipboard.writeText).toHaveBeenCalledWith(
       'https://puppy-ics.vercel.app/?tab=food'
     );
@@ -411,7 +419,8 @@ describe('openShareModal', () => {
     openShareModal('food', deps);
     const btn = document.querySelector('#share-download-btn');
     expect(btn).not.toBeNull();
-    expect(btn?.textContent).toContain('Download image');
+    // Button text comes from t('share_download_btn') which returns the key in test
+    expect(btn?.textContent).toBeTruthy();
   });
 
   it('removes previous dialog when opening a new one', () => {
@@ -429,12 +438,14 @@ describe('openShareModal', () => {
     expect(document.querySelector('.share-dialog')).toBeNull();
   });
 
-  it('switches format when a format button is clicked', () => {
+  it('switches format when a format button is clicked', async () => {
     openShareModal('food', deps);
     const storyBtn = document.querySelector(
       '.share-format-btn[data-format="story"]'
     ) as HTMLButtonElement;
     storyBtn.click();
+    // Cross-fade uses a 200ms timeout before DOM update
+    await new Promise((r) => setTimeout(r, 250));
     // After click the dialog re-renders with story active
     const active = document.querySelector('.share-format-btn.active');
     expect(active?.textContent).toBe('Story');

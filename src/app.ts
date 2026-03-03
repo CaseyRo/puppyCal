@@ -46,6 +46,10 @@ import { initCustomSelect } from './custom-select';
 import type { FoodEntry } from './food/types';
 import { openShareModal } from './share-image';
 import { getDogPhoto, openPhotoCropModal } from './dog-photo';
+import { getShareText } from './share-captions';
+import { formatAge, formatAgeShort } from './share-milestones';
+import { getBirthdayContext } from './share-birthday';
+import { getWeightMilestone } from './share-milestones';
 
 function escapeHtml(str: string): string {
   return str
@@ -967,7 +971,18 @@ export async function runApp(container: HTMLElement): Promise<void> {
             return;
           }
           const url = currentCanonicalUrl();
-          const shareText = t('share_message');
+          const breedLabel = config.breed
+            ? t('breed_' + config.breed.replace(/-/g, '_'))
+            : '\u2014';
+          const captionCtx = {
+            name: config.name || '',
+            breed: breedLabel,
+            ageLabel: config.dob ? formatAge(config.dob, t) : null,
+            ageShort: config.dob ? formatAgeShort(config.dob, t) : null,
+            birthday: config.dob ? getBirthdayContext(config.dob) : null,
+            weightMilestone: getWeightMilestone(foodState.weightKg),
+          };
+          const shareText = getShareText(captionCtx, t);
           trackEvent(ANALYTICS_EVENTS.SHARE_PLATFORM_SELECTED, {
             tab: activeTab,
             platform,

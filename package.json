@@ -1,6 +1,6 @@
 {
   "name": "puppy-ics",
-  "version": "0.1.38",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "build": "webpack --mode production",

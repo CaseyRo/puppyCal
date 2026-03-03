@@ -8,6 +8,28 @@ import type { FoodPlannerState } from './config';
 import type { FoodEntry, PortionResult } from './food/types';
 import { ANALYTICS_EVENTS, trackEvent } from './analytics';
 import { getDogPhoto } from './dog-photo';
+import { isSafeDataUrl, buildFilename, getSeasonalPalette } from './share-utils';
+import type { SeasonalPalette } from './share-utils';
+import {
+  formatAge,
+  formatAgeShort,
+  getWeightMilestone,
+  getBreedComparison,
+} from './share-milestones';
+import { getBirthdayContext, drawConfetti } from './share-birthday';
+import type { BirthdayContext } from './share-birthday';
+import { generateCaptions } from './share-captions';
+import { dobToAgeMonths } from './app-helpers';
+
+/** Shared rendering context passed to all card renderers. */
+export interface CardContext {
+  ageLabel: string | null;
+  ageShort: string | null;
+  birthday: BirthdayContext | null;
+  weightMilestone: number | null;
+  breedComparison: string | null;
+  seasonal: SeasonalPalette;
+}
 
 export type ShareFormat = 'story' | 'square' | 'wide';
 export type ShareCardType = 'food' | 'dog';
@@ -40,7 +62,12 @@ export interface FoodShareData {
 // ---------------------------------------------------------------------------
 
 function escapeHtml(str: string): string {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 function brandingFooter(hasPhoto: boolean): string {
@@ -62,10 +89,11 @@ function mascotWatermark(): string {
 
 function cardWrapper(format: ShareFormat, innerHtml: string, photoSrc: string | null): string {
   const dims = FORMAT_DIMS[format];
-  const hasPhoto = !!photoSrc;
+  const safePhoto = photoSrc && isSafeDataUrl(photoSrc) ? photoSrc : null;
+  const hasPhoto = !!safePhoto;
 
   const bgStyle = hasPhoto
-    ? `background-image:url('${photoSrc}');background-size:cover;background-position:center`
+    ? `background-image:url('${safePhoto}');background-size:cover;background-position:center`
     : 'background:#faf8f5';
 
   const overlayHtml = hasPhoto
@@ -94,7 +122,8 @@ export function renderFoodShareCard(
   config: Config,
   foodData: FoodShareData,
   format: ShareFormat,
-  t: (key: string, params?: Record<string, string | number>) => string
+  t: (key: string, params?: Record<string, string | number>) => string,
+  cardCtx?: CardContext
 ): string {
   const { selectedFood, secondFood, result, mixedCanApply, mixedSplit, wetPercent } = foodData;
   if (!selectedFood || !result) return '';
@@ -102,6 +131,8 @@ export function renderFoodShareCard(
   const photoSrc = getDogPhoto();
   const hasPhoto = !!photoSrc;
   const dryPercent = 100 - wetPercent;
+  const isBirthday = !!cardCtx?.birthday;
+  const accent = isBirthday ? '#D4A843' : (cardCtx?.seasonal.accent ?? '#2d5a3d');
 
   // Color palette
   const nameColor = hasPhoto ? 'rgba(255,255,255,0.8)' : '#6b7280';
@@ -109,14 +140,26 @@ export function renderFoodShareCard(
   const labelColor = hasPhoto ? 'rgba(255,255,255,0.6)' : '#6b7280';
   const perLabelColor = hasPhoto ? 'rgba(255,255,255,0.8)' : '#4b5563';
   const summaryColor = hasPhoto ? 'rgba(255,255,255,0.6)' : '#9ca3af';
-  const pillBg = hasPhoto ? 'rgba(255,255,255,0.15)' : 'rgba(45,90,61,0.1)';
-  const pillColor = hasPhoto ? '#ffffff' : '#2d5a3d';
+  const pillBg = hasPhoto ? 'rgba(255,255,255,0.15)' : `${accent}1a`;
+  const pillColor = hasPhoto ? '#ffffff' : accent;
   const pillSecBg = hasPhoto ? 'rgba(255,255,255,0.10)' : '#f3f4f6';
   const pillSecColor = hasPhoto ? 'rgba(255,255,255,0.8)' : '#4b5563';
 
-  const nameHtml = config.name
-    ? `<p style="font-family:'DM Sans',system-ui,sans-serif;font-size:24px;color:${nameColor};margin:0 0 16px 0">${escapeHtml(config.name)}</p>`
+  // Age pill (below name)
+  const agePillHtml = cardCtx?.ageShort
+    ? `<p style="font-size:16px;color:${hasPhoto ? 'rgba(255,255,255,0.7)' : accent};margin:0 0 8px 0">${t('share_puppy_age_pill', { age: cardCtx.ageShort })}</p>`
     : '';
+
+  // Birthday badge
+  const birthdayBadgeHtml = isBirthday
+    ? `<span style="display:inline-block;margin-bottom:12px;padding:4px 14px;border-radius:999px;background:#D4A843;color:#ffffff;font-size:14px;font-weight:600">${cardCtx.birthday!.type === 'today' ? t('share_birthday_turns', { name: config.name || '🐾', age: String(cardCtx.birthday!.age) }) : t('share_birthday_badge')}</span>`
+    : '';
+
+  const nameHtml = config.name
+    ? `<p style="font-family:'DM Sans',system-ui,sans-serif;font-size:24px;color:${nameColor};margin:0 0 4px 0">${escapeHtml(config.name)}</p>`
+    : '';
+
+  const topSection = `${nameHtml}${agePillHtml}${birthdayBadgeHtml}`;
 
   // Scaled-up sizes
   const fontSize = format === 'wide' ? '130px' : format === 'square' ? '150px' : '200px';
@@ -134,7 +177,7 @@ export function renderFoodShareCard(
     return cardWrapper(
       format,
       `
-      ${nameHtml}
+      ${topSection}
       <div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:24px">
         <span style="display:inline-flex;align-items:center;gap:4px;padding:6px 16px;border-radius:999px;background:${pillBg};color:${pillColor};font-size:16px;font-weight:500">
           <strong>${selectedFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}</strong> ${escapeHtml(selectedFood.productName)}
@@ -171,7 +214,7 @@ export function renderFoodShareCard(
   return cardWrapper(
     format,
     `
-    ${nameHtml}
+    ${topSection}
     <p style="font-size:18px;color:${summaryColor};margin:0 0 20px 0;max-width:80%;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escapeHtml(selectedFood.brand)} ${escapeHtml(selectedFood.productName)} &middot; ${selectedFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}</p>
     <p style="font-family:'Fraunces',Georgia,serif;font-size:${fontSize};font-weight:600;color:${bigNumColor};line-height:1;margin:0">
       ${gramsDisplay}<span style="font-size:${unitSize};margin-left:4px">g</span>
@@ -188,10 +231,13 @@ export function renderDogShareCard(
   config: Config,
   foodState: FoodPlannerState,
   format: ShareFormat,
-  t: (key: string, params?: Record<string, string | number>) => string
+  t: (key: string, params?: Record<string, string | number>) => string,
+  cardCtx?: CardContext
 ): string {
   const photoSrc = getDogPhoto();
   const hasPhoto = !!photoSrc;
+  const isBirthday = !!cardCtx?.birthday;
+  const accent = isBirthday ? '#D4A843' : (cardCtx?.seasonal.accent ?? '#2d5a3d');
 
   const activityLabel =
     { low: t('activity_low'), moderate: t('activity_moderate'), high: t('activity_high') }[
@@ -211,6 +257,9 @@ export function renderDogShareCard(
   const boxBg = hasPhoto ? 'rgba(255,255,255,0.15)' : '#f5f0e8';
   const labelColorVal = hasPhoto ? 'rgba(255,255,255,0.6)' : '#9ca3af';
   const valueColor = hasPhoto ? '#ffffff' : '#374151';
+  const accentColor = hasPhoto ? '#ffffff' : accent;
+  const badgeBg = isBirthday ? '#D4A843' : hasPhoto ? 'rgba(255,255,255,0.15)' : `${accent}1a`;
+  const badgeColor = isBirthday ? '#ffffff' : accentColor;
 
   const rows = [
     { label: t('label_name'), value: config.name ? escapeHtml(config.name) : '\u2014' },
@@ -227,6 +276,7 @@ export function renderDogShareCard(
   // Scaled-up sizes
   const titleSize = isWide ? '16px' : format === 'square' ? '18px' : '20px';
   const nameSize = isWide ? '38px' : format === 'square' ? '44px' : '52px';
+  const ageHeroSize = isWide ? '28px' : format === 'square' ? '36px' : '44px';
   const labelSize = isWide ? '16px' : format === 'square' ? '18px' : '20px';
   const valueSize = isWide ? '20px' : format === 'square' ? '24px' : '26px';
   const boxPad = isWide ? '32px 40px' : format === 'square' ? '36px 44px' : '44px 52px';
@@ -239,7 +289,6 @@ export function renderDogShareCard(
   let tag: string;
 
   if (isWide) {
-    // Single-column stacked (label above value)
     gridStyle = `display:flex;flex-direction:column;gap:${rowGap};text-align:left`;
     gridHtml = rows
       .map(
@@ -249,7 +298,6 @@ export function renderDogShareCard(
       .join('');
     tag = 'div';
   } else {
-    // 2-column key-value
     gridStyle = `display:grid;grid-template-columns:auto 1fr;gap:${rowGap} 24px;text-align:left`;
     gridHtml = rows
       .map(
@@ -260,17 +308,48 @@ export function renderDogShareCard(
     tag = 'dl';
   }
 
-  // Title + name as hero text (no circle avatar)
-  const titleHtml = `<p style="font-size:${titleSize};font-weight:600;color:${titleColor};text-transform:uppercase;letter-spacing:0.05em;margin:0 0 8px 0">${t('dog_profile_title')}</p>`;
+  // Birthday title replacement or normal title
+  const titleText =
+    isBirthday && cardCtx.birthday!.type === 'today' && config.name
+      ? t('share_birthday_turns', { name: config.name, age: String(cardCtx.birthday!.age) })
+      : isBirthday
+        ? t('share_birthday_week')
+        : t('dog_profile_title');
+  const titleHtml = `<p style="font-size:${titleSize};font-weight:600;color:${isBirthday ? (hasPhoto ? '#D4A843' : '#D4A843') : titleColor};text-transform:uppercase;letter-spacing:0.05em;margin:0 0 8px 0">${escapeHtml(titleText)}</p>`;
+
   const nameHtml = config.name
-    ? `<p style="font-family:'Fraunces',Georgia,serif;font-size:${nameSize};font-weight:700;color:${nameColor};margin:0 0 24px 0">${escapeHtml(config.name)}</p>`
+    ? `<p style="font-family:'Fraunces',Georgia,serif;font-size:${nameSize};font-weight:700;color:${nameColor};margin:0 0 8px 0">${escapeHtml(config.name)}</p>`
     : '';
+
+  // Age hero line (below name, above info box)
+  const ageHeroHtml = cardCtx?.ageLabel
+    ? `<p style="font-family:'Fraunces',Georgia,serif;font-size:${ageHeroSize};font-weight:600;color:${hasPhoto ? 'rgba(255,255,255,0.9)' : accent};margin:0 0 16px 0">${escapeHtml(cardCtx.ageLabel)}</p>`
+    : '';
+
+  // Badge row (weight milestone + breed comparison)
+  const badges: string[] = [];
+  if (cardCtx?.weightMilestone) {
+    badges.push(
+      `<span style="display:inline-block;padding:4px 14px;border-radius:999px;background:${badgeBg};color:${badgeColor};font-size:14px;font-weight:600">${t('share_weight_milestone', { weight: String(cardCtx.weightMilestone) })}</span>`
+    );
+  }
+  if (cardCtx?.breedComparison) {
+    badges.push(
+      `<span style="display:inline-block;padding:4px 14px;border-radius:999px;background:${hasPhoto ? 'rgba(255,255,255,0.10)' : '#f3f4f6'};color:${hasPhoto ? 'rgba(255,255,255,0.8)' : '#4b5563'};font-size:14px;font-weight:500">${escapeHtml(cardCtx.breedComparison)}</span>`
+    );
+  }
+  const badgeRowHtml =
+    badges.length > 0
+      ? `<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:16px">${badges.join('')}</div>`
+      : '';
 
   const wideLayout = isWide
     ? `<div style="display:flex;align-items:flex-start;justify-content:space-between;width:100%;gap:40px">
         <div style="flex:1;padding:60px 0 0 60px">
           ${titleHtml}
           ${nameHtml}
+          ${ageHeroHtml}
+          ${badgeRowHtml}
         </div>
         <div style="background:${boxBg};border-radius:${boxRadius};padding:${boxPad};width:${boxW};box-sizing:border-box;margin:56px 60px 56px 0">
           <${tag} style="${gridStyle}">${gridHtml}</${tag}>
@@ -287,6 +366,8 @@ export function renderDogShareCard(
     `
     ${titleHtml}
     ${nameHtml}
+    ${ageHeroHtml}
+    ${badgeRowHtml}
     <div style="background:${boxBg};border-radius:${boxRadius};padding:${boxPad};width:100%;max-width:${boxW};box-sizing:border-box">
       <${tag} style="${gridStyle}">
         ${gridHtml}
@@ -430,7 +511,7 @@ async function drawPhotoBackground(
   photoSrc: string | null,
   overlayAlpha = 0.45
 ): Promise<boolean> {
-  if (!photoSrc) return false;
+  if (!photoSrc || !isSafeDataUrl(photoSrc)) return false;
 
   let img: HTMLImageElement;
   try {
@@ -553,7 +634,8 @@ async function renderDogCardToCanvas(
   config: Config,
   foodState: FoodPlannerState,
   format: ShareFormat,
-  t: TranslateFn
+  t: TranslateFn,
+  cardCtx?: CardContext
 ): Promise<HTMLCanvasElement> {
   await ensureFontsLoaded();
 
@@ -565,16 +647,19 @@ async function renderDogCardToCanvas(
 
   const photoSrc = getDogPhoto();
   const hasPhoto = await drawCardBase(ctx, format, photoSrc);
+  const isBirthday = !!cardCtx?.birthday;
+  const accent = isBirthday ? '#D4A843' : (cardCtx?.seasonal.accent ?? '#2d5a3d');
 
   const isWide = format === 'wide';
   const isPuppy = foodState.ageMonths < 6;
 
   // Conditional color palette
-  const titleColor = hasPhoto ? 'rgba(255,255,255,0.8)' : '#9ca3af';
+  const titleColor = isBirthday ? '#D4A843' : hasPhoto ? 'rgba(255,255,255,0.8)' : '#9ca3af';
   const nameColor = hasPhoto ? '#ffffff' : '#374151';
   const boxBg = hasPhoto ? 'rgba(255,255,255,0.15)' : '#f5f0e8';
   const labelColor = hasPhoto ? 'rgba(255,255,255,0.6)' : '#9ca3af';
   const valueColor = hasPhoto ? '#ffffff' : '#374151';
+  const ageColor = hasPhoto ? 'rgba(255,255,255,0.9)' : accent;
 
   const activityLabel =
     { low: t('activity_low'), moderate: t('activity_moderate'), high: t('activity_high') }[
@@ -584,6 +669,14 @@ async function renderDogCardToCanvas(
     { maintain: t('goal_maintain'), lose: t('goal_lose') }[foodState.weightGoal] ??
     foodState.weightGoal;
   const breedLabel = config.breed ? t('breed_' + config.breed.replace(/-/g, '_')) : '\u2014';
+
+  // Birthday title replacement
+  const titleText =
+    isBirthday && cardCtx.birthday!.type === 'today' && config.name
+      ? t('share_birthday_turns', { name: config.name, age: String(cardCtx.birthday!.age) })
+      : isBirthday
+        ? t('share_birthday_week')
+        : t('dog_profile_title');
 
   const rows = [
     { label: t('label_name'), value: config.name || '\u2014' },
@@ -598,26 +691,68 @@ async function renderDogCardToCanvas(
   ];
 
   if (isWide) {
-    // --- Wide layout: title+name left, info box right ---
+    // --- Wide layout: title+name+age left, info box right ---
     const titleFontSize = 16;
     const nameFontSize = 38;
+    const ageFontSize = 28;
+
+    let leftY = 80;
 
     // Title
-    drawText(ctx, t('dog_profile_title').toUpperCase(), 60, 80 + titleFontSize / 2, {
+    drawText(ctx, titleText.toUpperCase(), 60, leftY + titleFontSize / 2, {
       font: `600 ${titleFontSize}px "DM Sans", system-ui, sans-serif`,
       color: titleColor,
       align: 'left',
       letterSpacing: '0.05em',
     });
+    leftY += titleFontSize + 16;
 
     // Dog name
     if (config.name) {
-      drawText(ctx, config.name, 60, 112 + nameFontSize / 2, {
+      drawText(ctx, config.name, 60, leftY + nameFontSize / 2, {
         font: `700 ${nameFontSize}px "Fraunces", Georgia, serif`,
         color: nameColor,
         align: 'left',
         maxWidth: 500,
       });
+      leftY += nameFontSize + 12;
+    }
+
+    // Age hero
+    if (cardCtx?.ageLabel) {
+      drawText(ctx, cardCtx.ageLabel, 60, leftY + ageFontSize / 2, {
+        font: `600 ${ageFontSize}px "Fraunces", Georgia, serif`,
+        color: ageColor,
+        align: 'left',
+      });
+      leftY += ageFontSize + 12;
+    }
+
+    // Badges (weight milestone, breed comparison)
+    if (cardCtx?.weightMilestone) {
+      drawPill(
+        ctx,
+        60 + 60,
+        leftY,
+        isBirthday ? '#D4A843' : hasPhoto ? 'rgba(255,255,255,0.15)' : `${accent}1a`,
+        isBirthday ? '#ffffff' : hasPhoto ? '#ffffff' : accent,
+        t('share_weight_milestone', { weight: String(cardCtx.weightMilestone) }),
+        14,
+        600
+      );
+      leftY += 32;
+    }
+    if (cardCtx?.breedComparison) {
+      drawPill(
+        ctx,
+        60 + 80,
+        leftY,
+        hasPhoto ? 'rgba(255,255,255,0.10)' : '#f3f4f6',
+        hasPhoto ? 'rgba(255,255,255,0.8)' : '#4b5563',
+        cardCtx.breedComparison,
+        14,
+        500
+      );
     }
 
     // Info box (right side)
@@ -627,7 +762,6 @@ async function renderDogCardToCanvas(
     const boxPadX = 32;
     const boxPadY = 32;
 
-    // Single-column stacked
     const labelFontSize = 16;
     const valueFontSize = 20;
     const rowGap = 10;
@@ -658,6 +792,7 @@ async function renderDogCardToCanvas(
     const isStory = format === 'story';
     const titleFontSize = isStory ? 20 : 18;
     const nameFontSize = isStory ? 52 : 44;
+    const ageFontSize = isStory ? 44 : 36;
     const labelFontSize = isStory ? 20 : 18;
     const valueFontSize = isStory ? 26 : 24;
     const rowGap = isStory ? 18 : 14;
@@ -665,28 +800,67 @@ async function renderDogCardToCanvas(
     const boxPadY = isStory ? 44 : 36;
     const boxMaxW = 960;
 
-    // Starting Y positions
-    const titleY = isStory ? 280 : 120;
-    const nameY = isStory ? 320 : 156;
-    const boxTopY = isStory ? 420 : 240;
-
     const cx = w / 2;
 
+    // Dynamic Y positioning
+    let y = isStory ? 280 : 120;
+
     // Title
-    drawText(ctx, t('dog_profile_title').toUpperCase(), cx, titleY + titleFontSize / 2, {
+    drawText(ctx, titleText.toUpperCase(), cx, y + titleFontSize / 2, {
       font: `600 ${titleFontSize}px "DM Sans", system-ui, sans-serif`,
       color: titleColor,
       letterSpacing: '0.05em',
     });
+    y += titleFontSize + 16;
 
     // Dog name
     if (config.name) {
-      drawText(ctx, config.name, cx, nameY + nameFontSize / 2, {
+      drawText(ctx, config.name, cx, y + nameFontSize / 2, {
         font: `700 ${nameFontSize}px "Fraunces", Georgia, serif`,
         color: nameColor,
         maxWidth: boxMaxW,
       });
+      y += nameFontSize + 12;
     }
+
+    // Age hero
+    if (cardCtx?.ageLabel) {
+      drawText(ctx, cardCtx.ageLabel, cx, y + ageFontSize / 2, {
+        font: `600 ${ageFontSize}px "Fraunces", Georgia, serif`,
+        color: ageColor,
+      });
+      y += ageFontSize + 16;
+    }
+
+    // Badge row
+    let badgeY = y;
+    if (cardCtx?.weightMilestone) {
+      const { height: ph } = drawPill(
+        ctx,
+        cx,
+        badgeY,
+        isBirthday ? '#D4A843' : hasPhoto ? 'rgba(255,255,255,0.15)' : `${accent}1a`,
+        isBirthday ? '#ffffff' : hasPhoto ? '#ffffff' : accent,
+        t('share_weight_milestone', { weight: String(cardCtx.weightMilestone) }),
+        14,
+        600
+      );
+      badgeY += ph + 8;
+    }
+    if (cardCtx?.breedComparison) {
+      const { height: ph } = drawPill(
+        ctx,
+        cx,
+        badgeY,
+        hasPhoto ? 'rgba(255,255,255,0.10)' : '#f3f4f6',
+        hasPhoto ? 'rgba(255,255,255,0.8)' : '#4b5563',
+        cardCtx.breedComparison,
+        14,
+        500
+      );
+      badgeY += ph + 8;
+    }
+    if (badgeY > y) y = badgeY + 8;
 
     // Info box
     const innerW = boxMaxW - boxPadX * 2;
@@ -697,12 +871,12 @@ async function renderDogCardToCanvas(
     const boxH = gridH + boxPadY * 2;
     const boxX = cx - boxMaxW / 2;
 
-    roundRectPath(ctx, boxX, boxTopY, boxMaxW, boxH, 24);
+    roundRectPath(ctx, boxX, y, boxMaxW, boxH, 24);
     ctx.fillStyle = boxBg;
     ctx.fill();
 
     rows.forEach((row, i) => {
-      const ry = boxTopY + boxPadY + i * (rowH + rowGap);
+      const ry = y + boxPadY + i * (rowH + rowGap);
 
       drawText(ctx, row.label, boxX + boxPadX, ry + rowH / 2, {
         font: `400 ${labelFontSize}px "DM Sans", system-ui, sans-serif`,
@@ -718,6 +892,12 @@ async function renderDogCardToCanvas(
     });
   }
 
+  // Birthday confetti overlay (drawn last so it's on top)
+  if (isBirthday && config.name) {
+    const birthYear = config.dob ? new Date(config.dob).getFullYear() : 2000;
+    drawConfetti(ctx, w, h, config.name, birthYear);
+  }
+
   return canvas;
 }
 
@@ -725,7 +905,8 @@ async function renderFoodCardToCanvas(
   config: Config,
   foodData: FoodShareData,
   format: ShareFormat,
-  t: TranslateFn
+  t: TranslateFn,
+  cardCtx?: CardContext
 ): Promise<HTMLCanvasElement | null> {
   const { selectedFood, secondFood, result, mixedCanApply, mixedSplit, wetPercent } = foodData;
   if (!selectedFood || !result) return null;
@@ -744,6 +925,8 @@ async function renderFoodCardToCanvas(
 
   const cx = w / 2;
   const dryPercent = 100 - wetPercent;
+  const isBirthday = !!cardCtx?.birthday;
+  const accent = isBirthday ? '#D4A843' : (cardCtx?.seasonal.accent ?? '#2d5a3d');
 
   // Conditional color palette
   const nameClr = hasPhoto ? 'rgba(255,255,255,0.8)' : '#6b7280';
@@ -751,8 +934,8 @@ async function renderFoodCardToCanvas(
   const labelClr = hasPhoto ? 'rgba(255,255,255,0.6)' : '#6b7280';
   const perLabelClr = hasPhoto ? 'rgba(255,255,255,0.8)' : '#4b5563';
   const summaryClr = hasPhoto ? 'rgba(255,255,255,0.6)' : '#9ca3af';
-  const pillBg = hasPhoto ? 'rgba(255,255,255,0.15)' : 'rgba(45,90,61,0.1)';
-  const pillClr = hasPhoto ? '#ffffff' : '#2d5a3d';
+  const pillBg = hasPhoto ? 'rgba(255,255,255,0.15)' : `${accent}1a`;
+  const pillClr = hasPhoto ? '#ffffff' : accent;
   const pillSecBg = hasPhoto ? 'rgba(255,255,255,0.10)' : '#f3f4f6';
   const pillSecClr = hasPhoto ? 'rgba(255,255,255,0.8)' : '#4b5563';
   const plusClr = hasPhoto ? 'rgba(255,255,255,0.3)' : '#d1d5db';
@@ -773,13 +956,16 @@ async function renderFoodCardToCanvas(
 
     // Calculate total content height for vertical centering
     const nameH = config.name ? 24 + 20 : 0;
+    const agePillH = cardCtx?.ageShort ? 20 + 8 : 0;
+    const birthdayBadgeH = isBirthday ? 28 + 8 : 0;
     const pillsH = secondFood ? 36 + 8 + 36 + 24 : 36 + 24;
     const numbersH = mixBigSize + 20 + 20;
     const perMealH = 24 + 16;
     const badgeH = config.meals > 1 ? 36 + 12 : 0;
     const splitH = 18 + 6;
     const summaryH = 20;
-    const totalH = nameH + pillsH + numbersH + perMealH + badgeH + splitH + summaryH;
+    const totalH =
+      nameH + agePillH + birthdayBadgeH + pillsH + numbersH + perMealH + badgeH + splitH + summaryH;
     let y = Math.max((h - totalH) / 2, format === 'wide' ? 48 : 80);
 
     // Dog name
@@ -788,7 +974,29 @@ async function renderFoodCardToCanvas(
         font: '400 24px "DM Sans", system-ui, sans-serif',
         color: nameClr,
       });
-      y += 24 + 20;
+      y += 24 + 8;
+    }
+
+    // Age pill
+    if (cardCtx?.ageShort) {
+      drawText(ctx, t('share_puppy_age_pill', { age: cardCtx.ageShort }), cx, y + 10, {
+        font: '400 16px "DM Sans", system-ui, sans-serif',
+        color: hasPhoto ? 'rgba(255,255,255,0.7)' : accent,
+      });
+      y += 20 + 8;
+    }
+
+    // Birthday badge
+    if (isBirthday) {
+      const badgeText =
+        cardCtx.birthday!.type === 'today'
+          ? t('share_birthday_turns', {
+              name: config.name || '🐾',
+              age: String(cardCtx.birthday!.age),
+            })
+          : t('share_birthday_badge');
+      drawPill(ctx, cx, y, '#D4A843', '#ffffff', badgeText, 14, 600);
+      y += 28 + 8;
     }
 
     // Food pills
@@ -921,12 +1129,15 @@ async function renderFoodCardToCanvas(
 
     // Calculate total content height for vertical centering
     const nameH = config.name ? 24 + 20 : 0;
+    const agePillH = cardCtx?.ageShort ? 20 + 8 : 0;
+    const birthdayBadgeH = isBirthday ? 28 + 8 : 0;
     const brandH = 18 + 20;
     const bigNumH = singleBigSize;
     const perLabelH = 24 + 16;
     const badgeH = config.meals > 1 ? 36 + 14 : 0;
     const summaryH = 20;
-    const totalH = nameH + brandH + bigNumH + 16 + perLabelH + badgeH + summaryH;
+    const totalH =
+      nameH + agePillH + birthdayBadgeH + brandH + bigNumH + 16 + perLabelH + badgeH + summaryH;
     let y = Math.max((h - totalH) / 2, format === 'wide' ? 48 : 80);
 
     // Dog name
@@ -935,7 +1146,29 @@ async function renderFoodCardToCanvas(
         font: '400 24px "DM Sans", system-ui, sans-serif',
         color: nameClr,
       });
-      y += 24 + 20;
+      y += 24 + 8;
+    }
+
+    // Age pill
+    if (cardCtx?.ageShort) {
+      drawText(ctx, t('share_puppy_age_pill', { age: cardCtx.ageShort }), cx, y + 10, {
+        font: '400 16px "DM Sans", system-ui, sans-serif',
+        color: hasPhoto ? 'rgba(255,255,255,0.7)' : accent,
+      });
+      y += 20 + 8;
+    }
+
+    // Birthday badge
+    if (isBirthday) {
+      const badgeText =
+        cardCtx.birthday!.type === 'today'
+          ? t('share_birthday_turns', {
+              name: config.name || '🐾',
+              age: String(cardCtx.birthday!.age),
+            })
+          : t('share_birthday_badge');
+      drawPill(ctx, cx, y, '#D4A843', '#ffffff', badgeText, 14, 600);
+      y += 28 + 8;
     }
 
     // Brand line
@@ -1033,7 +1266,33 @@ export interface ShareModalDeps {
 export function openShareModal(cardType: ShareCardType, deps: ShareModalDeps): void {
   const { config, foodState, foodData, t, canonicalUrl } = deps;
 
+  // Compute milestone/birthday/seasonal context once
+  const ageLabel = config.dob ? formatAge(config.dob, t) : null;
+  const ageShort = config.dob ? formatAgeShort(config.dob, t) : null;
+  const ageMonths = config.dob ? dobToAgeMonths(config.dob) : null;
+  const birthday = config.dob ? getBirthdayContext(config.dob) : null;
+  const breedLabel = config.breed ? t('breed_' + config.breed.replace(/-/g, '_')) : '\u2014';
+  const weightMilestone = getWeightMilestone(foodState.weightKg);
+  const breedComparison = getBreedComparison(
+    ageMonths,
+    foodState.weightKg,
+    foodState.breedSize,
+    breedLabel,
+    t
+  );
+  const seasonal = getSeasonalPalette();
+
+  const cardCtx: CardContext = {
+    ageLabel,
+    ageShort,
+    birthday,
+    weightMilestone,
+    breedComparison,
+    seasonal,
+  };
+
   let currentFormat: ShareFormat = 'square';
+  let downloadDone = false;
 
   // Remove existing dialog if any
   document.querySelector('.share-dialog')?.remove();
@@ -1043,9 +1302,9 @@ export function openShareModal(cardType: ShareCardType, deps: ShareModalDeps): v
 
   function buildCardHtml(format: ShareFormat): string {
     if (cardType === 'food') {
-      return renderFoodShareCard(config, foodData, format, t);
+      return renderFoodShareCard(config, foodData, format, t, cardCtx);
     }
-    return renderDogShareCard(config, foodState, format, t);
+    return renderDogShareCard(config, foodState, format, t, cardCtx);
   }
 
   function getPreviewScale(): number {
@@ -1055,24 +1314,47 @@ export function openShareModal(cardType: ShareCardType, deps: ShareModalDeps): v
     return Math.min(maxW / dims.w, maxH / dims.h);
   }
 
+  function renderCaptionsHtml(): string {
+    const captionCtx = {
+      name: config.name || '',
+      breed: breedLabel,
+      ageLabel,
+      ageShort,
+      birthday,
+      weightMilestone,
+    };
+    const captions = generateCaptions(captionCtx, t);
+    if (captions.length === 0) return '';
+    return `<div class="share-captions" id="share-captions">${captions.map((c, i) => `<button type="button" class="share-caption-btn" data-caption-idx="${i}">${escapeHtml(c)}</button>`).join('')}</div>`;
+  }
+
   function renderDialogContent(): string {
     const dims = FORMAT_DIMS[currentFormat];
     const scale = getPreviewScale();
     const scaledW = Math.round(dims.w * scale);
     const scaledH = Math.round(dims.h * scale);
 
-    const titleKey = cardType === 'food' ? 'share_food_title' : 'share_dog_title';
-    const title =
-      t(titleKey) || (cardType === 'food' ? 'Share your food plan' : 'Share your dog badge');
+    const title = t(cardType === 'food' ? 'share_food_title' : 'share_dog_title');
 
     const formatButtons = FORMATS.map(
       (f) =>
         `<button type="button" class="share-format-btn ${f === currentFormat ? 'active' : ''}" data-format="${f}">${FORMAT_LABELS[f]}</button>`
     ).join('');
 
+    const clipboardAvailable =
+      typeof navigator !== 'undefined' &&
+      navigator.clipboard &&
+      typeof navigator.clipboard.writeText === 'function';
+    const copyLinkBtn = clipboardAvailable
+      ? `<button type="button" class="share-copy-link-btn" id="share-copy-link-btn">
+           <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+           ${t('share_copy_link')}
+         </button>`
+      : '';
+
     return `
       <div class="share-dialog-header">
-        <p class="share-dialog-title">${title}</p>
+        <p class="share-dialog-title">${escapeHtml(title)}</p>
         <button type="button" class="share-dialog-close" aria-label="Close">&times;</button>
       </div>
       <div class="share-dialog-body">
@@ -1086,10 +1368,163 @@ export function openShareModal(cardType: ShareCardType, deps: ShareModalDeps): v
         </div>
         <button type="button" id="share-download-btn" class="share-download-btn">
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          Download image
+          ${t('share_download_btn')}
         </button>
+        ${copyLinkBtn}
         <p class="share-clipboard-msg" id="share-clipboard-msg"></p>
+        <div id="share-captions-area">${downloadDone ? renderCaptionsHtml() : ''}</div>
       </div>`;
+  }
+
+  function showToast(text: string): void {
+    const msg = dialog.querySelector('#share-clipboard-msg');
+    if (!msg) return;
+    msg.textContent = text;
+    msg.className = 'share-toast';
+    setTimeout(() => {
+      msg.className = 'share-toast hidden';
+      setTimeout(() => {
+        if (msg) msg.textContent = '';
+      }, 300);
+    }, 3000);
+  }
+
+  function showError(text: string): void {
+    const msg = dialog.querySelector('#share-clipboard-msg') as HTMLElement | null;
+    if (!msg) return;
+    msg.textContent = text;
+    msg.className = 'share-clipboard-msg';
+    msg.style.color = '#dc2626';
+  }
+
+  function switchFormat(newFormat: ShareFormat): void {
+    if (newFormat === currentFormat) return;
+    currentFormat = newFormat;
+
+    // Cross-fade: fade out, swap content, fade in
+    const wrapper = dialog.querySelector('.share-preview-wrapper') as HTMLElement | null;
+    if (wrapper) {
+      wrapper.classList.add('fading');
+      setTimeout(() => {
+        dialog.innerHTML = renderDialogContent();
+        bindAll();
+        const newWrapper = dialog.querySelector('.share-preview-wrapper') as HTMLElement | null;
+        if (newWrapper) {
+          newWrapper.classList.add('fading');
+          // Force reflow then remove fading
+          void newWrapper.offsetHeight;
+          newWrapper.classList.remove('fading');
+        }
+      }, 200);
+    } else {
+      dialog.innerHTML = renderDialogContent();
+      bindAll();
+    }
+  }
+
+  function bindAll(): void {
+    // Close button
+    dialog.querySelector('.share-dialog-close')?.addEventListener('click', () => {
+      dialog.close();
+    });
+
+    // Format buttons
+    dialog.querySelectorAll('.share-format-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const format = (btn as HTMLElement).dataset.format as ShareFormat;
+        if (format) switchFormat(format);
+      });
+    });
+
+    // Copy link button
+    dialog.querySelector('#share-copy-link-btn')?.addEventListener('click', () => {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        void navigator.clipboard.writeText(canonicalUrl).then(() => {
+          showToast(t('link_copied'));
+        });
+      }
+    });
+
+    // Download button
+    dialog.querySelector('#share-download-btn')?.addEventListener('click', async () => {
+      const btn = dialog.querySelector('#share-download-btn') as HTMLButtonElement;
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.textContent = t('share_rendering');
+
+      try {
+        let canvas: HTMLCanvasElement | null;
+        if (cardType === 'dog') {
+          canvas = await renderDogCardToCanvas(config, foodState, currentFormat, t, cardCtx);
+        } else {
+          canvas = await renderFoodCardToCanvas(config, foodData, currentFormat, t, cardCtx);
+        }
+
+        if (!canvas) {
+          showError(t('share_error'));
+          btn.disabled = false;
+          btn.innerHTML = originalText;
+          return;
+        }
+
+        canvas.toBlob((blob) => {
+          if (!blob) {
+            showError(t('share_error'));
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+            return;
+          }
+
+          const context = birthday ? 'birthday' : cardType === 'food' ? 'food' : null;
+          const filename = buildFilename(config.name, ageShort, context, currentFormat);
+          triggerDownload(blob, filename);
+          trackEvent(ANALYTICS_EVENTS.SHARE_IMAGE_DOWNLOADED, {
+            tab: cardType,
+            format: currentFormat,
+            ...(birthday ? { milestone: 'birthday' } : {}),
+            ...(weightMilestone ? { milestone: 'weight' } : {}),
+          });
+
+          btn.disabled = false;
+          btn.innerHTML = originalText;
+
+          // Show captions after first download
+          downloadDone = true;
+          const captionsArea = dialog.querySelector('#share-captions-area');
+          if (captionsArea && !captionsArea.innerHTML.trim()) {
+            captionsArea.innerHTML = renderCaptionsHtml();
+            bindCaptions();
+          }
+        }, 'image/png');
+      } catch {
+        showError(t('share_error'));
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+      }
+    });
+
+    bindCaptions();
+  }
+
+  function bindCaptions(): void {
+    dialog.querySelectorAll('.share-caption-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const text = btn.textContent || '';
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          void navigator.clipboard.writeText(text).then(() => {
+            // Show "Copied!" inline
+            const existing = btn.querySelector('.share-caption-copied');
+            if (!existing) {
+              const badge = document.createElement('span');
+              badge.className = 'share-caption-copied';
+              badge.textContent = t('share_copied');
+              btn.appendChild(badge);
+              setTimeout(() => badge.remove(), 2000);
+            }
+          });
+        }
+      });
+    });
   }
 
   dialog.innerHTML = renderDialogContent();
@@ -1098,98 +1533,12 @@ export function openShareModal(cardType: ShareCardType, deps: ShareModalDeps): v
 
   trackEvent(ANALYTICS_EVENTS.SHARE_IMAGE_OPENED, { tab: cardType });
 
-  // Copy URL to clipboard immediately
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    void navigator.clipboard.writeText(canonicalUrl).then(() => {
-      const msg = dialog.querySelector('#share-clipboard-msg');
-      if (msg) msg.textContent = t('link_copied') || 'Link copied to clipboard';
-    });
-  }
-
-  // Event: close button
-  dialog.querySelector('.share-dialog-close')?.addEventListener('click', () => {
-    dialog.close();
-  });
+  bindAll();
 
   // Event: backdrop click
   dialog.addEventListener('click', (e) => {
     if (e.target === dialog) dialog.close();
   });
-
-  // Event: format toggle
-  dialog.querySelectorAll('.share-format-btn').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const format = (btn as HTMLElement).dataset.format as ShareFormat;
-      if (format && format !== currentFormat) {
-        currentFormat = format;
-        dialog.innerHTML = renderDialogContent();
-        bindDownload();
-        bindFormatButtons();
-        bindClose();
-      }
-    });
-  });
-
-  function bindFormatButtons(): void {
-    dialog.querySelectorAll('.share-format-btn').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const format = (btn as HTMLElement).dataset.format as ShareFormat;
-        if (format && format !== currentFormat) {
-          currentFormat = format;
-          dialog.innerHTML = renderDialogContent();
-          bindDownload();
-          bindFormatButtons();
-          bindClose();
-        }
-      });
-    });
-  }
-
-  function bindClose(): void {
-    dialog.querySelector('.share-dialog-close')?.addEventListener('click', () => {
-      dialog.close();
-    });
-  }
-
-  function bindDownload(): void {
-    dialog.querySelector('#share-download-btn')?.addEventListener('click', async () => {
-      const btn = dialog.querySelector('#share-download-btn') as HTMLButtonElement;
-      const originalText = btn.innerHTML;
-      btn.disabled = true;
-      btn.textContent = 'Rendering...';
-
-      try {
-        let canvas: HTMLCanvasElement | null;
-        if (cardType === 'dog') {
-          canvas = await renderDogCardToCanvas(config, foodState, currentFormat, t);
-        } else {
-          canvas = await renderFoodCardToCanvas(config, foodData, currentFormat, t);
-        }
-
-        if (!canvas) {
-          btn.disabled = false;
-          btn.innerHTML = originalText;
-          return;
-        }
-
-        canvas.toBlob((blob) => {
-          if (blob) {
-            triggerDownload(blob, `puppycal-${cardType}-${currentFormat}.png`);
-            trackEvent(ANALYTICS_EVENTS.SHARE_IMAGE_DOWNLOADED, {
-              tab: cardType,
-            });
-          }
-          btn.disabled = false;
-          btn.innerHTML = originalText;
-        }, 'image/png');
-      } catch {
-        btn.disabled = false;
-        btn.innerHTML = originalText;
-      }
-    });
-  }
-
-  bindDownload();
 
   // Cleanup on close
   dialog.addEventListener('close', () => {

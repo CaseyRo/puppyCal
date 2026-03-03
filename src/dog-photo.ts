@@ -2,6 +2,8 @@
  * Dog photo: upload, crop (via cropperjs), and persist in localStorage.
  */
 
+import { isSafeDataUrl } from './share-utils';
+
 const STORAGE_KEY = 'puppycal-dog-photo';
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
 const OUTPUT_SIZE = 1920; // px, square crop output (matches tallest share format)
@@ -16,11 +18,12 @@ export function getDogPhoto(): string | null {
   }
 }
 
-export function saveDogPhoto(dataUrl: string): void {
+export function saveDogPhoto(dataUrl: string): boolean {
   try {
     localStorage.setItem(STORAGE_KEY, dataUrl);
+    return true;
   } catch {
-    // QuotaExceededError — silently fail
+    return false;
   }
 }
 
@@ -61,7 +64,8 @@ export function openPhotoCropModal(onSave: (dataUrl: string) => void): void {
   const dialog = document.createElement('dialog');
   dialog.className = 'photo-crop-dialog share-dialog';
 
-  const existingPhoto = getDogPhoto();
+  const rawPhoto = getDogPhoto();
+  const existingPhoto = rawPhoto && isSafeDataUrl(rawPhoto) ? rawPhoto : null;
 
   dialog.innerHTML = `
     <div class="share-dialog-header">
@@ -206,7 +210,11 @@ export function openPhotoCropModal(onSave: (dataUrl: string) => void): void {
     const img = new Image();
     img.onload = () => {
       const dataUrl = cropImageWithCanvas(img, cropData);
-      saveDogPhoto(dataUrl);
+      const saved = saveDogPhoto(dataUrl);
+      if (!saved) {
+        showError("Couldn't save photo — storage full.");
+        return;
+      }
       onSave(dataUrl);
       cropperInstance?.destroy();
       dialog.close();
