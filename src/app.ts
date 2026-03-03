@@ -257,7 +257,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
     `;
 
     const hasPlanData = Boolean(config.dob || config.start || config.name);
-    const logoInCard = `<div class="hidden lg:flex lg:justify-center lg:mb-3"><img src="/icons/icon-original.png" alt="" class="h-10 w-auto" aria-hidden="true" /></div>`;
+    const logoInCard = `<div class="absolute inset-y-0 right-0 w-1/2 overflow-hidden rounded-r-xl pointer-events-none" aria-hidden="true"><picture><source srcset="/icons/icon-bg-2x.webp" type="image/webp" /><img src="/icons/icon-bg-2x.png" alt="" class="h-full w-full object-cover object-center opacity-[0.18]" loading="lazy" /></picture><div class="absolute inset-0" style="background:linear-gradient(to right,var(--color-surface) 0%,var(--color-surface) 10%,rgba(245,240,232,0.6) 50%,transparent 100%)"></div></div>`;
     const walkiesButtons = `
       <div class="flex justify-center gap-2 mt-4">
         <button type="button" id="btn-download" ${!valid ? 'disabled' : ''}
@@ -275,19 +275,23 @@ export async function runApp(container: HTMLElement): Promise<void> {
       </div>`;
 
     const planSummaryCard = hasPlanData
-      ? `<div class="rounded-xl bg-surface p-4 space-y-1">
+      ? `<div class="rounded-xl bg-surface p-4 space-y-1 relative overflow-hidden">
           ${logoInCard}
-          <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-2">${t('section_walkies')}</p>
-          ${config.name ? `<p class="text-sm text-gray-700 font-medium">${escapeHtml(config.name)}</p>` : ''}
-          ${config.dob ? `<p class="text-sm text-gray-600"><span class="text-gray-400">${t('label_dob')}:</span> ${config.dob.split('-').reverse().join('-')}</p>` : ''}
-          ${config.start ? `<p class="text-sm text-gray-600"><span class="text-gray-400">${t('label_start')}:</span> ${config.start.split('-').reverse().join('-')}</p>` : ''}
-          <p class="text-sm text-gray-600"><span class="text-gray-400">${t('label_months')}:</span> ${config.months}</p>
-          ${walkiesButtons}
+          <div class="relative z-10">
+            <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-2">${t('section_walkies')}</p>
+            ${config.name ? `<p class="text-sm text-gray-700 font-medium">${escapeHtml(config.name)}</p>` : ''}
+            ${config.dob ? `<p class="text-sm text-gray-600"><span class="text-gray-400">${t('label_dob')}:</span> ${config.dob.split('-').reverse().join('-')}</p>` : ''}
+            ${config.start ? `<p class="text-sm text-gray-600"><span class="text-gray-400">${t('label_start')}:</span> ${config.start.split('-').reverse().join('-')}</p>` : ''}
+            <p class="text-sm text-gray-600"><span class="text-gray-400">${t('label_months')}:</span> ${config.months}</p>
+            ${walkiesButtons}
+          </div>
         </div>`
-      : `<div class="rounded-xl border border-dashed border-gray-200 p-4">
+      : `<div class="rounded-xl border border-dashed border-gray-200 p-4 relative overflow-hidden">
           ${logoInCard}
-          <p class="text-sm text-gray-400">${t('result_empty_hint')}</p>
-          ${walkiesButtons}
+          <div class="relative z-10">
+            <p class="text-sm text-gray-400">${t('result_empty_hint')}</p>
+            ${walkiesButtons}
+          </div>
         </div>`;
 
     return `
