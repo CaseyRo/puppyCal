@@ -45,6 +45,7 @@ import { renderCalendarPreview } from './calendar-preview';
 import { initCustomSelect } from './custom-select';
 import type { FoodEntry } from './food/types';
 import { openShareModal } from './share-image';
+import { getDogPhoto, openPhotoCropModal } from './dog-photo';
 
 function escapeHtml(str: string): string {
   return str
@@ -362,11 +363,26 @@ export async function runApp(container: HTMLElement): Promise<void> {
       foodState.weightGoal;
     const breedLabel = config.breed ? t('breed_' + config.breed.replace(/-/g, '_')) : '—';
 
+    const dogPhoto = getDogPhoto();
+    const dogAvatarHtml = dogPhoto
+      ? `<button type="button" id="btn-dog-photo" class="dog-avatar-btn" aria-label="Change dog photo">
+           <img src="${dogPhoto}" alt="${config.name ? escapeHtml(config.name) : 'Dog'}" class="dog-avatar-img" />
+         </button>`
+      : `<button type="button" id="btn-dog-photo" class="dog-avatar-btn dog-avatar-empty" aria-label="Add dog photo">
+           <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+         </button>`;
+
     const dogIdCard = `
       <div class="rounded-xl bg-surface p-4 mb-4 relative overflow-hidden">
         ${logoInCard}
         <div class="relative z-10">
-          <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-3">${t('dog_profile_title')}</p>
+          <div class="flex items-start gap-3 mb-3">
+            ${dogAvatarHtml}
+            <div class="min-w-0 flex-1">
+              <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">${t('dog_profile_title')}</p>
+              ${config.name ? `<p class="text-sm font-medium text-gray-700 truncate">${escapeHtml(config.name)}</p>` : ''}
+            </div>
+          </div>
           <dl class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
             <dt class="text-gray-400">${t('label_name')}</dt><dd class="text-gray-700 font-medium truncate">${config.name ? escapeHtml(config.name) : '—'}</dd>
             <dt class="text-gray-400">${t('label_dob')}</dt><dd class="text-gray-700 font-medium">${config.dob ? config.dob.split('-').reverse().join('-') : '—'}</dd>
@@ -1323,6 +1339,12 @@ export async function runApp(container: HTMLElement): Promise<void> {
           },
           t,
           canonicalUrl: currentCanonicalUrl(),
+        });
+      });
+
+      container.querySelector('#btn-dog-photo')?.addEventListener('click', () => {
+        openPhotoCropModal(() => {
+          render();
         });
       });
     }

@@ -5,6 +5,7 @@ import type { Config } from './config';
 import type { FoodPlannerState } from './config';
 import type { FoodEntry, PortionResult } from './food/types';
 import { ANALYTICS_EVENTS, trackEvent } from './analytics';
+import { getDogPhoto } from './dog-photo';
 
 export type ShareFormat = 'story' | 'square' | 'wide';
 export type ShareCardType = 'food' | 'dog';
@@ -197,9 +198,18 @@ export function renderDogShareCard(
 
   const tag = isWide ? 'div' : 'dl';
 
+  const dogPhoto = getDogPhoto();
+  const avatarSize = isWide ? '80px' : '96px';
+  const photoHtml = dogPhoto
+    ? `<div style="width:${avatarSize};height:${avatarSize};border-radius:50%;overflow:hidden;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.1);margin-bottom:16px;flex-shrink:0">
+        <img src="${dogPhoto}" alt="" style="width:100%;height:100%;object-fit:cover" />
+      </div>`
+    : '';
+
   return cardWrapper(
     format,
     `
+    ${photoHtml}
     <p style="font-size:13px;font-weight:600;color:#9ca3af;text-transform:uppercase;letter-spacing:0.05em;margin:0 0 20px 0">${t('dog_profile_title')}</p>
     <div style="background:#f5f0e8;border-radius:16px;padding:${isWide ? '32px 40px' : '28px 32px'};width:100%;max-width:${isWide ? '100%' : '500px'};box-sizing:border-box">
       <${tag} style="${gridStyle}">
