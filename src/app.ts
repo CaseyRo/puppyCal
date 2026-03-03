@@ -44,6 +44,7 @@ import {
 import { renderCalendarPreview } from './calendar-preview';
 import { initCustomSelect } from './custom-select';
 import type { FoodEntry } from './food/types';
+import { openShareModal } from './share-image';
 
 function escapeHtml(str: string): string {
   return str
@@ -232,6 +233,8 @@ export async function runApp(container: HTMLElement): Promise<void> {
     }, 2500);
   }
 
+  const logoInCard = `<div class="absolute inset-y-0 right-0 w-1/2 overflow-hidden rounded-r-xl pointer-events-none" aria-hidden="true"><picture><source srcset="/icons/icon-bg-2x.webp" type="image/webp" /><img src="/icons/icon-bg-2x.png" alt="" class="h-full w-full object-cover object-center opacity-[0.18]" loading="lazy" /></picture><div class="absolute inset-0" style="background:linear-gradient(to right,var(--color-surface) 0%,var(--color-surface) 10%,rgba(245,240,232,0.6) 50%,transparent 100%)"></div></div>`;
+
   function renderWalkies(valid: boolean): string {
     const visibleDobError = walkiesTouched.dob ? errors.dob : undefined;
     const visibleMonthsError = walkiesTouched.months ? errors.months : undefined;
@@ -257,7 +260,6 @@ export async function runApp(container: HTMLElement): Promise<void> {
     `;
 
     const hasPlanData = Boolean(config.dob || config.start || config.name);
-    const logoInCard = `<div class="absolute inset-y-0 right-0 w-1/2 overflow-hidden rounded-r-xl pointer-events-none" aria-hidden="true"><picture><source srcset="/icons/icon-bg-2x.webp" type="image/webp" /><img src="/icons/icon-bg-2x.png" alt="" class="h-full w-full object-cover object-center opacity-[0.18]" loading="lazy" /></picture><div class="absolute inset-0" style="background:linear-gradient(to right,var(--color-surface) 0%,var(--color-surface) 10%,rgba(245,240,232,0.6) 50%,transparent 100%)"></div></div>`;
     const walkiesButtons = `
       <div class="flex justify-center gap-2 mt-4">
         <button type="button" id="btn-download" ${!valid ? 'disabled' : ''}
@@ -361,17 +363,25 @@ export async function runApp(container: HTMLElement): Promise<void> {
     const breedLabel = config.breed ? t('breed_' + config.breed.replace(/-/g, '_')) : '—';
 
     const dogIdCard = `
-      <div class="rounded-xl bg-surface p-4 mb-4">
-        <div class="hidden lg:flex lg:justify-center lg:mb-3"><img src="/icons/icon-original.png" alt="" class="h-10 w-auto" aria-hidden="true" /></div>
-        <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-3">${t('dog_profile_title')}</p>
-        <dl class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
-          <dt class="text-gray-400">${t('label_name')}</dt><dd class="text-gray-700 font-medium truncate">${config.name ? escapeHtml(config.name) : '—'}</dd>
-          <dt class="text-gray-400">${t('label_dob')}</dt><dd class="text-gray-700 font-medium">${config.dob ? config.dob.split('-').reverse().join('-') : '—'}</dd>
-          <dt class="text-gray-400">${t('label_weight_kg')}</dt><dd class="text-gray-700 font-medium">${foodState.weightKg.toFixed(1)} kg</dd>
-          <dt class="text-gray-400">${t('label_breed')}</dt><dd class="text-gray-700 font-medium truncate">${breedLabel}</dd>
-          <dt class="text-gray-400">${t('label_activity')}</dt><dd class="text-gray-700 font-medium">${activityLabel}</dd>
-          <dt class="text-gray-400">${t('label_goal')}</dt><dd class="text-gray-700 font-medium">${goalLabel}</dd>
-        </dl>
+      <div class="rounded-xl bg-surface p-4 mb-4 relative overflow-hidden">
+        ${logoInCard}
+        <div class="relative z-10">
+          <p class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-3">${t('dog_profile_title')}</p>
+          <dl class="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+            <dt class="text-gray-400">${t('label_name')}</dt><dd class="text-gray-700 font-medium truncate">${config.name ? escapeHtml(config.name) : '—'}</dd>
+            <dt class="text-gray-400">${t('label_dob')}</dt><dd class="text-gray-700 font-medium">${config.dob ? config.dob.split('-').reverse().join('-') : '—'}</dd>
+            <dt class="text-gray-400">${t('label_weight_kg')}</dt><dd class="text-gray-700 font-medium">${foodState.weightKg.toFixed(1)} kg</dd>
+            <dt class="text-gray-400">${t('label_breed')}</dt><dd class="text-gray-700 font-medium truncate">${breedLabel}</dd>
+            <dt class="text-gray-400">${t('label_activity')}</dt><dd class="text-gray-700 font-medium">${activityLabel}</dd>
+            <dt class="text-gray-400">${t('label_goal')}</dt><dd class="text-gray-700 font-medium">${goalLabel}</dd>
+          </dl>
+          <button type="button" id="btn-share-dog-image"
+            class="inline-flex items-center gap-1.5 mt-4 px-3 py-1.5 text-xs font-medium text-gray-600 rounded-full border border-muted bg-white/60 hover:bg-white hover:text-primary transition-colors"
+            aria-label="Share as image">
+            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            Share as image
+          </button>
+        </div>
       </div>`;
 
     return `
@@ -526,12 +536,20 @@ export async function runApp(container: HTMLElement): Promise<void> {
       `<span class="inline-flex items-center justify-center w-4 h-4 rounded-full border border-gray-300 text-[10px] text-gray-500 ml-1" title="${text}" aria-label="${text}">i</span>`;
 
     const copyBtn = `
-      <button type="button" id="btn-copy-food-link"
-        class="inline-flex items-center gap-1.5 mt-4 px-3 py-1.5 text-xs font-medium text-gray-600 rounded-full border border-muted bg-white/60 hover:bg-white hover:text-primary transition-colors"
-        aria-label="${t('copy_link')}">
-        <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-        ${t('copy_link')}
-      </button>`;
+      <div class="flex justify-center gap-2 mt-4">
+        <button type="button" id="btn-copy-food-link"
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 rounded-full border border-muted bg-white/60 hover:bg-white hover:text-primary transition-colors"
+          aria-label="${t('copy_link')}">
+          <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          ${t('copy_link')}
+        </button>
+        <button type="button" id="btn-share-food-image"
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 rounded-full border border-muted bg-white/60 hover:bg-white hover:text-primary transition-colors"
+          aria-label="Share as image">
+          <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          Share as image
+        </button>
+      </div>`;
 
     let heroCard: string;
     if (selectedFood && result) {
@@ -546,8 +564,9 @@ export async function runApp(container: HTMLElement): Promise<void> {
 
       if (mixedCanApply && mixedSplit) {
         heroCard = `
-          <div class="rounded-2xl bg-surface p-6 text-center animate-scale-in shadow-sm">
-            <div class="hidden lg:flex lg:justify-center lg:mb-3"><img src="/icons/icon-original.png" alt="" class="h-10 w-auto" aria-hidden="true" /></div>
+          <div class="rounded-2xl bg-surface p-6 text-center animate-scale-in shadow-sm relative overflow-hidden">
+            ${logoInCard}
+            <div class="relative z-10">
             <div class="flex flex-col items-center gap-1 mb-3">
               <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary text-[11px] font-medium max-w-full"><span class="font-semibold shrink-0">${selectedFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}</span> <span class="truncate">${escapeHtml(selectedFood.productName)}</span></span>
               ${secondFood ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-gray-100 text-gray-600 text-[11px] font-medium max-w-full"><span class="font-semibold shrink-0">${secondFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}</span> <span class="truncate">${escapeHtml(secondFood.productName)}</span></span>` : ''}
@@ -586,11 +605,13 @@ export async function runApp(container: HTMLElement): Promise<void> {
                 </div>
               </div>
             </details>
+            </div>
           </div>`;
       } else {
         heroCard = `
-          <div class="rounded-2xl bg-surface p-6 text-center animate-scale-in shadow-sm">
-            <div class="hidden lg:flex lg:justify-center lg:mb-3"><img src="/icons/icon-original.png" alt="" class="h-10 w-auto" aria-hidden="true" /></div>
+          <div class="rounded-2xl bg-surface p-6 text-center animate-scale-in shadow-sm relative overflow-hidden">
+            ${logoInCard}
+            <div class="relative z-10">
             <p class="text-xs text-gray-400 mb-3 truncate">${escapeHtml(selectedFood.brand)} ${escapeHtml(selectedFood.productName)} · ${selectedFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}</p>
             <p class="font-display text-6xl font-semibold text-primary leading-none">
               ${config.meals > 1 ? Math.ceil(result.gramsPerDay / config.meals) : result.gramsPerDay}<span class="text-2xl ml-1">g</span>
@@ -600,17 +621,20 @@ export async function runApp(container: HTMLElement): Promise<void> {
             <p class="text-sm text-gray-400 mt-3">${config.meals > 1 ? t('result_daily_summary', { grams: String(result.gramsPerDay), kcal: String(result.estimatedKcalPerDay) }) : t('result_kcal', { kcal: String(result.estimatedKcalPerDay) })}</p>
             ${copyBtn}
             ${finePrint}
+            </div>
           </div>`;
       }
     } else {
       heroCard = `
-        <div class="rounded-2xl bg-surface p-6 text-center">
-          <div class="hidden lg:flex lg:justify-center lg:mb-3"><img src="/icons/icon-original.png" alt="" class="h-10 w-auto" aria-hidden="true" /></div>
+        <div class="rounded-2xl bg-surface p-6 text-center relative overflow-hidden">
+          ${logoInCard}
+          <div class="relative z-10">
           <p class="text-sm font-medium text-gray-500 tracking-wide uppercase">${t('result_title')}</p>
           <p class="font-display text-5xl font-semibold text-muted mt-3 leading-tight select-none" aria-hidden="true">
             --<span class="text-2xl ml-1">g</span>
           </p>
           <p class="text-sm text-gray-400 mt-2">${t('result_empty_hint')}</p>
+          </div>
         </div>`;
     }
 
@@ -1173,6 +1197,50 @@ export async function runApp(container: HTMLElement): Promise<void> {
           showFeedback(t('share_failed'));
         }
       });
+
+      container.querySelector('#btn-share-food-image')?.addEventListener('click', () => {
+        const selectedFood = findFoodById(foodState.selectedFoodId) ?? null;
+        const secondFood = findFoodById(foodState.secondFoodId) ?? null;
+        const pairValid = isValidWetDryPair(selectedFood, secondFood);
+        const result = selectedFood
+          ? calculateDailyPortion(
+              {
+                ageMonths: foodState.ageMonths,
+                weightKg: foodState.weightKg,
+                activityLevel: getFoodProfile(selectedFood).isPuppy
+                  ? 'moderate'
+                  : foodState.activityLevel,
+                neutered: getFoodProfile(selectedFood).isPuppy ? false : foodState.neutered,
+                breedSize: foodState.breedSize,
+                weightGoal: getFoodProfile(selectedFood).isPuppy
+                  ? 'maintain'
+                  : foodState.weightGoal,
+              } as PortionInputs,
+              selectedFood.calories?.kcalPerKg
+            )
+          : null;
+        const mixedActive = Boolean(
+          foodState.mixedMode && pairValid && result && canApplyMixedSplit(result.gramsPerDay)
+        );
+        const split = result
+          ? splitDailyGrams(result.gramsPerDay, clampWetPercent(foodState.wetPercent))
+          : null;
+
+        openShareModal('food', {
+          config,
+          foodState,
+          foodData: {
+            selectedFood,
+            secondFood,
+            result,
+            mixedCanApply: mixedActive,
+            mixedSplit: split,
+            wetPercent: clampWetPercent(foodState.wetPercent),
+          },
+          t,
+          canonicalUrl: currentCanonicalUrl(),
+        });
+      });
     } else if (activeTab === 'dog') {
       const dogNameInput = container.querySelector('#dog-name') as HTMLInputElement | null;
       const dogDobInput = container.querySelector('#dog-dob') as HTMLInputElement | null;
@@ -1240,6 +1308,23 @@ export async function runApp(container: HTMLElement): Promise<void> {
 
       dogForm?.addEventListener('input', syncDog);
       dogForm?.addEventListener('change', syncDog);
+
+      container.querySelector('#btn-share-dog-image')?.addEventListener('click', () => {
+        openShareModal('dog', {
+          config,
+          foodState,
+          foodData: {
+            selectedFood: null,
+            secondFood: null,
+            result: null,
+            mixedCanApply: false,
+            mixedSplit: null,
+            wetPercent: 0,
+          },
+          t,
+          canonicalUrl: currentCanonicalUrl(),
+        });
+      });
     }
 
     // Language toggle (always in top bar)

@@ -15,6 +15,8 @@ export const ANALYTICS_EVENTS = {
   MIXED_MODE_TOGGLED: 'mixed_mode_toggled',
   BREED_SELECTED: 'breed_selected',
   DOG_PROFILE_COMPLETED: 'dog_profile_completed',
+  SHARE_IMAGE_OPENED: 'share_image_opened',
+  SHARE_IMAGE_DOWNLOADED: 'share_image_downloaded',
 } as const;
 
 export type AnalyticsEventName = (typeof ANALYTICS_EVENTS)[keyof typeof ANALYTICS_EVENTS];
