@@ -1,5 +1,7 @@
 /**
  * Share-as-image: renders branded share cards and a modal with format picker + download.
+ * HTML render functions are used for in-modal preview.
+ * Canvas 2D renderers are used for the download path (pixel-perfect output).
  */
 import type { Config } from './config';
 import type { FoodPlannerState } from './config';
@@ -32,6 +34,10 @@ export interface FoodShareData {
   mixedSplit: { wetGrams: number; dryGrams: number } | null;
   wetPercent: number;
 }
+
+// ---------------------------------------------------------------------------
+// HTML render helpers (for in-modal preview only)
+// ---------------------------------------------------------------------------
 
 function escapeHtml(str: string): string {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -163,7 +169,7 @@ export function renderDogShareCard(
   const goalLabel =
     { maintain: t('goal_maintain'), lose: t('goal_lose') }[foodState.weightGoal] ??
     foodState.weightGoal;
-  const breedLabel = config.breed ? t('breed_' + config.breed.replace(/-/g, '_')) : '—';
+  const breedLabel = config.breed ? t('breed_' + config.breed.replace(/-/g, '_')) : '\u2014';
 
   const isWide = format === 'wide';
   const gridStyle = isWide
@@ -173,10 +179,10 @@ export function renderDogShareCard(
   const isPuppy = foodState.ageMonths < 6;
 
   const rows = [
-    { label: t('label_name'), value: config.name ? escapeHtml(config.name) : '—' },
+    { label: t('label_name'), value: config.name ? escapeHtml(config.name) : '\u2014' },
     {
       label: t('label_dob'),
-      value: config.dob ? config.dob.split('-').reverse().join('-') : '—',
+      value: config.dob ? config.dob.split('-').reverse().join('-') : '\u2014',
     },
     { label: t('label_weight_kg'), value: `${foodState.weightKg.toFixed(1)} kg` },
     { label: t('label_breed'), value: breedLabel },
@@ -221,6 +227,658 @@ export function renderDogShareCard(
   `
   );
 }
+
+// ---------------------------------------------------------------------------
+// Canvas 2D rendering (for download path — pixel-perfect output)
+// ---------------------------------------------------------------------------
+
+type TranslateFn = (key: string, params?: Record<string, string | number>) => string;
+
+function loadImage(src: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+
+function roundRectPath(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  r: number
+): void {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+}
+
+function drawPill(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  y: number,
+  bg: string,
+  color: string,
+  text: string,
+  fontSize: number,
+  fontWeight: number | string = 500,
+  hPad = 24
+): { width: number; height: number } {
+  ctx.font = `${fontWeight} ${fontSize}px 'DM Sans', system-ui, sans-serif`;
+  const m = ctx.measureText(text);
+  const pw = m.width + hPad * 2;
+  const ph = fontSize + 16;
+  const px = cx - pw / 2;
+
+  roundRectPath(ctx, px, y, pw, ph, ph / 2);
+  ctx.fillStyle = bg;
+  ctx.fill();
+
+  ctx.fillStyle = color;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, cx, y + ph / 2);
+
+  return { width: pw, height: ph };
+}
+
+function drawCircleImage(
+  ctx: CanvasRenderingContext2D,
+  img: HTMLImageElement,
+  cx: number,
+  cy: number,
+  radius: number,
+  borderWidth = 6
+): void {
+  // White border
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius + borderWidth, 0, Math.PI * 2);
+  ctx.fillStyle = '#ffffff';
+  ctx.fill();
+
+  // Shadow
+  ctx.save();
+  ctx.shadowColor = 'rgba(0,0,0,0.1)';
+  ctx.shadowBlur = 16;
+  ctx.shadowOffsetY = 4;
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius + borderWidth, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+
+  // Clipped image
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+  ctx.clip();
+  ctx.drawImage(img, cx - radius, cy - radius, radius * 2, radius * 2);
+  ctx.restore();
+}
+
+function drawText(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  x: number,
+  y: number,
+  opts: {
+    font: string;
+    color: string;
+    align?: CanvasTextAlign;
+    baseline?: CanvasTextBaseline;
+    maxWidth?: number;
+    letterSpacing?: string;
+  }
+): void {
+  ctx.font = opts.font;
+  ctx.fillStyle = opts.color;
+  ctx.textAlign = opts.align ?? 'center';
+  ctx.textBaseline = opts.baseline ?? 'middle';
+
+  // letterSpacing support (modern browsers)
+  const prevSpacing = (ctx as unknown as Record<string, unknown>).letterSpacing;
+  if (opts.letterSpacing) {
+    (ctx as unknown as Record<string, unknown>).letterSpacing = opts.letterSpacing;
+  }
+
+  if (opts.maxWidth) {
+    const m = ctx.measureText(text);
+    if (m.width > opts.maxWidth) {
+      // Truncate with ellipsis
+      let truncated = text;
+      while (truncated.length > 1 && ctx.measureText(truncated + '\u2026').width > opts.maxWidth) {
+        truncated = truncated.slice(0, -1);
+      }
+      ctx.fillText(truncated + '\u2026', x, y);
+    } else {
+      ctx.fillText(text, x, y);
+    }
+  } else {
+    ctx.fillText(text, x, y);
+  }
+
+  if (opts.letterSpacing) {
+    (ctx as unknown as Record<string, unknown>).letterSpacing = prevSpacing;
+  }
+}
+
+async function ensureFontsLoaded(): Promise<void> {
+  if (!document.fonts) return;
+  await Promise.all([
+    document.fonts.load('400 16px "DM Sans"'),
+    document.fonts.load('500 16px "DM Sans"'),
+    document.fonts.load('600 16px "DM Sans"'),
+    document.fonts.load('600 48px "Fraunces"'),
+  ]);
+}
+
+async function drawCardBase(ctx: CanvasRenderingContext2D, format: ShareFormat): Promise<void> {
+  const { w, h } = FORMAT_DIMS[format];
+
+  // Background
+  ctx.fillStyle = '#faf8f5';
+  ctx.fillRect(0, 0, w, h);
+
+  // Mascot watermark (10% opacity)
+  try {
+    const mascot = await loadImage('/icons/icon-bg-2x.png');
+    const mw = w * 0.6;
+    const mh = (mascot.naturalHeight / mascot.naturalWidth) * mw;
+    const mx = w - mw + w * 0.05;
+    const my = (h - mh) / 2;
+    ctx.save();
+    ctx.globalAlpha = 0.1;
+    ctx.drawImage(mascot, mx, my, mw, mh);
+    ctx.restore();
+  } catch {
+    // Mascot missing — skip silently
+  }
+
+  // Branding footer
+  const domain = typeof window !== 'undefined' ? window.location.host : 'puppycal.com';
+  const footerY = h - 48;
+  try {
+    const icon = await loadImage('/icons/icon-original.png');
+    const iconH = 26;
+    const iconW = (icon.naturalWidth / icon.naturalHeight) * iconH;
+
+    ctx.save();
+    ctx.globalAlpha = 0.6;
+    ctx.font = '400 14px "DM Sans", system-ui, sans-serif';
+    const textW = ctx.measureText(domain).width;
+    const totalW = iconW + 8 + textW;
+    const startX = (w - totalW) / 2;
+
+    ctx.drawImage(icon, startX, footerY - iconH / 2, iconW, iconH);
+    ctx.fillStyle = '#6b7280';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(domain, startX + iconW + 8, footerY);
+    ctx.restore();
+  } catch {
+    // Icon missing — draw text only
+    ctx.save();
+    ctx.globalAlpha = 0.6;
+    drawText(ctx, domain, w / 2, footerY, {
+      font: '400 14px "DM Sans", system-ui, sans-serif',
+      color: '#6b7280',
+    });
+    ctx.restore();
+  }
+}
+
+async function renderDogCardToCanvas(
+  config: Config,
+  foodState: FoodPlannerState,
+  format: ShareFormat,
+  t: TranslateFn
+): Promise<HTMLCanvasElement> {
+  await ensureFontsLoaded();
+
+  const { w, h } = FORMAT_DIMS[format];
+  const canvas = document.createElement('canvas');
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext('2d')!;
+
+  await drawCardBase(ctx, format);
+
+  const isWide = format === 'wide';
+  const isPuppy = foodState.ageMonths < 6;
+
+  const activityLabel =
+    { low: t('activity_low'), moderate: t('activity_moderate'), high: t('activity_high') }[
+      foodState.activityLevel
+    ] ?? foodState.activityLevel;
+  const goalLabel =
+    { maintain: t('goal_maintain'), lose: t('goal_lose') }[foodState.weightGoal] ??
+    foodState.weightGoal;
+  const breedLabel = config.breed ? t('breed_' + config.breed.replace(/-/g, '_')) : '\u2014';
+
+  const rows = [
+    { label: t('label_name'), value: config.name || '\u2014' },
+    {
+      label: t('label_dob'),
+      value: config.dob ? config.dob.split('-').reverse().join('-') : '\u2014',
+    },
+    { label: t('label_weight_kg'), value: `${foodState.weightKg.toFixed(1)} kg` },
+    { label: t('label_breed'), value: breedLabel },
+    ...(isPuppy ? [] : [{ label: t('label_activity'), value: activityLabel }]),
+    ...(isPuppy ? [] : [{ label: t('label_goal'), value: goalLabel }]),
+  ];
+
+  // Calculate content dimensions
+  const photoRadius = isWide ? 40 : 48;
+  const dogPhotoSrc = getDogPhoto();
+  let dogImg: HTMLImageElement | null = null;
+  if (dogPhotoSrc) {
+    try {
+      dogImg = await loadImage(dogPhotoSrc);
+    } catch {
+      dogImg = null;
+    }
+  }
+
+  // Measure grid
+  const boxPadX = isWide ? 40 : 32;
+  const boxPadY = isWide ? 32 : 28;
+  const boxMaxW = isWide ? w - 112 : Math.min(500, w - 96);
+  const innerW = boxMaxW - boxPadX * 2;
+
+  let gridH: number;
+  if (isWide) {
+    // 3-column layout
+    const cols = 3;
+    const rowCount = Math.ceil(rows.length / cols);
+    gridH = rowCount * (18 + 22 + 12) - 12; // label + value + gap
+  } else {
+    // 2-column key-value layout
+    gridH = rows.length * (22 + 10) - 10; // row height + gap
+  }
+  const boxH = gridH + boxPadY * 2;
+
+  // Total content height
+  const photoH = dogImg ? (photoRadius + 6) * 2 + 16 : 0;
+  const titleH = 18 + 20; // title text + margin
+  const totalH = photoH + titleH + boxH;
+  let y = (h - totalH) / 2;
+
+  // Clamp to reasonable range
+  const minTop = isWide ? 48 : 80;
+  const maxBottom = h - 80;
+  if (y < minTop) y = minTop;
+  if (y + totalH > maxBottom) y = minTop;
+
+  const cx = w / 2;
+
+  // Dog photo
+  if (dogImg) {
+    drawCircleImage(ctx, dogImg, cx, y + photoRadius + 6, photoRadius);
+    y += (photoRadius + 6) * 2 + 16;
+  }
+
+  // "MY DOG" title
+  drawText(ctx, t('dog_profile_title').toUpperCase(), cx, y + 9, {
+    font: '600 13px "DM Sans", system-ui, sans-serif',
+    color: '#9ca3af',
+    letterSpacing: '0.05em',
+  });
+  y += titleH;
+
+  // Beige container
+  const boxX = cx - boxMaxW / 2;
+  roundRectPath(ctx, boxX, y, boxMaxW, boxH, 16);
+  ctx.fillStyle = '#f5f0e8';
+  ctx.fill();
+
+  // Draw grid rows
+  if (isWide) {
+    const cols = 3;
+    const colW = innerW / cols;
+    const gapY = 12;
+    rows.forEach((row, i) => {
+      const col = i % cols;
+      const rowIdx = Math.floor(i / cols);
+      const rx = boxX + boxPadX + col * colW;
+      const ry = y + boxPadY + rowIdx * (18 + 22 + gapY);
+
+      drawText(ctx, row.label, rx, ry + 9, {
+        font: '400 13px "DM Sans", system-ui, sans-serif',
+        color: '#9ca3af',
+        align: 'left',
+      });
+      drawText(ctx, row.value, rx, ry + 18 + 11, {
+        font: '500 16px "DM Sans", system-ui, sans-serif',
+        color: '#374151',
+        align: 'left',
+        maxWidth: colW - 16,
+      });
+    });
+  } else {
+    const labelColW = 120;
+    const valueColW = innerW - labelColW - 20;
+    const rowH = 22;
+    const gapY = 10;
+    rows.forEach((row, i) => {
+      const ry = y + boxPadY + i * (rowH + gapY);
+
+      drawText(ctx, row.label, boxX + boxPadX, ry + rowH / 2, {
+        font: '400 14px "DM Sans", system-ui, sans-serif',
+        color: '#9ca3af',
+        align: 'left',
+      });
+      drawText(ctx, row.value, boxX + boxPadX + labelColW + 20, ry + rowH / 2, {
+        font: '500 16px "DM Sans", system-ui, sans-serif',
+        color: '#374151',
+        align: 'left',
+        maxWidth: valueColW,
+      });
+    });
+  }
+
+  return canvas;
+}
+
+async function renderFoodCardToCanvas(
+  config: Config,
+  foodData: FoodShareData,
+  format: ShareFormat,
+  t: TranslateFn
+): Promise<HTMLCanvasElement | null> {
+  const { selectedFood, secondFood, result, mixedCanApply, mixedSplit, wetPercent } = foodData;
+  if (!selectedFood || !result) return null;
+
+  await ensureFontsLoaded();
+
+  const { w, h } = FORMAT_DIMS[format];
+  const canvas = document.createElement('canvas');
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext('2d')!;
+
+  await drawCardBase(ctx, format);
+
+  const cx = w / 2;
+  const dryPercent = 100 - wetPercent;
+
+  const bigFontSize = format === 'wide' ? 72 : format === 'square' ? 80 : 96;
+  const unitFontSize = format === 'wide' ? 28 : 32;
+
+  if (mixedCanApply && mixedSplit) {
+    // --- Mixed mode ---
+    const perMealWet =
+      config.meals > 1 ? Math.ceil(mixedSplit.wetGrams / config.meals) : mixedSplit.wetGrams;
+    const perMealDry =
+      config.meals > 1 ? Math.ceil(mixedSplit.dryGrams / config.meals) : mixedSplit.dryGrams;
+
+    // Calculate total content height for vertical centering
+    const nameH = config.name ? 18 + 16 : 0;
+    const pillsH = secondFood ? 30 + 6 + 30 + 20 : 30 + 20;
+    const numbersH = bigFontSize + 14 + 16; // big number + type label
+    const perMealH = 18 + 12;
+    const badgeH = config.meals > 1 ? 30 + 8 : 0;
+    const splitH = 14 + 4;
+    const summaryH = 15;
+    const totalH = nameH + pillsH + numbersH + perMealH + badgeH + splitH + summaryH;
+    let y = Math.max((h - totalH) / 2, format === 'wide' ? 48 : 80);
+
+    // Dog name
+    if (config.name) {
+      drawText(ctx, config.name, cx, y + 9, {
+        font: '400 18px "DM Sans", system-ui, sans-serif',
+        color: '#6b7280',
+      });
+      y += 18 + 16;
+    }
+
+    // Food pills
+    const wetLabel = `${selectedFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')} ${selectedFood.productName}`;
+    const { height: p1h } = drawPill(
+      ctx,
+      cx,
+      y,
+      'rgba(45,90,61,0.1)',
+      '#2d5a3d',
+      wetLabel,
+      13,
+      500
+    );
+    y += p1h + 6;
+
+    if (secondFood) {
+      const dryLabel = `${secondFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')} ${secondFood.productName}`;
+      const { height: p2h } = drawPill(ctx, cx, y, '#f3f4f6', '#4b5563', dryLabel, 13, 500);
+      y += p2h + 20;
+    } else {
+      y += 14;
+    }
+
+    // Two number columns with "+"
+    const numFont = `600 ${bigFontSize}px 'Fraunces', Georgia, serif`;
+    const unitFont = `600 ${unitFontSize}px 'Fraunces', Georgia, serif`;
+    const colGap = 24;
+    const plusW = 36;
+
+    // Measure columns
+    ctx.font = numFont;
+    const wetNumW = ctx.measureText(String(perMealWet)).width;
+    ctx.font = unitFont;
+    const wetUnitW = ctx.measureText('g').width;
+    const wetColW = wetNumW + 4 + wetUnitW;
+
+    ctx.font = numFont;
+    const dryNumW = ctx.measureText(String(perMealDry)).width;
+    ctx.font = unitFont;
+    const dryUnitW = ctx.measureText('g').width;
+    const dryColW = dryNumW + 4 + dryUnitW;
+
+    const totalNumW = wetColW + colGap + plusW + colGap + dryColW;
+    let nx = cx - totalNumW / 2;
+
+    // Wet number
+    const numBaseline = y + bigFontSize * 0.8;
+    ctx.font = numFont;
+    ctx.fillStyle = '#2d5a3d';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillText(String(perMealWet), nx, numBaseline);
+    ctx.font = unitFont;
+    ctx.fillText('g', nx + wetNumW + 4, numBaseline);
+
+    // Wet label
+    drawText(ctx, t('food_type_wet'), nx + wetColW / 2, numBaseline + 18, {
+      font: '400 14px "DM Sans", system-ui, sans-serif',
+      color: '#6b7280',
+    });
+
+    nx += wetColW + colGap;
+
+    // Plus sign
+    drawText(ctx, '+', nx + plusW / 2, y + bigFontSize * 0.45, {
+      font: '300 36px "DM Sans", system-ui, sans-serif',
+      color: '#d1d5db',
+    });
+
+    nx += plusW + colGap;
+
+    // Dry number
+    ctx.font = numFont;
+    ctx.fillStyle = '#2d5a3d';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillText(String(perMealDry), nx, numBaseline);
+    ctx.font = unitFont;
+    ctx.fillText('g', nx + dryNumW + 4, numBaseline);
+
+    // Dry label
+    drawText(ctx, t('food_type_dry'), nx + dryColW / 2, numBaseline + 18, {
+      font: '400 14px "DM Sans", system-ui, sans-serif',
+      color: '#6b7280',
+    });
+
+    y += bigFontSize + 14 + 16;
+
+    // Per meal/day label
+    const perLabel = config.meals > 1 ? t('result_label_per_meal') : t('result_label_per_day');
+    drawText(ctx, perLabel, cx, y + 9, {
+      font: '500 16px "DM Sans", system-ui, sans-serif',
+      color: '#4b5563',
+    });
+    y += 18 + 12;
+
+    // Meal badge
+    if (config.meals > 1) {
+      drawPill(
+        ctx,
+        cx,
+        y,
+        'rgba(45,90,61,0.1)',
+        '#2d5a3d',
+        t('result_meal_badge', { meals: String(config.meals) }),
+        13,
+        500
+      );
+      y += 30 + 8;
+    }
+
+    // Split ratio
+    drawText(
+      ctx,
+      t('mixed_split_applied', { wet: String(wetPercent), dry: String(dryPercent) }),
+      cx,
+      y + 7,
+      {
+        font: '400 13px "DM Sans", system-ui, sans-serif',
+        color: '#9ca3af',
+      }
+    );
+    y += 14 + 4;
+
+    // Daily summary
+    const summaryText =
+      config.meals > 1
+        ? t('result_daily_summary', {
+            grams: String(result.gramsPerDay),
+            kcal: String(result.estimatedKcalPerDay),
+          })
+        : t('result_kcal', { kcal: String(result.estimatedKcalPerDay) });
+    drawText(ctx, summaryText, cx, y + 7, {
+      font: '400 14px "DM Sans", system-ui, sans-serif',
+      color: '#9ca3af',
+    });
+  } else {
+    // --- Single food mode ---
+    const gramsDisplay =
+      config.meals > 1 ? Math.ceil(result.gramsPerDay / config.meals) : result.gramsPerDay;
+
+    const singleBigSize = format === 'wide' ? 96 : 120;
+    const singleUnitSize = format === 'wide' ? 36 : 42;
+
+    // Calculate total content height for vertical centering
+    const nameH = config.name ? 18 + 16 : 0;
+    const brandH = 14 + 16;
+    const bigNumH = singleBigSize;
+    const perLabelH = 18 + 12;
+    const badgeH = config.meals > 1 ? 30 + 10 : 0;
+    const summaryH = 16;
+    const totalH = nameH + brandH + bigNumH + 12 + perLabelH + badgeH + summaryH;
+    let y = Math.max((h - totalH) / 2, format === 'wide' ? 48 : 80);
+
+    // Dog name
+    if (config.name) {
+      drawText(ctx, config.name, cx, y + 9, {
+        font: '400 18px "DM Sans", system-ui, sans-serif',
+        color: '#6b7280',
+      });
+      y += 18 + 16;
+    }
+
+    // Brand line
+    const brandLine = `${selectedFood.brand} ${selectedFood.productName} \u00B7 ${selectedFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}`;
+    drawText(ctx, brandLine, cx, y + 7, {
+      font: '400 14px "DM Sans", system-ui, sans-serif',
+      color: '#9ca3af',
+      maxWidth: w * 0.8,
+    });
+    y += 14 + 16;
+
+    // Big Fraunces number + "g"
+    const numFont = `600 ${singleBigSize}px 'Fraunces', Georgia, serif`;
+    const unitFont = `600 ${singleUnitSize}px 'Fraunces', Georgia, serif`;
+
+    ctx.font = numFont;
+    const numW = ctx.measureText(String(gramsDisplay)).width;
+    ctx.font = unitFont;
+    const unitW = ctx.measureText('g').width;
+    const totalNumW = numW + 8 + unitW;
+    const numX = cx - totalNumW / 2;
+    const numBaseline = y + singleBigSize * 0.8;
+
+    ctx.font = numFont;
+    ctx.fillStyle = '#2d5a3d';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillText(String(gramsDisplay), numX, numBaseline);
+
+    ctx.font = unitFont;
+    ctx.fillText('g', numX + numW + 8, numBaseline);
+
+    y += singleBigSize + 12;
+
+    // Per meal/day label
+    const perLabel = config.meals > 1 ? t('result_label_per_meal') : t('result_label_per_day');
+    drawText(ctx, perLabel, cx, y + 9, {
+      font: '500 18px "DM Sans", system-ui, sans-serif',
+      color: '#4b5563',
+    });
+    y += 18 + 12;
+
+    // Meal badge
+    if (config.meals > 1) {
+      drawPill(
+        ctx,
+        cx,
+        y,
+        'rgba(45,90,61,0.1)',
+        '#2d5a3d',
+        t('result_meal_badge', { meals: String(config.meals) }),
+        14,
+        500
+      );
+      y += 30 + 10;
+    }
+
+    // Daily summary
+    const summaryText =
+      config.meals > 1
+        ? t('result_daily_summary', {
+            grams: String(result.gramsPerDay),
+            kcal: String(result.estimatedKcalPerDay),
+          })
+        : t('result_kcal', { kcal: String(result.estimatedKcalPerDay) });
+    drawText(ctx, summaryText, cx, y + 8, {
+      font: '400 15px "DM Sans", system-ui, sans-serif',
+      color: '#9ca3af',
+    });
+  }
+
+  return canvas;
+}
+
+// ---------------------------------------------------------------------------
+// Download + modal
+// ---------------------------------------------------------------------------
 
 function triggerDownload(blob: Blob, filename: string): void {
   const a = document.createElement('a');
@@ -361,27 +1019,24 @@ export function openShareModal(cardType: ShareCardType, deps: ShareModalDeps): v
 
   function bindDownload(): void {
     dialog.querySelector('#share-download-btn')?.addEventListener('click', async () => {
-      const previewEl = dialog.querySelector('#share-preview-content') as HTMLElement | null;
-      if (!previewEl) return;
-
       const btn = dialog.querySelector('#share-download-btn') as HTMLButtonElement;
       const originalText = btn.innerHTML;
       btn.disabled = true;
       btn.textContent = 'Rendering...';
 
-      const savedTransform = previewEl.style.transform;
-      previewEl.style.transform = 'none';
-
       try {
-        const html2canvas = (await import('html2canvas')).default;
-        const dims = FORMAT_DIMS[currentFormat];
-        const canvas = await html2canvas(previewEl, {
-          width: dims.w,
-          height: dims.h,
-          scale: 1,
-          useCORS: true,
-          backgroundColor: '#faf8f5',
-        });
+        let canvas: HTMLCanvasElement | null;
+        if (cardType === 'dog') {
+          canvas = await renderDogCardToCanvas(config, foodState, currentFormat, t);
+        } else {
+          canvas = await renderFoodCardToCanvas(config, foodData, currentFormat, t);
+        }
+
+        if (!canvas) {
+          btn.disabled = false;
+          btn.innerHTML = originalText;
+          return;
+        }
 
         canvas.toBlob((blob) => {
           if (blob) {
@@ -396,8 +1051,6 @@ export function openShareModal(cardType: ShareCardType, deps: ShareModalDeps): v
       } catch {
         btn.disabled = false;
         btn.innerHTML = originalText;
-      } finally {
-        previewEl.style.transform = savedTransform;
       }
     });
   }
