@@ -3,9 +3,9 @@
  */
 
 const STORAGE_KEY = 'puppycal-dog-photo';
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
-const OUTPUT_SIZE = 400; // px, square crop output
-const JPEG_QUALITY = 0.85;
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
+const OUTPUT_SIZE = 1920; // px, square crop output (matches tallest share format)
+const JPEG_QUALITY = 0.8;
 const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
 
 export function getDogPhoto(): string | null {
@@ -145,7 +145,7 @@ export function openPhotoCropModal(onSave: (dataUrl: string) => void): void {
 
     // Validate size
     if (file.size > MAX_FILE_SIZE) {
-      showError('Image must be under 5 MB.');
+      showError('Image must be under 10 MB.');
       return;
     }
 

@@ -188,7 +188,7 @@ describe('renderFoodShareCard', () => {
       wetPercent: 50,
     };
     const html = renderFoodShareCard(makeConfig({ name: '' }), data, 'square', t);
-    expect(html).not.toContain('font-size:18px;color:#6b7280');
+    expect(html).not.toContain('font-size:24px;color:#6b7280');
   });
 
   it('renders mixed mode with wet + dry split', () => {
@@ -298,9 +298,10 @@ describe('renderDogShareCard', () => {
     expect(html).toContain('—');
   });
 
-  it('uses 3-column grid for wide format', () => {
+  it('uses single-column stacked layout for wide format', () => {
     const html = renderDogShareCard(makeConfig(), makeFoodState(), 'wide', t);
-    expect(html).toContain('grid-template-columns:1fr 1fr 1fr');
+    expect(html).toContain('flex-direction:column');
+    expect(html).not.toContain('<dl');
   });
 
   it('uses 2-column dl grid for story/square', () => {
