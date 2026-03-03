@@ -369,6 +369,9 @@ export function openShareModal(cardType: ShareCardType, deps: ShareModalDeps): v
       btn.disabled = true;
       btn.textContent = 'Rendering...';
 
+      const savedTransform = previewEl.style.transform;
+      previewEl.style.transform = 'none';
+
       try {
         const html2canvas = (await import('html2canvas')).default;
         const dims = FORMAT_DIMS[currentFormat];
@@ -393,6 +396,8 @@ export function openShareModal(cardType: ShareCardType, deps: ShareModalDeps): v
       } catch {
         btn.disabled = false;
         btn.innerHTML = originalText;
+      } finally {
+        previewEl.style.transform = savedTransform;
       }
     });
   }
