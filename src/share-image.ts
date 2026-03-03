@@ -170,6 +170,8 @@ export function renderDogShareCard(
     ? 'display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px 32px;text-align:left'
     : 'display:grid;grid-template-columns:auto 1fr;gap:10px 20px;text-align:left';
 
+  const isPuppy = foodState.ageMonths < 6;
+
   const rows = [
     { label: t('label_name'), value: config.name ? escapeHtml(config.name) : '—' },
     {
@@ -178,8 +180,8 @@ export function renderDogShareCard(
     },
     { label: t('label_weight_kg'), value: `${foodState.weightKg.toFixed(1)} kg` },
     { label: t('label_breed'), value: breedLabel },
-    { label: t('label_activity'), value: activityLabel },
-    { label: t('label_goal'), value: goalLabel },
+    ...(isPuppy ? [] : [{ label: t('label_activity'), value: activityLabel }]),
+    ...(isPuppy ? [] : [{ label: t('label_goal'), value: goalLabel }]),
   ];
 
   const gridHtml = isWide

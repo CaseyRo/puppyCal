@@ -264,7 +264,12 @@ describe('renderDogShareCard', () => {
   it('renders dog profile fields', () => {
     const html = renderDogShareCard(
       makeConfig({ name: 'Biko', dob: '2025-01-15' }),
-      makeFoodState({ weightKg: 8.5, activityLevel: 'moderate', weightGoal: 'maintain' }),
+      makeFoodState({
+        weightKg: 8.5,
+        ageMonths: 12,
+        activityLevel: 'moderate',
+        weightGoal: 'maintain',
+      }),
       'square',
       t
     );
@@ -274,6 +279,17 @@ describe('renderDogShareCard', () => {
     expect(html).toContain('Moderate');
     expect(html).toContain('Maintain');
     expect(html).toContain('Dog Profile');
+  });
+
+  it('hides activity and goal for puppies', () => {
+    const html = renderDogShareCard(
+      makeConfig({ name: 'Biko' }),
+      makeFoodState({ ageMonths: 3, activityLevel: 'moderate', weightGoal: 'maintain' }),
+      'square',
+      t
+    );
+    expect(html).not.toContain('Moderate');
+    expect(html).not.toContain('Maintain');
   });
 
   it('shows dash for missing name', () => {

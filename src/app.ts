@@ -388,8 +388,8 @@ export async function runApp(container: HTMLElement): Promise<void> {
             <dt class="text-gray-400">${t('label_dob')}</dt><dd class="text-gray-700 font-medium">${config.dob ? config.dob.split('-').reverse().join('-') : '—'}</dd>
             <dt class="text-gray-400">${t('label_weight_kg')}</dt><dd class="text-gray-700 font-medium">${foodState.weightKg.toFixed(1)} kg</dd>
             <dt class="text-gray-400">${t('label_breed')}</dt><dd class="text-gray-700 font-medium truncate">${breedLabel}</dd>
-            <dt class="text-gray-400">${t('label_activity')}</dt><dd class="text-gray-700 font-medium">${activityLabel}</dd>
-            <dt class="text-gray-400">${t('label_goal')}</dt><dd class="text-gray-700 font-medium">${goalLabel}</dd>
+            ${!isPuppy ? `<dt class="text-gray-400">${t('label_activity')}</dt><dd class="text-gray-700 font-medium">${activityLabel}</dd>` : ''}
+            ${!isPuppy ? `<dt class="text-gray-400">${t('label_goal')}</dt><dd class="text-gray-700 font-medium">${goalLabel}</dd>` : ''}
           </dl>
           <button type="button" id="btn-share-dog-image"
             class="inline-flex items-center gap-1.5 mt-4 px-3 py-1.5 text-xs font-medium text-gray-600 rounded-full border border-muted bg-white/60 hover:bg-white hover:text-primary transition-colors"
