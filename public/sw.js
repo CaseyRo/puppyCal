@@ -33,25 +33,35 @@ self.addEventListener('fetch', (event) => {
   // Only handle same-origin GET requests
   if (request.method !== 'GET' || url.origin !== self.location.origin) return;
 
-  event.respondWith(
-    caches.match(request).then((cached) => {
-      if (cached) return cached;
-
-      return fetch(request)
+  if (request.mode === 'navigate') {
+    // Network-first for navigation — index.html must be fresh to load correct bundle hashes
+    event.respondWith(
+      fetch(request)
         .then((response) => {
-          // Cache successful same-origin responses
           if (response.ok) {
             const clone = response.clone();
             caches.open(CACHE).then((cache) => cache.put(request, clone));
           }
           return response;
         })
-        .catch(() => {
-          // Offline fallback: serve root for navigation requests
-          if (request.mode === 'navigate') {
-            return caches.match('/') ?? caches.match('/index.html');
-          }
-        });
-    })
-  );
+        .catch(() => caches.match(request).then((cached) => cached ?? caches.match('/')))
+    );
+  } else {
+    // Stale-while-revalidate for assets — serve cached immediately, refresh in background
+    event.respondWith(
+      caches.match(request).then((cached) => {
+        const networkFetch = fetch(request)
+          .then((response) => {
+            if (response.ok) {
+              const clone = response.clone();
+              caches.open(CACHE).then((cache) => cache.put(request, clone));
+            }
+            return response;
+          })
+          .catch(() => cached);
+
+        return cached ?? networkFetch;
+      })
+    );
+  }
 });
