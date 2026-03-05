@@ -160,8 +160,15 @@ async function fillData(page) {
   await page.fill('#dog-weight-kg', String(DOG.weightKg));
   await page.fill('#dog-weight-g', String(DOG.weightG));
   await page.selectOption('#dog-breed-size', DOG.breedSize);
-  await page.selectOption('#dog-activity', DOG.activity);
-  await page.selectOption('#dog-goal', DOG.goal);
+  // Activity, goal, neutered are inside a disabled fieldset for puppies — skip if disabled
+  const activityEl = await page.$('#dog-activity');
+  if (activityEl && (await activityEl.isEnabled())) {
+    await page.selectOption('#dog-activity', DOG.activity);
+  }
+  const goalEl = await page.$('#dog-goal');
+  if (goalEl && (await goalEl.isEnabled())) {
+    await page.selectOption('#dog-goal', DOG.goal);
+  }
   await page.selectOption('#dog-meals', String(DOG.meals));
   // fire change events so the app picks up the values
   await page.dispatchEvent('#dog-weight-kg', 'change');
@@ -194,27 +201,61 @@ async function fillData(page) {
   await page.click('#tab-food');
   await page.waitForSelector('#food-supplier', { timeout: 5000 });
 
-  // Primary food: dry
+  // Primary food: select supplier (native select)
   await page.selectOption('#food-supplier', DRY_FOOD.supplier);
-  await wait(200);
-  await page.selectOption('#food-product', DRY_FOOD.productId);
-  await wait(200);
+  await wait(400);
+
+  // Product uses a custom-select — click trigger, then click the option by data-value
+  const productTrigger = page.locator('[data-select-id="food-product"] [data-trigger]');
+  if ((await productTrigger.count()) > 0) {
+    await productTrigger.click();
+    await wait(300);
+    const productOption = page.locator(
+      `[data-select-id="food-product"] [data-value="${DRY_FOOD.productId}"]`
+    );
+    if ((await productOption.count()) > 0) {
+      await productOption.click();
+      await wait(300);
+    } else {
+      // Click first available option as fallback
+      const firstOpt = page.locator('[data-select-id="food-product"] [role="option"]').first();
+      if ((await firstOpt.count()) > 0) await firstOpt.click();
+      await wait(300);
+    }
+  }
 
   // Enable mixed mode
   const mixedCheckbox = await page.$('#food-mixed-mode');
   if (mixedCheckbox) {
     const checked = await mixedCheckbox.isChecked();
     if (!checked) await mixedCheckbox.click();
-    await wait(300);
+    await wait(400);
   }
 
-  // Second food: wet
+  // Second food: select supplier
   const secondSupplierEl = await page.$('#food-second-supplier');
   if (secondSupplierEl) {
     await page.selectOption('#food-second-supplier', WET_FOOD.supplier);
-    await wait(200);
-    await page.selectOption('#food-second-product', WET_FOOD.productId);
-    await wait(200);
+    await wait(400);
+
+    // Second product — also custom-select
+    const secondTrigger = page.locator('[data-select-id="food-second-product"] [data-trigger]');
+    if ((await secondTrigger.count()) > 0) {
+      await secondTrigger.click();
+      await wait(300);
+      const secondOption = page.locator(
+        `[data-select-id="food-second-product"] [data-value="${WET_FOOD.productId}"]`
+      );
+      if ((await secondOption.count()) > 0) {
+        await secondOption.click();
+      } else {
+        const firstOpt = page
+          .locator('[data-select-id="food-second-product"] [role="option"]')
+          .first();
+        if ((await firstOpt.count()) > 0) await firstOpt.click();
+      }
+      await wait(300);
+    }
   }
 
   // Set wet/dry slider
@@ -606,6 +647,92 @@ async function createHeroComposition(sharp, tab, outputPath) {
   console.log(`Hero: ${outputPath.split('/').pop()}`);
 }
 
+// ── Share card capture ────────────────────────────────────────────────────
+
+const SHARE_FORMATS = ['story', 'square', 'wide'];
+
+const SHARE_CARDS = [
+  { type: 'food', tabId: 'tab-food', btnId: 'btn-share-food-image' },
+  { type: 'dog', tabId: 'tab-dog', btnId: 'btn-share-dog-image' },
+];
+
+async function captureShareCards(page) {
+  for (const card of SHARE_CARDS) {
+    // Switch to the right tab
+    await page.click(`#${card.tabId}`);
+    await wait(800);
+
+    for (const format of SHARE_FORMATS) {
+      // Close any existing dialog
+      await page.evaluate(() => document.querySelector('.share-dialog')?.remove());
+      await wait(200);
+
+      // Open the share dialog
+      const btn = page.locator(`#${card.btnId}`);
+      if ((await btn.count()) === 0) {
+        console.log(`  Share button #${card.btnId} not found, skipping ${card.type}`);
+        break;
+      }
+      await btn.click();
+      await wait(800);
+
+      const dialog = page.locator('.share-dialog');
+      if ((await dialog.count()) === 0) {
+        console.log(`  No share dialog for ${card.type}, skipping`);
+        break;
+      }
+
+      // Switch format
+      const formatBtn = dialog.locator(`.share-format-btn[data-format="${format}"]`);
+      if ((await formatBtn.count()) > 0) {
+        await formatBtn.click();
+        await wait(800);
+      }
+
+      // Expand preview to full resolution for screenshot
+      await page.evaluate(() => {
+        const el = document.querySelector('#share-preview-content');
+        const wrapper = document.querySelector('.share-preview-wrapper');
+        if (el && wrapper) {
+          el.style.transform = 'none';
+          wrapper.style.width = el.style.width;
+          wrapper.style.height = el.style.height;
+          wrapper.style.overflow = 'visible';
+          wrapper.style.maxWidth = 'none';
+          wrapper.style.maxHeight = 'none';
+        }
+        const body = document.querySelector('.share-dialog-body');
+        if (body) {
+          body.style.overflow = 'visible';
+          body.style.maxHeight = 'none';
+        }
+        const dlg = document.querySelector('.share-dialog');
+        if (dlg) {
+          dlg.style.maxWidth = 'none';
+          dlg.style.maxHeight = 'none';
+          dlg.style.width = 'auto';
+          dlg.style.height = 'auto';
+          dlg.style.overflow = 'visible';
+        }
+      });
+      await wait(500);
+
+      const preview = page.locator('#share-preview-content');
+      if ((await preview.count()) > 0) {
+        const filename = `share-${card.type}-${format}.png`;
+        await preview.screenshot({ path: join(SCREENSHOTS_DIR, filename) });
+        console.log(`Saved ${filename}`);
+      }
+    }
+
+    // Clean up dialog
+    await page.evaluate(() => document.querySelector('.share-dialog')?.remove());
+    await wait(200);
+  }
+}
+
+// ── Mockup builders ──────────────────────────────────────────────────────
+
 async function createMockups() {
   const { default: sharp } = await import('sharp');
   const mockupDir = join(SCREENSHOTS_DIR, 'mockups');
@@ -670,6 +797,16 @@ async function main() {
 
       await page.close();
     }
+
+    // Share card screenshots (use a fresh page with large viewport)
+    console.log('\nCapturing share cards...');
+    const sharePage = await browser.newPage();
+    await sharePage.setViewportSize({ width: 1400, height: 1000 });
+    await sharePage.goto(baseUrl, { waitUntil: 'networkidle' });
+    await wait(400);
+    await fillData(sharePage);
+    await captureShareCards(sharePage);
+    await sharePage.close();
 
     await browser.close();
   } finally {

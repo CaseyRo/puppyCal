@@ -258,10 +258,10 @@ export function parsePlannerStateFromSearch(
     markCorrection
   );
 
-  const ageMonths = parseInteger(
+  const ageMonths = parseFloatInRange(
     params.get('foodAge'),
     defaultFoodState.ageMonths,
-    1,
+    0.25,
     240,
     markCorrection
   );

@@ -18,6 +18,7 @@
     "label_start": "Plan start date",
     "label_birthday": "Include birthday reminders",
     "label_name": "Dog name (optional)",
+    "share_label_name": "Name",
     "label_breed": "Breed",
     "breed_stabyhoun": "Stabyhoun",
     "breed_kooikerhondje": "Kooikerhondje",
@@ -196,7 +197,18 @@
     "share_prefill_default": "{name} is {age}! Check out",
     "share_prefill_birthday": "It's {name}'s birthday! {age} today!",
     "share_prefill_no_name": "Plan your puppy's food and walks",
-    "share_copied": "Copied!"
+    "share_copied": "Copied!",
+    "dog_derived_age_weeks": "Age: {weeks} weeks since birth on {dob}",
+    "age_group_weeks": "Weeks",
+    "age_group_months": "Months",
+    "age_unit_weeks": "{n} weeks",
+    "age_unit_months": "{n} months",
+    "age_unit_years": "{n} years",
+    "setup_title": "Tell us about your puppy",
+    "setup_subtitle": "Fill in the details and we'll calculate everything for you.",
+    "setup_btn_start": "Start",
+    "setup_dob_required": "Date of birth is required to get started",
+    "share_profile_link": "Share profile"
   },
   "facts": {
     "generic": [

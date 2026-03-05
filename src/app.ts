@@ -16,12 +16,7 @@ import { validate, isValid, type ValidationErrors } from './validation';
 import { calculateDailyPortion } from './food/portion';
 import { findFoodById, getAllFoods, getSupplierCatalog, validateCatalog } from './food/catalog';
 import type { ActivityLevel, BreedSize, PortionInputs, WeightGoal } from './food/types';
-import {
-  fromDisplayedAge,
-  getFoodProfile,
-  resetForProfileSwitch,
-  toDisplayedAge,
-} from './food/profile';
+import { getFoodProfile, resetForProfileSwitch } from './food/profile';
 import { ANALYTICS_EVENTS, trackEvent } from './analytics';
 import { applyPlannerMetadata } from './metadata';
 import { buildShareTarget, SHARE_PLATFORMS, type SharePlatform } from './sharing';
@@ -47,7 +42,7 @@ import type { FoodEntry } from './food/types';
 import { openShareModal } from './share-image';
 import { getDogPhoto, openPhotoCropModal } from './dog-photo';
 import { getShareText } from './share-captions';
-import { formatAge, formatAgeShort } from './share-milestones';
+import { formatAge, formatAgeShort, dobToAgeWeeks } from './share-milestones';
 import { getBirthdayContext } from './share-birthday';
 import { getWeightMilestone } from './share-milestones';
 
@@ -238,6 +233,17 @@ export async function runApp(container: HTMLElement): Promise<void> {
     }, 2500);
   }
 
+  function derivedAgeText(dob: string, ageMonths: number): string {
+    const formattedDob = dob.split('-').reverse().join('-');
+    const weeks = dobToAgeWeeks(dob);
+    if (weeks !== null && weeks < 20) {
+      return t('dog_derived_age_weeks', { weeks: String(weeks), dob: formattedDob });
+    }
+    return ageMonths === 1
+      ? t('dog_derived_age_one', { dob: formattedDob })
+      : t('dog_derived_age', { months: String(Math.round(ageMonths)), dob: formattedDob });
+  }
+
   const logoInCard = `<div class="absolute inset-y-0 right-0 w-1/2 overflow-hidden rounded-r-xl pointer-events-none" aria-hidden="true"><picture><source srcset="/icons/icon-bg-2x.webp" type="image/webp" /><img src="/icons/icon-bg-2x.png" alt="" class="h-full w-full object-cover object-center opacity-[0.18]" loading="lazy" /></picture><div class="absolute inset-0" style="background:linear-gradient(to right,var(--color-surface) 0%,var(--color-surface) 10%,rgba(245,240,232,0.6) 50%,transparent 100%)"></div></div>`;
 
   function renderWalkies(valid: boolean): string {
@@ -315,12 +321,15 @@ export async function runApp(container: HTMLElement): Promise<void> {
             </div>
             <div>
               <label for="months" class="block text-sm font-medium mb-1">${t('label_months')} ${infoIcon(t('hint_months'))}</label>
-              <div class="inline-flex items-center gap-2">
-                <button type="button" id="months-decrease" class="h-8 w-8 rounded border border-gray-300 text-gray-700 hover:bg-gray-100" aria-label="${t('months_decrease')}">-</button>
-                <input type="number" id="months" min="1" max="12" value="${config.months}" aria-describedby="months-err" aria-invalid="${visibleMonthsError ? 'true' : 'false'}"
-                  class="w-16 text-center border rounded px-2 py-1 ${visibleMonthsError ? 'border-red-600 ring-1 ring-red-600' : 'border-gray-300'}"/>
-                <button type="button" id="months-increase" class="h-8 w-8 rounded border border-gray-300 text-gray-700 hover:bg-gray-100" aria-label="${t('months_increase')}">+</button>
-              </div>
+              <select id="months" aria-describedby="months-err" aria-invalid="${visibleMonthsError ? 'true' : 'false'}"
+                class="w-full border rounded px-3 py-2 ${visibleMonthsError ? 'border-red-600 ring-1 ring-red-600' : 'border-gray-300'}">
+                ${Array.from({ length: 12 }, (_, i) => i + 1)
+                  .map(
+                    (n) =>
+                      `<option value="${n}" ${config.months === n ? 'selected' : ''}>${n}</option>`
+                  )
+                  .join('')}
+              </select>
               ${visibleMonthsError ? `<p id="months-err" class="text-red-600 text-sm mt-1" role="alert">${t(visibleMonthsError)}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_months')}</p>`}
             </div>
             <div>
@@ -395,12 +404,20 @@ export async function runApp(container: HTMLElement): Promise<void> {
             ${!isPuppy ? `<dt class="text-gray-400">${t('label_activity')}</dt><dd class="text-gray-700 font-medium">${activityLabel}</dd>` : ''}
             ${!isPuppy ? `<dt class="text-gray-400">${t('label_goal')}</dt><dd class="text-gray-700 font-medium">${goalLabel}</dd>` : ''}
           </dl>
-          <button type="button" id="btn-share-dog-image"
-            class="inline-flex items-center gap-1.5 mt-4 px-3 py-1.5 text-xs font-medium text-gray-600 rounded-full border border-muted bg-white/60 hover:bg-white hover:text-primary transition-colors"
-            aria-label="Share as image">
-            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            Share as image
-          </button>
+          <div class="flex gap-2 mt-4">
+            <button type="button" id="btn-share-dog-image"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 rounded-full border border-muted bg-white/60 hover:bg-white hover:text-primary transition-colors"
+              aria-label="Share as image">
+              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              Share as image
+            </button>
+            <button type="button" id="btn-share-profile-link"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 rounded-full border border-muted bg-white/60 hover:bg-white hover:text-primary transition-colors"
+              aria-label="${t('share_profile_link')}">
+              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              ${t('share_profile_link')}
+            </button>
+          </div>
         </div>
       </div>`;
 
@@ -419,21 +436,14 @@ export async function runApp(container: HTMLElement): Promise<void> {
               <label for="dog-dob" class="block text-sm font-medium mb-1">${t('label_dob')} ${infoIcon(t('hint_dob'))}</label>
               <input type="date" id="dog-dob" value="${config.dob}"
                 class="w-full border border-gray-300 rounded px-3 py-2"/>
-              ${config.dob ? `<p class="text-xs text-gray-500 mt-1">${foodState.ageMonths === 1 ? t('dog_derived_age_one', { dob: config.dob.split('-').reverse().join('-') }) : t('dog_derived_age', { months: String(foodState.ageMonths), dob: config.dob.split('-').reverse().join('-') })}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_dob')}</p>`}
+              ${config.dob ? `<p class="text-xs text-gray-500 mt-1">${derivedAgeText(config.dob, foodState.ageMonths)}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_dob')}</p>`}
             </div>
             <div>
-              <label class="block text-sm font-medium mb-1">${t('label_weight_kg')}</label>
-              <div class="flex gap-2">
-                <div class="flex items-center gap-1.5">
-                  <input type="number" id="dog-weight-kg" min="0" max="80" step="1" value="${Math.floor(foodState.weightKg)}"
-                    class="w-20 border border-gray-300 rounded px-3 py-2"/>
-                  <span class="text-sm text-gray-600">kg</span>
-                </div>
-                <div class="flex items-center gap-1.5">
-                  <input type="number" id="dog-weight-g" min="0" max="990" step="10" value="${Math.round((foodState.weightKg - Math.floor(foodState.weightKg)) * 1000)}"
-                    class="w-20 border border-gray-300 rounded px-3 py-2"/>
-                  <span class="text-sm text-gray-600">g</span>
-                </div>
+              <label for="dog-weight" class="block text-sm font-medium mb-1">${t('label_weight_kg')}</label>
+              <div class="flex items-center gap-1.5">
+                <input type="number" id="dog-weight" inputmode="decimal" step="0.1" min="0.5" max="80" value="${foodState.weightKg.toFixed(1)}"
+                  class="w-28 border border-gray-300 rounded px-3 py-2"/>
+                <span class="text-sm text-gray-600">kg</span>
               </div>
             </div>
             <div>
@@ -517,7 +527,6 @@ export async function runApp(container: HTMLElement): Promise<void> {
     const profile = getFoodProfile(selectedFood);
     const ageLabel = profile.isPuppy ? t('label_age_months') : t('label_age_years');
     const ageHint = profile.isPuppy ? t('hint_age_months') : t('hint_age_years');
-    const displayedAge = toDisplayedAge(foodState.ageMonths, profile.isPuppy);
     const SUPPLIER_NAMES: Record<string, string> = {
       purina: 'Purina Pro Plan',
       'royal-canin': 'Royal Canin',
@@ -679,7 +688,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
       : secondFoodsForSupplier;
 
     // Profile summary for food settings
-    const hasProfile = Boolean(config.name || config.dob);
+    const hasProfile = Boolean(config.dob);
     const breedSizeLabel =
       {
         small: t('breed_small'),
@@ -711,11 +720,41 @@ export async function runApp(container: HTMLElement): Promise<void> {
 
     // Age field: only shown when DOB is not set (else DOB auto-calculates it)
     const ageField = config.dob
-      ? `<p class="text-xs text-gray-400 mt-1 italic">${foodState.ageMonths === 1 ? t('dog_derived_age_one', { dob: config.dob.split('-').reverse().join('-') }) : t('dog_derived_age', { months: String(foodState.ageMonths), dob: config.dob.split('-').reverse().join('-') })}</p>`
-      : `<div>
+      ? `<p class="text-xs text-gray-400 mt-1 italic">${derivedAgeText(config.dob, foodState.ageMonths)}</p>`
+      : profile.isPuppy
+        ? `<div>
           <label for="food-age" class="block text-xs font-medium text-gray-600 mb-1">${ageLabel} ${infoIcon(ageHint)}</label>
-          <input id="food-age" type="number" min="1" max="${profile.isPuppy ? 24 : 20}" step="1" value="${displayedAge}"
-            class="w-full border border-gray-200 rounded px-3 py-2 text-sm"/>
+          <select id="food-age" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
+            <optgroup label="${t('age_group_weeks')}">
+              ${Array.from({ length: 14 }, (_, i) => i + 7)
+                .map((w) => {
+                  const val = `w${w}`;
+                  const months = w / 4.345;
+                  return `<option value="${val}" ${Math.abs(foodState.ageMonths - months) < 0.3 ? 'selected' : ''}>${t('age_unit_weeks', { n: String(w) })}</option>`;
+                })
+                .join('')}
+            </optgroup>
+            <optgroup label="${t('age_group_months')}">
+              ${Array.from({ length: 20 }, (_, i) => i + 5)
+                .map(
+                  (m) =>
+                    `<option value="m${m}" ${Math.round(foodState.ageMonths) === m ? 'selected' : ''}>${t('age_unit_months', { n: String(m) })}</option>`
+                )
+                .join('')}
+            </optgroup>
+          </select>
+          <p class="text-xs text-gray-400 mt-1">${ageHint}</p>
+        </div>`
+        : `<div>
+          <label for="food-age" class="block text-xs font-medium text-gray-600 mb-1">${ageLabel} ${infoIcon(ageHint)}</label>
+          <select id="food-age" class="w-full border border-gray-200 rounded px-3 py-2 text-sm">
+            ${Array.from({ length: 20 }, (_, i) => i + 1)
+              .map(
+                (y) =>
+                  `<option value="${y}" ${Math.round(foodState.ageMonths / 12) === y || (y === 1 && foodState.ageMonths < 18) ? 'selected' : ''}>${t('age_unit_years', { n: String(y) })}</option>`
+              )
+              .join('')}
+          </select>
           <p class="text-xs text-gray-400 mt-1">${ageHint}</p>
         </div>`;
 
@@ -815,7 +854,141 @@ export async function runApp(container: HTMLElement): Promise<void> {
     `;
   }
 
+  function renderSetup(): string {
+    return `
+      <div class="min-h-screen bg-background text-gray-800 font-sans px-4 py-6 max-w-lg mx-auto flex flex-col items-center justify-center">
+        <img src="/icons/icon-original.png" alt="PuppyCal" class="h-28 w-auto mx-auto animate-mascot-in" width="104" height="112" />
+        <h1 class="text-2xl font-display font-semibold text-gray-900 leading-tight mt-4 text-center">${t('setup_title')}</h1>
+        <p class="text-sm text-gray-500 mt-2 text-center">${t('setup_subtitle')}</p>
+        <div class="inline-flex rounded-lg border border-gray-200 overflow-hidden mt-4">
+          <button type="button" id="setup-lang-en"
+            class="px-3 py-1.5 text-xs font-medium transition-colors ${config.lang === 'en' ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}">EN</button>
+          <button type="button" id="setup-lang-nl"
+            class="px-3 py-1.5 text-xs font-medium transition-colors ${config.lang === 'nl' ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}">NL</button>
+        </div>
+        <form id="setup-form" class="w-full space-y-4 mt-6" novalidate>
+          <div>
+            <label for="setup-name" class="block text-sm font-medium mb-1">${t('label_name')}</label>
+            <input type="text" id="setup-name" placeholder="" class="w-full border border-gray-300 rounded px-3 py-2"/>
+          </div>
+          <div>
+            <label for="setup-dob" class="block text-sm font-medium mb-1">${t('label_dob')} <span class="text-red-500">*</span></label>
+            <input type="date" id="setup-dob" class="w-full border border-gray-300 rounded px-3 py-2" required/>
+            <p id="setup-dob-hint" class="text-xs text-gray-500 mt-1">${t('setup_dob_required')}</p>
+          </div>
+          <div>
+            <label for="setup-breed" class="block text-sm font-medium mb-1">${t('label_breed')}</label>
+            <select id="setup-breed" class="w-full border border-gray-300 rounded px-3 py-2">
+              <optgroup label="${t('breed_group_dutch')}">
+                ${BREEDS.filter((b) => b.isNativeDutch)
+                  .map(
+                    (b) =>
+                      `<option value="${b.id}" ${b.id === 'stabyhoun' ? 'selected' : ''}>${t('breed_' + b.id.replace(/-/g, '_'))}</option>`
+                  )
+                  .join('')}
+              </optgroup>
+              <optgroup label="${t('breed_group_other')}">
+                ${BREEDS.filter((b) => !b.isNativeDutch)
+                  .map(
+                    (b) =>
+                      `<option value="${b.id}">${t('breed_' + b.id.replace(/-/g, '_'))}</option>`
+                  )
+                  .join('')}
+              </optgroup>
+            </select>
+          </div>
+          <div>
+            <label for="setup-weight" class="block text-sm font-medium mb-1">${t('label_weight_kg')}</label>
+            <div class="flex items-center gap-1.5">
+              <input type="number" id="setup-weight" inputmode="decimal" step="0.1" min="0.5" max="80" placeholder=""
+                class="w-28 border border-gray-300 rounded px-3 py-2"/>
+              <span class="text-sm text-gray-600">kg</span>
+            </div>
+          </div>
+          <button type="submit" id="setup-start"
+            class="w-full mt-2 px-4 py-3 text-sm font-semibold text-white bg-primary rounded-lg hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed" disabled>
+            ${t('setup_btn_start')}
+          </button>
+        </form>
+      </div>`;
+  }
+
+  function attachSetupListeners(): void {
+    const dobInput = container.querySelector('#setup-dob') as HTMLInputElement | null;
+    const startBtn = container.querySelector('#setup-start') as HTMLButtonElement | null;
+
+    dobInput?.addEventListener('input', () => {
+      if (startBtn) startBtn.disabled = !dobInput.value;
+    });
+
+    container.querySelector('#setup-lang-en')?.addEventListener('click', () => {
+      if (config.lang !== 'en') {
+        config = { ...config, lang: 'en' };
+        applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
+        window.location.reload();
+      }
+    });
+    container.querySelector('#setup-lang-nl')?.addEventListener('click', () => {
+      if (config.lang !== 'nl') {
+        config = { ...config, lang: 'nl' };
+        applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
+        window.location.reload();
+      }
+    });
+
+    container.querySelector('#setup-form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const nameInput = container.querySelector('#setup-name') as HTMLInputElement | null;
+      const breedInput = container.querySelector('#setup-breed') as HTMLSelectElement | null;
+      const weightInput = container.querySelector('#setup-weight') as HTMLInputElement | null;
+
+      const dob = dobInput?.value ?? '';
+      if (!dob) return;
+
+      config = {
+        ...config,
+        name: nameInput?.value ?? '',
+        dob,
+        breed: (breedInput?.value as BreedId) || config.breed,
+      };
+
+      const breedInfo = getBreed(config.breed);
+      foodState = { ...foodState, breedSize: breedInfo.breedSize };
+
+      const derived = dobToAgeMonths(dob);
+      if (derived !== null) {
+        foodState = { ...foodState, ageMonths: derived };
+      }
+
+      const weightVal = parseFloat(weightInput?.value ?? '');
+      if (Number.isFinite(weightVal) && weightVal >= 0.5) {
+        foodState = { ...foodState, weightKg: weightVal };
+      } else {
+        foodState = {
+          ...foodState,
+          weightKg: estimateWeightFromAge(foodState.ageMonths, foodState.breedSize),
+        };
+      }
+
+      activeTab = 'food';
+      errors = validate(config);
+      applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
+      trackEvent(ANALYTICS_EVENTS.DOG_PROFILE_COMPLETED, {
+        breed: config.breed,
+        size: foodState.breedSize,
+      });
+      dogProfileCompletedThisSession = true;
+      render();
+    });
+  }
+
   function render(): void {
+    if (!config.dob) {
+      container.innerHTML = renderSetup();
+      attachSetupListeners();
+      return;
+    }
+
     const valid = isValid(errors);
     const titleText = config.name ? t('title_for', { name: escapeHtml(config.name) }) : t('title');
 
@@ -899,16 +1072,10 @@ export async function runApp(container: HTMLElement): Promise<void> {
     if (activeTab === 'walkies') {
       const form = container.querySelector('#walkies-form');
       const dob = container.querySelector('#dob') as HTMLInputElement;
-      const months = container.querySelector('#months') as HTMLInputElement;
+      const months = container.querySelector('#months') as HTMLSelectElement;
       const start = container.querySelector('#start') as HTMLInputElement;
       const birthday = container.querySelector('#birthday') as HTMLInputElement;
       const nameInput = container.querySelector('#name') as HTMLInputElement;
-      const monthsDecrease = container.querySelector(
-        '#months-decrease'
-      ) as HTMLButtonElement | null;
-      const monthsIncrease = container.querySelector(
-        '#months-increase'
-      ) as HTMLButtonElement | null;
 
       function syncWalkies(event: Event): void {
         const fieldId = (event.target as HTMLElement | null)?.id;
@@ -931,19 +1098,6 @@ export async function runApp(container: HTMLElement): Promise<void> {
 
       form?.addEventListener('input', syncWalkies);
       form?.addEventListener('change', syncWalkies);
-      monthsDecrease?.addEventListener('click', () => {
-        walkiesTouched.months = true;
-        const next = Math.max(1, (parseInt(months.value || '3', 10) || 3) - 1);
-        months.value = String(next);
-        syncWalkies(new Event('change'));
-      });
-      monthsIncrease?.addEventListener('click', () => {
-        walkiesTouched.months = true;
-        const next = Math.min(12, (parseInt(months.value || '3', 10) || 3) + 1);
-        months.value = String(next);
-        syncWalkies(new Event('change'));
-      });
-
       container.querySelector('#btn-download')?.addEventListener('click', () => {
         if (!valid) return;
         const ics = generateICS(config, i18n);
@@ -1041,7 +1195,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
       const wetPercentInput = container.querySelector(
         '#food-wet-percent'
       ) as HTMLInputElement | null;
-      const ageInput = container.querySelector('#food-age') as HTMLInputElement | null;
+      const ageInput = container.querySelector('#food-age') as HTMLSelectElement | null;
 
       const selectedFood = findFoodById(foodState.selectedFoodId) ?? null;
       const currentProfile = getFoodProfile(selectedFood);
@@ -1163,12 +1317,19 @@ export async function runApp(container: HTMLElement): Promise<void> {
         render();
       });
 
-      ageInput?.addEventListener('input', () => {
+      const ageHandler = (): void => {
         if (config.dob) return; // DOB takes priority — age is read-only
-        const nextSelectedFood = findFoodById(foodState.selectedFoodId) ?? null;
-        const profile = getFoodProfile(nextSelectedFood);
-        const ageValue = parseInt(ageInput.value ?? '1', 10) || 1;
-        const newAgeMonths = fromDisplayedAge(ageValue, profile.isPuppy);
+        const raw = (ageInput as HTMLSelectElement)?.value ?? '1';
+        let newAgeMonths: number;
+        if (raw.startsWith('w')) {
+          const weeks = parseInt(raw.slice(1), 10) || 8;
+          newAgeMonths = weeks / 4.345;
+        } else if (raw.startsWith('m')) {
+          newAgeMonths = parseInt(raw.slice(1), 10) || 6;
+        } else {
+          const years = parseInt(raw, 10) || 1;
+          newAgeMonths = years * 12;
+        }
         foodState = { ...foodState, ageMonths: newAgeMonths };
         // Auto-estimate weight when it hasn't been customised yet
         if (foodState.weightKg === DEFAULT_WEIGHT_KG) {
@@ -1179,7 +1340,8 @@ export async function runApp(container: HTMLElement): Promise<void> {
         }
         applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
         render();
-      });
+      };
+      ageInput?.addEventListener('change', ageHandler);
 
       wetPercentInput?.addEventListener('input', () => {
         const wp = clampWetPercent(
@@ -1275,8 +1437,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
     } else if (activeTab === 'dog') {
       const dogNameInput = container.querySelector('#dog-name') as HTMLInputElement | null;
       const dogDobInput = container.querySelector('#dog-dob') as HTMLInputElement | null;
-      const dogWeightKgInput = container.querySelector('#dog-weight-kg') as HTMLInputElement | null;
-      const dogWeightGInput = container.querySelector('#dog-weight-g') as HTMLInputElement | null;
+      const dogWeightInput = container.querySelector('#dog-weight') as HTMLInputElement | null;
       const dogMealsInput = container.querySelector('#dog-meals') as HTMLSelectElement | null;
       const dogBreedInput = container.querySelector('#dog-breed') as HTMLSelectElement | null;
       const dogBreedSizeInput = container.querySelector(
@@ -1305,11 +1466,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
         config.meals = Math.max(1, Math.min(4, parseInt(dogMealsInput?.value ?? '3', 10) || 3));
         foodState = {
           ...foodState,
-          weightKg: Math.max(
-            0.5,
-            (parseInt(dogWeightKgInput?.value ?? '0', 10) || 0) +
-              Math.min(990, parseInt(dogWeightGInput?.value ?? '0', 10) || 0) / 1000
-          ),
+          weightKg: Math.max(0.5, Math.min(80, parseFloat(dogWeightInput?.value ?? '0') || 0)),
           breedSize: (dogBreedSizeInput?.value as BreedSize) || foodState.breedSize,
           activityLevel: (dogActivityInput?.value as ActivityLevel) || foodState.activityLevel,
           neutered: dogNeuteredInput?.checked ?? foodState.neutered,
@@ -1355,6 +1512,14 @@ export async function runApp(container: HTMLElement): Promise<void> {
           t,
           canonicalUrl: currentCanonicalUrl(),
         });
+      });
+
+      container.querySelector('#btn-share-profile-link')?.addEventListener('click', async () => {
+        const url = currentCanonicalUrl();
+        const ok = await fallbackShare(url, t('share_message'));
+        if (ok) {
+          showFeedback(t('link_copied'));
+        }
       });
 
       container.querySelector('#btn-dog-photo')?.addEventListener('click', () => {

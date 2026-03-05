@@ -111,7 +111,7 @@ function cardWrapper(format: ShareFormat, innerHtml: string, photoSrc: string | 
     ">
       ${overlayHtml}
       ${!hasPhoto ? mascotWatermark() : ''}
-      <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;flex:1;padding:${format === 'wide' ? '48px 56px' : format === 'square' ? '56px 48px' : '80px 48px'}">
+      <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;flex:1;padding:${format === 'wide' ? '48px 56px' : format === 'square' ? '56px 48px' : '80px 48px'};box-sizing:border-box">
         ${innerHtml}
       </div>
       ${brandingFooter(hasPhoto)}
@@ -145,25 +145,30 @@ export function renderFoodShareCard(
   const pillSecBg = hasPhoto ? 'rgba(255,255,255,0.10)' : '#f3f4f6';
   const pillSecColor = hasPhoto ? 'rgba(255,255,255,0.8)' : '#4b5563';
 
-  // Age pill (below name)
+  // Scaled name + age pill + birthday badge
+  const nameFontSize = format === 'wide' ? '28px' : format === 'square' ? '34px' : '42px';
+  const agePillFontSize = format === 'wide' ? '20px' : format === 'square' ? '22px' : '26px';
+  const bdayBadgeFontSize = format === 'wide' ? '18px' : format === 'square' ? '20px' : '24px';
+
   const agePillHtml = cardCtx?.ageShort
-    ? `<p style="font-size:16px;color:${hasPhoto ? 'rgba(255,255,255,0.7)' : accent};margin:0 0 8px 0">${t('share_puppy_age_pill', { age: cardCtx.ageShort })}</p>`
+    ? `<p style="font-family:'Fraunces',Georgia,serif;font-size:${agePillFontSize};font-weight:500;color:${hasPhoto ? 'rgba(255,255,255,0.7)' : accent};margin:0 0 10px 0">${t('share_puppy_age_pill', { age: cardCtx.ageShort })}</p>`
     : '';
 
-  // Birthday badge
   const birthdayBadgeHtml = isBirthday
-    ? `<span style="display:inline-block;margin-bottom:12px;padding:4px 14px;border-radius:999px;background:#D4A843;color:#ffffff;font-size:14px;font-weight:600">${cardCtx.birthday!.type === 'today' ? t('share_birthday_turns', { name: config.name || '🐾', age: String(cardCtx.birthday!.age) }) : t('share_birthday_badge')}</span>`
+    ? `<span style="display:inline-block;margin-bottom:16px;padding:8px 24px;border-radius:999px;background:#D4A843;color:#ffffff;font-size:${bdayBadgeFontSize};font-weight:700;letter-spacing:0.02em">${cardCtx.birthday!.type === 'today' ? t('share_birthday_turns', { name: config.name || '🐾', age: String(cardCtx.birthday!.age) }) : t('share_birthday_badge')}</span>`
     : '';
 
   const nameHtml = config.name
-    ? `<p style="font-family:'DM Sans',system-ui,sans-serif;font-size:24px;color:${nameColor};margin:0 0 4px 0">${escapeHtml(config.name)}</p>`
+    ? `<p style="font-family:'Fraunces',Georgia,serif;font-size:${nameFontSize};font-weight:700;color:${nameColor};margin:0 0 6px 0">${escapeHtml(config.name)}</p>`
     : '';
 
-  const topSection = `${nameHtml}${agePillHtml}${birthdayBadgeHtml}`;
+  // For story format, push content to lower 2/3 of the card
+  const storyTopSpacer = format === 'story' ? '<div style="flex:1"></div>' : '';
+  const topSection = `${storyTopSpacer}${nameHtml}${agePillHtml}${birthdayBadgeHtml}`;
 
-  // Scaled-up sizes
-  const fontSize = format === 'wide' ? '130px' : format === 'square' ? '150px' : '200px';
-  const unitSize = format === 'wide' ? '48px' : format === 'square' ? '56px' : '72px';
+  // Scaled-up sizes — fill the space!
+  const fontSize = format === 'wide' ? '160px' : format === 'square' ? '190px' : '260px';
+  const unitSize = format === 'wide' ? '56px' : format === 'square' ? '68px' : '88px';
 
   if (mixedCanApply && mixedSplit) {
     const perMealWet =
@@ -171,38 +176,38 @@ export function renderFoodShareCard(
     const perMealDry =
       config.meals > 1 ? Math.ceil(mixedSplit.dryGrams / config.meals) : mixedSplit.dryGrams;
 
-    const mixedFontSize = format === 'wide' ? '90px' : format === 'square' ? '110px' : '140px';
-    const mixedUnitSize = format === 'wide' ? '36px' : format === 'square' ? '44px' : '52px';
+    const mixedFontSize = format === 'wide' ? '110px' : format === 'square' ? '140px' : '180px';
+    const mixedUnitSize = format === 'wide' ? '42px' : format === 'square' ? '52px' : '64px';
 
     return cardWrapper(
       format,
       `
       ${topSection}
-      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:24px">
-        <span style="display:inline-flex;align-items:center;gap:4px;padding:6px 16px;border-radius:999px;background:${pillBg};color:${pillColor};font-size:16px;font-weight:500">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:28px">
+        <span style="display:inline-flex;align-items:center;gap:6px;padding:8px 22px;border-radius:999px;background:${pillBg};color:${pillColor};font-size:20px;font-weight:500">
           <strong>${selectedFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}</strong> ${escapeHtml(selectedFood.productName)}
         </span>
-        ${secondFood ? `<span style="display:inline-flex;align-items:center;gap:4px;padding:6px 16px;border-radius:999px;background:${pillSecBg};color:${pillSecColor};font-size:16px;font-weight:500"><strong>${secondFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}</strong> ${escapeHtml(secondFood.productName)}</span>` : ''}
+        ${secondFood ? `<span style="display:inline-flex;align-items:center;gap:6px;padding:8px 22px;border-radius:999px;background:${pillSecBg};color:${pillSecColor};font-size:20px;font-weight:500"><strong>${secondFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}</strong> ${escapeHtml(secondFood.productName)}</span>` : ''}
       </div>
       <div style="display:flex;align-items:baseline;justify-content:center;gap:32px">
         <div style="text-align:center">
           <p style="font-family:'Fraunces',Georgia,serif;font-size:${mixedFontSize};font-weight:600;color:${bigNumColor};line-height:1;margin:0">
             ${perMealWet}<span style="font-size:${mixedUnitSize};margin-left:2px">g</span>
           </p>
-          <p style="font-size:18px;color:${labelColor};margin:6px 0 0 0">${t('food_type_wet')}</p>
+          <p style="font-size:22px;color:${labelColor};margin:8px 0 0 0">${t('food_type_wet')}</p>
         </div>
-        <span style="font-size:48px;color:${hasPhoto ? 'rgba(255,255,255,0.3)' : '#d1d5db'};font-weight:300">+</span>
+        <span style="font-size:56px;color:${hasPhoto ? 'rgba(255,255,255,0.3)' : '#d1d5db'};font-weight:300">+</span>
         <div style="text-align:center">
           <p style="font-family:'Fraunces',Georgia,serif;font-size:${mixedFontSize};font-weight:600;color:${bigNumColor};line-height:1;margin:0">
             ${perMealDry}<span style="font-size:${mixedUnitSize};margin-left:2px">g</span>
           </p>
-          <p style="font-size:18px;color:${labelColor};margin:6px 0 0 0">${t('food_type_dry')}</p>
+          <p style="font-size:22px;color:${labelColor};margin:8px 0 0 0">${t('food_type_dry')}</p>
         </div>
       </div>
-      <p style="font-size:22px;font-weight:500;color:${perLabelColor};margin:16px 0 0 0">${config.meals > 1 ? t('result_label_per_meal') : t('result_label_per_day')}</p>
-      ${config.meals > 1 ? `<span style="display:inline-block;margin-top:12px;padding:6px 16px;border-radius:999px;background:${pillBg};color:${pillColor};font-size:16px;font-weight:500">${t('result_meal_badge', { meals: String(config.meals) })}</span>` : ''}
-      <p style="font-size:16px;color:${summaryColor};margin:10px 0 0 0">${t('mixed_split_applied', { wet: String(wetPercent), dry: String(dryPercent) })}</p>
-      <p style="font-size:18px;color:${summaryColor};margin:6px 0 0 0">${config.meals > 1 ? t('result_daily_summary', { grams: String(result.gramsPerDay), kcal: String(result.estimatedKcalPerDay) }) : t('result_kcal', { kcal: String(result.estimatedKcalPerDay) })}</p>
+      <p style="font-size:28px;font-weight:500;color:${perLabelColor};margin:20px 0 0 0">${config.meals > 1 ? t('result_label_per_meal') : t('result_label_per_day')}</p>
+      ${config.meals > 1 ? `<span style="display:inline-block;margin-top:14px;padding:8px 22px;border-radius:999px;background:${pillBg};color:${pillColor};font-size:20px;font-weight:500">${t('result_meal_badge', { meals: String(config.meals) })}</span>` : ''}
+      <p style="font-size:20px;color:${summaryColor};margin:12px 0 0 0">${t('mixed_split_applied', { wet: String(wetPercent), dry: String(dryPercent) })}</p>
+      <p style="font-size:22px;color:${summaryColor};margin:8px 0 0 0">${config.meals > 1 ? t('result_daily_summary', { grams: String(result.gramsPerDay), kcal: String(result.estimatedKcalPerDay) }) : t('result_kcal', { kcal: String(result.estimatedKcalPerDay) })}</p>
     `,
       photoSrc
     );
@@ -215,13 +220,13 @@ export function renderFoodShareCard(
     format,
     `
     ${topSection}
-    <p style="font-size:18px;color:${summaryColor};margin:0 0 20px 0;max-width:80%;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escapeHtml(selectedFood.brand)} ${escapeHtml(selectedFood.productName)} &middot; ${selectedFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}</p>
-    <p style="font-family:'Fraunces',Georgia,serif;font-size:${fontSize};font-weight:600;color:${bigNumColor};line-height:1;margin:0">
+    <p style="font-size:22px;color:${summaryColor};margin:0 0 24px 0;max-width:85%;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escapeHtml(selectedFood.brand)} ${escapeHtml(selectedFood.productName)} &middot; ${selectedFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}</p>
+    <p style="font-family:'Fraunces',Georgia,serif;font-size:${fontSize};font-weight:600;color:${bigNumColor};line-height:0.9;margin:0">
       ${gramsDisplay}<span style="font-size:${unitSize};margin-left:4px">g</span>
     </p>
-    <p style="font-size:24px;font-weight:500;color:${perLabelColor};margin:16px 0 0 0">${config.meals > 1 ? t('result_label_per_meal') : t('result_label_per_day')}</p>
-    ${config.meals > 1 ? `<span style="display:inline-block;margin-top:14px;padding:6px 18px;border-radius:999px;background:${pillBg};color:${pillColor};font-size:18px;font-weight:500">${t('result_meal_badge', { meals: String(config.meals) })}</span>` : ''}
-    <p style="font-size:20px;color:${summaryColor};margin:20px 0 0 0">${config.meals > 1 ? t('result_daily_summary', { grams: String(result.gramsPerDay), kcal: String(result.estimatedKcalPerDay) }) : t('result_kcal', { kcal: String(result.estimatedKcalPerDay) })}</p>
+    <p style="font-size:30px;font-weight:500;color:${perLabelColor};margin:20px 0 0 0">${config.meals > 1 ? t('result_label_per_meal') : t('result_label_per_day')}</p>
+    ${config.meals > 1 ? `<span style="display:inline-block;margin-top:16px;padding:8px 24px;border-radius:999px;background:${pillBg};color:${pillColor};font-size:22px;font-weight:500">${t('result_meal_badge', { meals: String(config.meals) })}</span>` : ''}
+    <p style="font-size:24px;color:${summaryColor};margin:24px 0 0 0">${config.meals > 1 ? t('result_daily_summary', { grams: String(result.gramsPerDay), kcal: String(result.estimatedKcalPerDay) }) : t('result_kcal', { kcal: String(result.estimatedKcalPerDay) })}</p>
   `,
     photoSrc
   );
@@ -262,51 +267,24 @@ export function renderDogShareCard(
   const badgeColor = isBirthday ? '#ffffff' : accentColor;
 
   const rows = [
-    { label: t('label_name'), value: config.name ? escapeHtml(config.name) : '\u2014' },
-    {
-      label: t('label_dob'),
-      value: config.dob ? config.dob.split('-').reverse().join('-') : '\u2014',
-    },
     { label: t('label_weight_kg'), value: `${foodState.weightKg.toFixed(1)} kg` },
     { label: t('label_breed'), value: breedLabel },
     ...(isPuppy ? [] : [{ label: t('label_activity'), value: activityLabel }]),
     ...(isPuppy ? [] : [{ label: t('label_goal'), value: goalLabel }]),
   ];
 
-  // Scaled-up sizes
-  const titleSize = isWide ? '16px' : format === 'square' ? '18px' : '20px';
-  const nameSize = isWide ? '38px' : format === 'square' ? '44px' : '52px';
-  const ageHeroSize = isWide ? '28px' : format === 'square' ? '36px' : '44px';
-  const labelSize = isWide ? '16px' : format === 'square' ? '18px' : '20px';
-  const valueSize = isWide ? '20px' : format === 'square' ? '24px' : '26px';
-  const boxPad = isWide ? '32px 40px' : format === 'square' ? '36px 44px' : '44px 52px';
+  // Scaled-up sizes — PUPPY POWER!
+  const titleSize = isWide ? '20px' : format === 'square' ? '22px' : '30px';
+  const nameSize = isWide ? '56px' : format === 'square' ? '80px' : '120px';
+  const ageHeroSize = isWide ? '38px' : format === 'square' ? '52px' : '80px';
+  const labelSize = isWide ? '18px' : format === 'square' ? '22px' : '30px';
+  const valueSize = isWide ? '22px' : format === 'square' ? '28px' : '42px';
+  const boxPad = isWide ? '36px 44px' : format === 'square' ? '40px 48px' : '64px 72px';
   const boxW = isWide ? '580px' : '960px';
-  const boxRadius = '24px';
-  const rowGap = isWide ? '10px' : format === 'square' ? '14px' : '18px';
-
-  let gridStyle: string;
-  let gridHtml: string;
-  let tag: string;
-
-  if (isWide) {
-    gridStyle = `display:flex;flex-direction:column;gap:${rowGap};text-align:left`;
-    gridHtml = rows
-      .map(
-        (r) =>
-          `<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:${labelSize};color:${labelColorVal}">${r.label}</span><span style="font-size:${valueSize};color:${valueColor};font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.value}</span></div>`
-      )
-      .join('');
-    tag = 'div';
-  } else {
-    gridStyle = `display:grid;grid-template-columns:auto 1fr;gap:${rowGap} 24px;text-align:left`;
-    gridHtml = rows
-      .map(
-        (r) =>
-          `<dt style="font-size:${labelSize};color:${labelColorVal}">${r.label}</dt><dd style="font-size:${valueSize};color:${valueColor};font-weight:500;margin:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.value}</dd>`
-      )
-      .join('');
-    tag = 'dl';
-  }
+  const boxRadius = '28px';
+  const rowGap = isWide ? '12px' : format === 'square' ? '16px' : '36px';
+  const badgeFontSize = isWide ? '16px' : format === 'square' ? '18px' : '24px';
+  const badgePad = isWide ? '6px 18px' : format === 'square' ? '8px 22px' : '12px 32px';
 
   // Birthday title replacement or normal title
   const titleText =
@@ -315,65 +293,99 @@ export function renderDogShareCard(
       : isBirthday
         ? t('share_birthday_week')
         : t('dog_profile_title');
-  const titleHtml = `<p style="font-size:${titleSize};font-weight:600;color:${isBirthday ? (hasPhoto ? '#D4A843' : '#D4A843') : titleColor};text-transform:uppercase;letter-spacing:0.05em;margin:0 0 8px 0">${escapeHtml(titleText)}</p>`;
+  const titleHtml = `<p style="font-size:${titleSize};font-weight:700;color:${isBirthday ? '#D4A843' : titleColor};text-transform:uppercase;letter-spacing:0.12em;margin:0 0 12px 0">${escapeHtml(titleText)}</p>`;
 
   const nameHtml = config.name
-    ? `<p style="font-family:'Fraunces',Georgia,serif;font-size:${nameSize};font-weight:700;color:${nameColor};margin:0 0 8px 0">${escapeHtml(config.name)}</p>`
+    ? `<p style="font-family:'Fraunces',Georgia,serif;font-size:${nameSize};font-weight:700;color:${nameColor};line-height:1.05;margin:0 0 12px 0">${escapeHtml(config.name)}</p>`
     : '';
 
   // Age hero line (below name, above info box)
   const ageHeroHtml = cardCtx?.ageLabel
-    ? `<p style="font-family:'Fraunces',Georgia,serif;font-size:${ageHeroSize};font-weight:600;color:${hasPhoto ? 'rgba(255,255,255,0.9)' : accent};margin:0 0 16px 0">${escapeHtml(cardCtx.ageLabel)}</p>`
+    ? `<p style="font-family:'Fraunces',Georgia,serif;font-size:${ageHeroSize};font-weight:600;color:${hasPhoto ? 'rgba(255,255,255,0.9)' : accent};margin:0 0 20px 0">${escapeHtml(cardCtx.ageLabel)}</p>`
     : '';
 
-  // Badge row (weight milestone + breed comparison)
+  // Badge row (weight milestone + breed comparison) — chunky and proud
   const badges: string[] = [];
   if (cardCtx?.weightMilestone) {
     badges.push(
-      `<span style="display:inline-block;padding:4px 14px;border-radius:999px;background:${badgeBg};color:${badgeColor};font-size:14px;font-weight:600">${t('share_weight_milestone', { weight: String(cardCtx.weightMilestone) })}</span>`
+      `<span style="display:inline-block;padding:${badgePad};border-radius:999px;background:${badgeBg};color:${badgeColor};font-size:${badgeFontSize};font-weight:700">${t('share_weight_milestone', { weight: String(cardCtx.weightMilestone) })}</span>`
     );
   }
   if (cardCtx?.breedComparison) {
     badges.push(
-      `<span style="display:inline-block;padding:4px 14px;border-radius:999px;background:${hasPhoto ? 'rgba(255,255,255,0.10)' : '#f3f4f6'};color:${hasPhoto ? 'rgba(255,255,255,0.8)' : '#4b5563'};font-size:14px;font-weight:500">${escapeHtml(cardCtx.breedComparison)}</span>`
+      `<span style="display:inline-block;padding:${badgePad};border-radius:999px;background:${hasPhoto ? 'rgba(255,255,255,0.12)' : '#f3f4f6'};color:${hasPhoto ? 'rgba(255,255,255,0.85)' : '#4b5563'};font-size:${badgeFontSize};font-weight:500">${escapeHtml(cardCtx.breedComparison)}</span>`
     );
   }
   const badgeRowHtml =
     badges.length > 0
-      ? `<div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:16px">${badges.join('')}</div>`
+      ? `<div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:20px">${badges.join('')}</div>`
       : '';
 
-  const wideLayout = isWide
-    ? `<div style="display:flex;align-items:flex-start;justify-content:space-between;width:100%;gap:40px">
-        <div style="flex:1;padding:60px 0 0 60px">
+  // --- Grid HTML for info fields ---
+  // All formats now use stacked label/value (column layout) for clarity
+  const gridHtml = rows
+    .map(
+      (r) =>
+        `<div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:${labelSize};color:${labelColorVal}">${r.label}</span><span style="font-size:${valueSize};color:${valueColor};font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.value}</span></div>`
+    )
+    .join('');
+
+  if (isWide) {
+    // --- Wide: left hero + right info box, vertically centered ---
+    return cardWrapper(
+      format,
+      `<div style="display:flex;align-items:center;justify-content:space-between;width:100%;gap:40px;height:100%">
+        <div style="flex:1;padding:0 0 0 60px">
           ${titleHtml}
           ${nameHtml}
           ${ageHeroHtml}
           ${badgeRowHtml}
         </div>
-        <div style="background:${boxBg};border-radius:${boxRadius};padding:${boxPad};width:${boxW};box-sizing:border-box;margin:56px 60px 56px 0">
-          <${tag} style="${gridStyle}">${gridHtml}</${tag}>
+        <div style="background:${boxBg};border-radius:${boxRadius};padding:${boxPad};width:${boxW};box-sizing:border-box;margin:0 60px 0 0">
+          <div style="display:flex;flex-direction:column;gap:${rowGap};text-align:left">${gridHtml}</div>
         </div>
-      </div>`
-    : '';
-
-  if (isWide) {
-    return cardWrapper(format, wideLayout, photoSrc);
+      </div>`,
+      photoSrc
+    );
   }
 
+  if (format === 'square') {
+    // --- Square: 50/50 split — hero top half, info box bottom half ---
+    return cardWrapper(
+      format,
+      `<div style="display:flex;flex-direction:column;width:100%;height:100%">
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 48px 20px">
+          ${titleHtml}
+          ${nameHtml}
+          ${ageHeroHtml}
+          ${badgeRowHtml}
+        </div>
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:20px 48px 40px">
+          <div style="background:${boxBg};border-radius:${boxRadius};padding:${boxPad};width:100%;max-width:${boxW};box-sizing:border-box">
+            <div style="display:flex;flex-direction:column;gap:${rowGap};text-align:left">${gridHtml}</div>
+          </div>
+        </div>
+      </div>`,
+      photoSrc
+    );
+  }
+
+  // --- Story (portrait): fill the tall space, stacked fields ---
   return cardWrapper(
     format,
-    `
-    ${titleHtml}
-    ${nameHtml}
-    ${ageHeroHtml}
-    ${badgeRowHtml}
-    <div style="background:${boxBg};border-radius:${boxRadius};padding:${boxPad};width:100%;max-width:${boxW};box-sizing:border-box">
-      <${tag} style="${gridStyle}">
-        ${gridHtml}
-      </${tag}>
-    </div>
-  `,
+    `<div style="display:flex;flex-direction:column;width:100%;height:100%">
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 48px 32px">
+        ${titleHtml}
+        ${nameHtml}
+        ${ageHeroHtml}
+        ${badgeRowHtml}
+      </div>
+      <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:32px 48px 80px">
+        <div style="background:${boxBg};border-radius:${boxRadius};padding:${boxPad};width:100%;max-width:${boxW};box-sizing:border-box">
+          <div style="display:flex;flex-direction:column;gap:${rowGap};text-align:left">${gridHtml}</div>
+        </div>
+      </div>
+    </div>`,
     photoSrc
   );
 }
@@ -679,7 +691,7 @@ async function renderDogCardToCanvas(
         : t('dog_profile_title');
 
   const rows = [
-    { label: t('label_name'), value: config.name || '\u2014' },
+    { label: t('share_label_name'), value: config.name || '\u2014' },
     {
       label: t('label_dob'),
       value: config.dob ? config.dob.split('-').reverse().join('-') : '\u2014',
@@ -691,19 +703,36 @@ async function renderDogCardToCanvas(
   ];
 
   if (isWide) {
-    // --- Wide layout: title+name+age left, info box right ---
-    const titleFontSize = 16;
-    const nameFontSize = 38;
-    const ageFontSize = 28;
+    // --- Wide layout: title+name+age left (vertically centered), info box right ---
+    const titleFontSize = 20;
+    const nameFontSize = 56;
+    const ageFontSize = 38;
 
-    let leftY = 80;
+    const labelFontSize = 18;
+    const valueFontSize = 22;
+    const rowGap = 12;
+    const rowH = labelFontSize + valueFontSize + 6;
+    const gridH = rows.length * rowH + (rows.length - 1) * rowGap;
+    const boxPadX = 36;
+    const boxPadY = 36;
+    const boxW = 580;
+    const boxH = gridH + boxPadY * 2;
+    const boxX = 580;
+    const boxY = Math.round((h - boxH) / 2);
+
+    // Calculate left content height for vertical centering
+    let leftContentH = titleFontSize + 16;
+    if (config.name) leftContentH += nameFontSize + 14;
+    if (cardCtx?.ageLabel) leftContentH += ageFontSize + 14;
+    if (cardCtx?.weightMilestone) leftContentH += 38;
+    let leftY = Math.round((h - leftContentH) / 2);
 
     // Title
     drawText(ctx, titleText.toUpperCase(), 60, leftY + titleFontSize / 2, {
-      font: `600 ${titleFontSize}px "DM Sans", system-ui, sans-serif`,
+      font: `700 ${titleFontSize}px "DM Sans", system-ui, sans-serif`,
       color: titleColor,
       align: 'left',
-      letterSpacing: '0.05em',
+      letterSpacing: '0.12em',
     });
     leftY += titleFontSize + 16;
 
@@ -715,7 +744,7 @@ async function renderDogCardToCanvas(
         align: 'left',
         maxWidth: 500,
       });
-      leftY += nameFontSize + 12;
+      leftY += nameFontSize + 14;
     }
 
     // Age hero
@@ -725,51 +754,38 @@ async function renderDogCardToCanvas(
         color: ageColor,
         align: 'left',
       });
-      leftY += ageFontSize + 12;
+      leftY += ageFontSize + 14;
     }
 
-    // Badges (weight milestone, breed comparison)
+    // Badges (weight milestone, breed comparison) — chunky
     if (cardCtx?.weightMilestone) {
       drawPill(
         ctx,
-        60 + 60,
+        60 + 70,
         leftY,
         isBirthday ? '#D4A843' : hasPhoto ? 'rgba(255,255,255,0.15)' : `${accent}1a`,
         isBirthday ? '#ffffff' : hasPhoto ? '#ffffff' : accent,
         t('share_weight_milestone', { weight: String(cardCtx.weightMilestone) }),
-        14,
-        600
+        16,
+        700
       );
-      leftY += 32;
+      leftY += 38;
     }
     if (cardCtx?.breedComparison) {
       drawPill(
         ctx,
-        60 + 80,
+        60 + 90,
         leftY,
-        hasPhoto ? 'rgba(255,255,255,0.10)' : '#f3f4f6',
-        hasPhoto ? 'rgba(255,255,255,0.8)' : '#4b5563',
+        hasPhoto ? 'rgba(255,255,255,0.12)' : '#f3f4f6',
+        hasPhoto ? 'rgba(255,255,255,0.85)' : '#4b5563',
         cardCtx.breedComparison,
-        14,
+        16,
         500
       );
     }
 
-    // Info box (right side)
-    const boxX = 580;
-    const boxY = 56;
-    const boxW = 580;
-    const boxPadX = 32;
-    const boxPadY = 32;
-
-    const labelFontSize = 16;
-    const valueFontSize = 20;
-    const rowGap = 10;
-    const rowH = labelFontSize + valueFontSize + 6;
-    const gridH = rows.length * rowH + (rows.length - 1) * rowGap;
-    const boxH = gridH + boxPadY * 2;
-
-    roundRectPath(ctx, boxX, boxY, boxW, boxH, 24);
+    // Info box (right side, vertically centered)
+    roundRectPath(ctx, boxX, boxY, boxW, boxH, 28);
     ctx.fillStyle = boxBg;
     ctx.fill();
 
@@ -788,30 +804,41 @@ async function renderDogCardToCanvas(
       });
     });
   } else {
-    // --- Story / Square layout ---
+    // --- Story / Square layout: 50/50 split (hero top, info bottom) ---
     const isStory = format === 'story';
-    const titleFontSize = isStory ? 20 : 18;
-    const nameFontSize = isStory ? 52 : 44;
-    const ageFontSize = isStory ? 44 : 36;
-    const labelFontSize = isStory ? 20 : 18;
-    const valueFontSize = isStory ? 26 : 24;
-    const rowGap = isStory ? 18 : 14;
-    const boxPadX = isStory ? 52 : 44;
-    const boxPadY = isStory ? 44 : 36;
+    const titleFontSize = isStory ? 30 : 22;
+    const nameFontSize = isStory ? 120 : 80;
+    const ageFontSize = isStory ? 80 : 52;
+    const labelFontSize = isStory ? 30 : 22;
+    const valueFontSize = isStory ? 42 : 28;
+    const rowGap = isStory ? 36 : 16;
+    const boxPadX = isStory ? 72 : 48;
+    const boxPadY = isStory ? 64 : 40;
     const boxMaxW = 960;
 
     const cx = w / 2;
+    const halfH = h / 2;
 
-    // Dynamic Y positioning
-    let y = isStory ? 280 : 120;
+    // --- Top half: hero content (vertically centered in top half) ---
+    let heroContentH = titleFontSize + 20;
+    if (config.name) heroContentH += nameFontSize + 16;
+    if (cardCtx?.ageLabel) heroContentH += ageFontSize + 16;
+    // Badges
+    let badgeTotalH = 0;
+    const badgeFontSize = isStory ? 22 : 18;
+    if (cardCtx?.weightMilestone) badgeTotalH += badgeFontSize + 16 + 10;
+    if (cardCtx?.breedComparison) badgeTotalH += badgeFontSize + 16 + 10;
+    if (badgeTotalH > 0) heroContentH += badgeTotalH + 8;
+
+    let y = Math.max(Math.round((halfH - heroContentH) / 2), isStory ? 80 : 40);
 
     // Title
     drawText(ctx, titleText.toUpperCase(), cx, y + titleFontSize / 2, {
-      font: `600 ${titleFontSize}px "DM Sans", system-ui, sans-serif`,
+      font: `700 ${titleFontSize}px "DM Sans", system-ui, sans-serif`,
       color: titleColor,
-      letterSpacing: '0.05em',
+      letterSpacing: '0.12em',
     });
-    y += titleFontSize + 16;
+    y += titleFontSize + 20;
 
     // Dog name
     if (config.name) {
@@ -820,7 +847,7 @@ async function renderDogCardToCanvas(
         color: nameColor,
         maxWidth: boxMaxW,
       });
-      y += nameFontSize + 12;
+      y += nameFontSize + 16;
     }
 
     // Age hero
@@ -842,10 +869,10 @@ async function renderDogCardToCanvas(
         isBirthday ? '#D4A843' : hasPhoto ? 'rgba(255,255,255,0.15)' : `${accent}1a`,
         isBirthday ? '#ffffff' : hasPhoto ? '#ffffff' : accent,
         t('share_weight_milestone', { weight: String(cardCtx.weightMilestone) }),
-        14,
+        badgeFontSize,
         600
       );
-      badgeY += ph + 8;
+      badgeY += ph + 10;
     }
     if (cardCtx?.breedComparison) {
       const { height: ph } = drawPill(
@@ -855,39 +882,36 @@ async function renderDogCardToCanvas(
         hasPhoto ? 'rgba(255,255,255,0.10)' : '#f3f4f6',
         hasPhoto ? 'rgba(255,255,255,0.8)' : '#4b5563',
         cardCtx.breedComparison,
-        14,
+        badgeFontSize,
         500
       );
-      badgeY += ph + 8;
+      badgeY += ph + 10;
     }
-    if (badgeY > y) y = badgeY + 8;
 
-    // Info box
-    const innerW = boxMaxW - boxPadX * 2;
-    const labelColW = 160;
-    const valueColW = innerW - labelColW - 24;
-    const rowH = Math.max(labelFontSize, valueFontSize) + 4;
+    // --- Bottom half: info box (stacked label/value, vertically centered) ---
+    // All formats use stacked label+value (column) layout
+    const rowH = labelFontSize + valueFontSize + 6;
     const gridH = rows.length * rowH + (rows.length - 1) * rowGap;
     const boxH = gridH + boxPadY * 2;
     const boxX = cx - boxMaxW / 2;
+    const boxY = halfH + Math.round((halfH - boxH) / 2);
 
-    roundRectPath(ctx, boxX, y, boxMaxW, boxH, 24);
+    roundRectPath(ctx, boxX, boxY, boxMaxW, boxH, 28);
     ctx.fillStyle = boxBg;
     ctx.fill();
 
     rows.forEach((row, i) => {
-      const ry = y + boxPadY + i * (rowH + rowGap);
-
-      drawText(ctx, row.label, boxX + boxPadX, ry + rowH / 2, {
+      const ry = boxY + boxPadY + i * (rowH + rowGap);
+      drawText(ctx, row.label, boxX + boxPadX, ry + labelFontSize / 2, {
         font: `400 ${labelFontSize}px "DM Sans", system-ui, sans-serif`,
         color: labelColor,
         align: 'left',
       });
-      drawText(ctx, row.value, boxX + boxPadX + labelColW + 24, ry + rowH / 2, {
+      drawText(ctx, row.value, boxX + boxPadX, ry + labelFontSize + 6 + valueFontSize / 2, {
         font: `500 ${valueFontSize}px "DM Sans", system-ui, sans-serif`,
         color: valueColor,
         align: 'left',
-        maxWidth: valueColW,
+        maxWidth: boxMaxW - boxPadX * 2 - 16,
       });
     });
   }
@@ -940,50 +964,65 @@ async function renderFoodCardToCanvas(
   const pillSecClr = hasPhoto ? 'rgba(255,255,255,0.8)' : '#4b5563';
   const plusClr = hasPhoto ? 'rgba(255,255,255,0.3)' : '#d1d5db';
 
-  // Scaled-up font sizes
-  const bigFontSize = format === 'wide' ? 130 : format === 'square' ? 150 : 200;
-  const unitFontSize = format === 'wide' ? 48 : format === 'square' ? 56 : 72;
+  // Scaled-up font sizes — own the canvas!
+  const bigFontSize = format === 'wide' ? 160 : format === 'square' ? 190 : 260;
+  const unitFontSize = format === 'wide' ? 56 : format === 'square' ? 68 : 88;
 
   if (mixedCanApply && mixedSplit) {
     // --- Mixed mode (scaled up) ---
-    const mixBigSize = format === 'wide' ? 90 : format === 'square' ? 110 : 140;
-    const mixUnitSize = format === 'wide' ? 36 : format === 'square' ? 44 : 52;
+    const mixBigSize = format === 'wide' ? 110 : format === 'square' ? 140 : 180;
+    const mixUnitSize = format === 'wide' ? 44 : format === 'square' ? 52 : 64;
 
     const perMealWet =
       config.meals > 1 ? Math.ceil(mixedSplit.wetGrams / config.meals) : mixedSplit.wetGrams;
     const perMealDry =
       config.meals > 1 ? Math.ceil(mixedSplit.dryGrams / config.meals) : mixedSplit.dryGrams;
 
+    // Format-dependent food card sizes
+    const foodNameSize = format === 'wide' ? 28 : format === 'square' ? 34 : 42;
+    const foodAgePillSize = format === 'wide' ? 20 : format === 'square' ? 22 : 26;
+    const foodBadgeSize = format === 'wide' ? 18 : format === 'square' ? 20 : 24;
+
     // Calculate total content height for vertical centering
-    const nameH = config.name ? 24 + 20 : 0;
-    const agePillH = cardCtx?.ageShort ? 20 + 8 : 0;
-    const birthdayBadgeH = isBirthday ? 28 + 8 : 0;
+    const nameH = config.name ? foodNameSize + 20 : 0;
+    const agePillH = cardCtx?.ageShort ? foodAgePillSize + 12 : 0;
+    const birthdayBadgeH = isBirthday ? 32 + 10 : 0;
     const pillsH = secondFood ? 36 + 8 + 36 + 24 : 36 + 24;
     const numbersH = mixBigSize + 20 + 20;
-    const perMealH = 24 + 16;
-    const badgeH = config.meals > 1 ? 36 + 12 : 0;
-    const splitH = 18 + 6;
-    const summaryH = 20;
+    const perMealH = 28 + 16;
+    const badgeH = config.meals > 1 ? 40 + 12 : 0;
+    const splitH = 20 + 6;
+    const summaryH = 22;
     const totalH =
       nameH + agePillH + birthdayBadgeH + pillsH + numbersH + perMealH + badgeH + splitH + summaryH;
-    let y = Math.max((h - totalH) / 2, format === 'wide' ? 48 : 80);
+    // Story: push content to lower 2/3; others: center vertically
+    let y =
+      format === 'story'
+        ? Math.max(h / 3 - totalH / 6, 200)
+        : Math.max((h - totalH) / 2, format === 'wide' ? 48 : 80);
 
     // Dog name
     if (config.name) {
-      drawText(ctx, config.name, cx, y + 12, {
-        font: '400 24px "DM Sans", system-ui, sans-serif',
+      drawText(ctx, config.name, cx, y + foodNameSize / 2, {
+        font: `600 ${foodNameSize}px "Fraunces", Georgia, serif`,
         color: nameClr,
       });
-      y += 24 + 8;
+      y += foodNameSize + 10;
     }
 
     // Age pill
     if (cardCtx?.ageShort) {
-      drawText(ctx, t('share_puppy_age_pill', { age: cardCtx.ageShort }), cx, y + 10, {
-        font: '400 16px "DM Sans", system-ui, sans-serif',
-        color: hasPhoto ? 'rgba(255,255,255,0.7)' : accent,
-      });
-      y += 20 + 8;
+      drawText(
+        ctx,
+        t('share_puppy_age_pill', { age: cardCtx.ageShort }),
+        cx,
+        y + foodAgePillSize / 2,
+        {
+          font: `500 ${foodAgePillSize}px "Fraunces", Georgia, serif`,
+          color: hasPhoto ? 'rgba(255,255,255,0.7)' : accent,
+        }
+      );
+      y += foodAgePillSize + 10;
     }
 
     // Birthday badge
@@ -995,18 +1034,28 @@ async function renderFoodCardToCanvas(
               age: String(cardCtx.birthday!.age),
             })
           : t('share_birthday_badge');
-      drawPill(ctx, cx, y, '#D4A843', '#ffffff', badgeText, 14, 600);
-      y += 28 + 8;
+      drawPill(ctx, cx, y, '#D4A843', '#ffffff', badgeText, foodBadgeSize, 600);
+      y += 32 + 10;
     }
 
     // Food pills
+    const foodPillSize = format === 'wide' ? 18 : 20;
     const wetLabel = `${selectedFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')} ${selectedFood.productName}`;
-    const { height: p1h } = drawPill(ctx, cx, y, pillBg, pillClr, wetLabel, 16, 500);
+    const { height: p1h } = drawPill(ctx, cx, y, pillBg, pillClr, wetLabel, foodPillSize, 500);
     y += p1h + 8;
 
     if (secondFood) {
       const dryLabel = `${secondFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')} ${secondFood.productName}`;
-      const { height: p2h } = drawPill(ctx, cx, y, pillSecBg, pillSecClr, dryLabel, 16, 500);
+      const { height: p2h } = drawPill(
+        ctx,
+        cx,
+        y,
+        pillSecBg,
+        pillSecClr,
+        dryLabel,
+        foodPillSize,
+        500
+      );
       y += p2h + 24;
     } else {
       y += 16;
@@ -1042,8 +1091,9 @@ async function renderFoodCardToCanvas(
     ctx.font = unitFont;
     ctx.fillText('g', nx + wetNumW + 4, numBaseline);
 
-    drawText(ctx, t('food_type_wet'), nx + wetColW / 2, numBaseline + 24, {
-      font: '400 18px "DM Sans", system-ui, sans-serif',
+    const mixLabelSize = format === 'wide' ? 20 : format === 'square' ? 22 : 26;
+    drawText(ctx, t('food_type_wet'), nx + wetColW / 2, numBaseline + 28, {
+      font: `400 ${mixLabelSize}px "DM Sans", system-ui, sans-serif`,
       color: labelClr,
     });
 
@@ -1064,20 +1114,21 @@ async function renderFoodCardToCanvas(
     ctx.font = unitFont;
     ctx.fillText('g', nx + dryNumW + 4, numBaseline);
 
-    drawText(ctx, t('food_type_dry'), nx + dryColW / 2, numBaseline + 24, {
-      font: '400 18px "DM Sans", system-ui, sans-serif',
+    drawText(ctx, t('food_type_dry'), nx + dryColW / 2, numBaseline + 28, {
+      font: `400 ${mixLabelSize}px "DM Sans", system-ui, sans-serif`,
       color: labelClr,
     });
 
     y += mixBigSize + 20 + 20;
 
     // Per meal/day label
+    const perLabelSize = format === 'wide' ? 24 : format === 'square' ? 26 : 30;
     const perLabel = config.meals > 1 ? t('result_label_per_meal') : t('result_label_per_day');
-    drawText(ctx, perLabel, cx, y + 12, {
-      font: '500 22px "DM Sans", system-ui, sans-serif',
+    drawText(ctx, perLabel, cx, y + perLabelSize / 2, {
+      font: `500 ${perLabelSize}px "DM Sans", system-ui, sans-serif`,
       color: perLabelClr,
     });
-    y += 24 + 16;
+    y += perLabelSize + 16;
 
     // Meal badge
     if (config.meals > 1) {
@@ -1088,26 +1139,28 @@ async function renderFoodCardToCanvas(
         pillBg,
         pillClr,
         t('result_meal_badge', { meals: String(config.meals) }),
-        16,
+        foodPillSize,
         500
       );
-      y += 36 + 12;
+      y += 40 + 12;
     }
 
     // Split ratio
+    const splitSize = format === 'wide' ? 18 : 20;
     drawText(
       ctx,
       t('mixed_split_applied', { wet: String(wetPercent), dry: String(dryPercent) }),
       cx,
-      y + 9,
+      y + splitSize / 2,
       {
-        font: '400 16px "DM Sans", system-ui, sans-serif',
+        font: `400 ${splitSize}px "DM Sans", system-ui, sans-serif`,
         color: summaryClr,
       }
     );
-    y += 18 + 6;
+    y += splitSize + 6;
 
     // Daily summary
+    const summarySize = format === 'wide' ? 20 : 22;
     const summaryText =
       config.meals > 1
         ? t('result_daily_summary', {
@@ -1115,8 +1168,8 @@ async function renderFoodCardToCanvas(
             kcal: String(result.estimatedKcalPerDay),
           })
         : t('result_kcal', { kcal: String(result.estimatedKcalPerDay) });
-    drawText(ctx, summaryText, cx, y + 10, {
-      font: '400 18px "DM Sans", system-ui, sans-serif',
+    drawText(ctx, summaryText, cx, y + summarySize / 2, {
+      font: `400 ${summarySize}px "DM Sans", system-ui, sans-serif`,
       color: summaryClr,
     });
   } else {
@@ -1127,35 +1180,51 @@ async function renderFoodCardToCanvas(
     const singleBigSize = bigFontSize;
     const singleUnitSize = unitFontSize;
 
+    // Format-dependent single food card sizes
+    const sNameSize = format === 'wide' ? 28 : format === 'square' ? 34 : 42;
+    const sAgePillSize = format === 'wide' ? 20 : format === 'square' ? 22 : 26;
+    const sBadgeSize = format === 'wide' ? 18 : format === 'square' ? 20 : 24;
+    const sBrandSize = format === 'wide' ? 20 : format === 'square' ? 22 : 26;
+
     // Calculate total content height for vertical centering
-    const nameH = config.name ? 24 + 20 : 0;
-    const agePillH = cardCtx?.ageShort ? 20 + 8 : 0;
-    const birthdayBadgeH = isBirthday ? 28 + 8 : 0;
-    const brandH = 18 + 20;
+    const nameH = config.name ? sNameSize + 20 : 0;
+    const agePillH = cardCtx?.ageShort ? sAgePillSize + 12 : 0;
+    const birthdayBadgeH = isBirthday ? 32 + 10 : 0;
+    const brandH = sBrandSize + 24;
     const bigNumH = singleBigSize;
-    const perLabelH = 24 + 16;
-    const badgeH = config.meals > 1 ? 36 + 14 : 0;
-    const summaryH = 20;
+    const perLabelH = 28 + 16;
+    const badgeH = config.meals > 1 ? 40 + 14 : 0;
+    const summaryH = 22;
     const totalH =
       nameH + agePillH + birthdayBadgeH + brandH + bigNumH + 16 + perLabelH + badgeH + summaryH;
-    let y = Math.max((h - totalH) / 2, format === 'wide' ? 48 : 80);
+    // Story: push content to lower 2/3; others: center vertically
+    let y =
+      format === 'story'
+        ? Math.max(h / 3 - totalH / 6, 200)
+        : Math.max((h - totalH) / 2, format === 'wide' ? 48 : 80);
 
     // Dog name
     if (config.name) {
-      drawText(ctx, config.name, cx, y + 12, {
-        font: '400 24px "DM Sans", system-ui, sans-serif',
+      drawText(ctx, config.name, cx, y + sNameSize / 2, {
+        font: `600 ${sNameSize}px "Fraunces", Georgia, serif`,
         color: nameClr,
       });
-      y += 24 + 8;
+      y += sNameSize + 10;
     }
 
     // Age pill
     if (cardCtx?.ageShort) {
-      drawText(ctx, t('share_puppy_age_pill', { age: cardCtx.ageShort }), cx, y + 10, {
-        font: '400 16px "DM Sans", system-ui, sans-serif',
-        color: hasPhoto ? 'rgba(255,255,255,0.7)' : accent,
-      });
-      y += 20 + 8;
+      drawText(
+        ctx,
+        t('share_puppy_age_pill', { age: cardCtx.ageShort }),
+        cx,
+        y + sAgePillSize / 2,
+        {
+          font: `500 ${sAgePillSize}px "Fraunces", Georgia, serif`,
+          color: hasPhoto ? 'rgba(255,255,255,0.7)' : accent,
+        }
+      );
+      y += sAgePillSize + 10;
     }
 
     // Birthday badge
@@ -1167,18 +1236,18 @@ async function renderFoodCardToCanvas(
               age: String(cardCtx.birthday!.age),
             })
           : t('share_birthday_badge');
-      drawPill(ctx, cx, y, '#D4A843', '#ffffff', badgeText, 14, 600);
-      y += 28 + 8;
+      drawPill(ctx, cx, y, '#D4A843', '#ffffff', badgeText, sBadgeSize, 600);
+      y += 32 + 10;
     }
 
     // Brand line
     const brandLine = `${selectedFood.brand} ${selectedFood.productName} \u00B7 ${selectedFood.foodType === 'wet' ? t('food_type_wet') : t('food_type_dry')}`;
-    drawText(ctx, brandLine, cx, y + 9, {
-      font: '400 18px "DM Sans", system-ui, sans-serif',
+    drawText(ctx, brandLine, cx, y + sBrandSize / 2, {
+      font: `400 ${sBrandSize}px "DM Sans", system-ui, sans-serif`,
       color: summaryClr,
       maxWidth: w * 0.8,
     });
-    y += 18 + 20;
+    y += sBrandSize + 24;
 
     // Big Fraunces number + "g"
     const numFont = `600 ${singleBigSize}px 'Fraunces', Georgia, serif`;
@@ -1204,14 +1273,16 @@ async function renderFoodCardToCanvas(
     y += singleBigSize + 16;
 
     // Per meal/day label
+    const sPerLabelSize = format === 'wide' ? 26 : format === 'square' ? 28 : 30;
     const perLabel = config.meals > 1 ? t('result_label_per_meal') : t('result_label_per_day');
-    drawText(ctx, perLabel, cx, y + 12, {
-      font: '500 24px "DM Sans", system-ui, sans-serif',
+    drawText(ctx, perLabel, cx, y + sPerLabelSize / 2, {
+      font: `500 ${sPerLabelSize}px "DM Sans", system-ui, sans-serif`,
       color: perLabelClr,
     });
-    y += 24 + 16;
+    y += sPerLabelSize + 16;
 
     // Meal badge
+    const sMealPillSize = format === 'wide' ? 18 : 20;
     if (config.meals > 1) {
       drawPill(
         ctx,
@@ -1220,13 +1291,14 @@ async function renderFoodCardToCanvas(
         pillBg,
         pillClr,
         t('result_meal_badge', { meals: String(config.meals) }),
-        18,
+        sMealPillSize,
         500
       );
-      y += 36 + 14;
+      y += 40 + 14;
     }
 
     // Daily summary
+    const sSummarySize = format === 'wide' ? 20 : format === 'square' ? 22 : 24;
     const summaryText =
       config.meals > 1
         ? t('result_daily_summary', {
@@ -1234,8 +1306,8 @@ async function renderFoodCardToCanvas(
             kcal: String(result.estimatedKcalPerDay),
           })
         : t('result_kcal', { kcal: String(result.estimatedKcalPerDay) });
-    drawText(ctx, summaryText, cx, y + 10, {
-      font: '400 20px "DM Sans", system-ui, sans-serif',
+    drawText(ctx, summaryText, cx, y + sSummarySize / 2, {
+      font: `400 ${sSummarySize}px "DM Sans", system-ui, sans-serif`,
       color: summaryClr,
     });
   }

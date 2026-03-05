@@ -25,6 +25,7 @@ const t = (key: string, params: Record<string, string | number> = {}): string =>
     mixed_split_applied: `${params.wet}% wet / ${params.dry}% dry`,
     dog_profile_title: 'Dog Profile',
     label_name: 'Name',
+    share_label_name: 'Name',
     label_dob: 'Date of birth',
     label_weight_kg: 'Weight',
     label_breed: 'Breed',
@@ -274,7 +275,7 @@ describe('renderDogShareCard', () => {
       t
     );
     expect(html).toContain('Biko');
-    expect(html).toContain('15-01-2025');
+    // Name and DOB are shown in hero section, not in the info box rows
     expect(html).toContain('8.5 kg');
     expect(html).toContain('Moderate');
     expect(html).toContain('Maintain');
@@ -292,22 +293,16 @@ describe('renderDogShareCard', () => {
     expect(html).not.toContain('Maintain');
   });
 
-  it('shows dash for missing name', () => {
-    const html = renderDogShareCard(makeConfig({ name: '' }), makeFoodState(), 'square', t);
-    // The value cell should contain —
-    expect(html).toContain('—');
-  });
-
   it('uses single-column stacked layout for wide format', () => {
     const html = renderDogShareCard(makeConfig(), makeFoodState(), 'wide', t);
     expect(html).toContain('flex-direction:column');
     expect(html).not.toContain('<dl');
   });
 
-  it('uses 2-column dl grid for story/square', () => {
+  it('uses stacked column layout for story/square', () => {
     const html = renderDogShareCard(makeConfig(), makeFoodState(), 'story', t);
-    expect(html).toContain('grid-template-columns:auto 1fr');
-    expect(html).toContain('<dl');
+    expect(html).toContain('flex-direction:column');
+    expect(html).not.toContain('grid-template-columns');
   });
 
   it.each<ShareFormat>(['story', 'square', 'wide'])('renders at correct dims for %s', (format) => {

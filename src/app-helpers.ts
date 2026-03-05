@@ -36,6 +36,11 @@ export function dobToAgeMonths(dob: string): number | null {
   const birth = new Date(dob);
   if (isNaN(birth.getTime())) return null;
   const now = new Date();
+  const diffMs = now.getTime() - birth.getTime();
+  const weeks = diffMs / (7 * 24 * 60 * 60 * 1000);
+  if (weeks < 20) {
+    return Math.max(0.25, weeks / 4.345);
+  }
   const months =
     (now.getFullYear() - birth.getFullYear()) * 12 + (now.getMonth() - birth.getMonth());
   return Math.max(1, months);

@@ -33,16 +33,19 @@ describe('dobToAgeMonths', () => {
     expect(dobToAgeMonths('2024-12-01')).toBe(6);
   });
 
-  it('returns at least 1 for very recent birth (same month)', () => {
+  it('returns fractional months for very recent birth (same month, under 20 weeks)', () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2025-06-15'));
-    expect(dobToAgeMonths('2025-06-01')).toBe(1);
+    // 2 weeks old → ~0.46 months
+    const result = dobToAgeMonths('2025-06-01');
+    expect(result).toBeGreaterThanOrEqual(0.25);
+    expect(result).toBeLessThan(1);
   });
 
-  it('returns at least 1 for a future date', () => {
+  it('returns at least 0.25 for a future date', () => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2025-06-01'));
-    expect(dobToAgeMonths('2025-12-01')).toBe(1);
+    expect(dobToAgeMonths('2025-12-01')).toBe(0.25);
   });
 
   it('handles year boundary correctly', () => {

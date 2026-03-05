@@ -18,6 +18,7 @@
     "label_start": "Startdatum plan",
     "label_birthday": "Verjaardagsherinneringen",
     "label_name": "Naam van je hond (optioneel)",
+    "share_label_name": "Naam",
     "label_breed": "Ras",
     "breed_stabyhoun": "Stabyhoun",
     "breed_kooikerhondje": "Kooikerhondje",
@@ -196,7 +197,18 @@
     "share_prefill_default": "{name} is {age}! Bekijk",
     "share_prefill_birthday": "Het is {name}'s verjaardag! {age} vandaag!",
     "share_prefill_no_name": "Plan het wandel- en voedingsschema van je pup",
-    "share_copied": "Gekopieerd!"
+    "share_copied": "Gekopieerd!",
+    "dog_derived_age_weeks": "Leeftijd: {weeks} weken sinds geboorte op {dob}",
+    "age_group_weeks": "Weken",
+    "age_group_months": "Maanden",
+    "age_unit_weeks": "{n} weken",
+    "age_unit_months": "{n} maanden",
+    "age_unit_years": "{n} jaar",
+    "setup_title": "Vertel ons over je puppy",
+    "setup_subtitle": "Vul de gegevens in en we berekenen alles voor je.",
+    "setup_btn_start": "Start",
+    "setup_dob_required": "Geboortedatum is nodig om te beginnen",
+    "share_profile_link": "Profiel delen"
   },
   "facts": {
     "generic": [
