@@ -44,3 +44,11 @@ screenshots/*.png
 coverage/
 images/
 .claude/agent-memory/
+.todos/
+.sidecar/
+.sidecar-agent
+.sidecar-task
+.sidecar-pr
+.sidecar-start.sh
+.sidecar-base
+.td-root
