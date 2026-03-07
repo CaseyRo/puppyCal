@@ -46,4 +46,49 @@ describe('validateFoodEntry', () => {
     };
     expect(validateFoodEntry(invalidDate)).toContain('sourceDate must be YYYY-MM-DD');
   });
+
+  it('relaxes lifeStage, breedSizeTarget, packageSize for scan source', () => {
+    const scanEntry: FoodEntry = {
+      ...base,
+      source: 'scan',
+      lifeStage: '',
+      breedSizeTarget: '',
+      packageSize: '',
+    };
+    const errors = validateFoodEntry(scanEntry);
+    expect(errors).not.toContain('lifeStage is required');
+    expect(errors).not.toContain('breedSizeTarget is required');
+    expect(errors).not.toContain('packageSize is required');
+  });
+
+  it('relaxes ingredients and guaranteedAnalysis for scan source', () => {
+    const scanEntry = {
+      ...base,
+      source: 'scan' as const,
+      ingredients: [],
+      guaranteedAnalysis: {
+        proteinMinPercent: 0,
+        fatMinPercent: 0,
+        fiberMaxPercent: 0,
+        moistureMaxPercent: 0,
+      },
+      feedingGuide: { reference: '' },
+    };
+    const errors = validateFoodEntry(scanEntry);
+    expect(errors).not.toContain('ingredients must contain at least one item');
+    expect(errors).not.toContain('guaranteedAnalysis.proteinMinPercent must be > 0');
+    expect(errors).not.toContain('feedingGuide.reference is required');
+  });
+
+  it('still requires sourceUrl and sourceDate for scan source', () => {
+    const scanEntry: FoodEntry = {
+      ...base,
+      source: 'scan',
+      sourceUrl: '',
+      sourceDate: '',
+    };
+    const errors = validateFoodEntry(scanEntry);
+    expect(errors).toContain('sourceUrl is required');
+    expect(errors).toContain('sourceDate is required');
+  });
 });

@@ -196,6 +196,9 @@ export async function runApp(container: HTMLElement): Promise<void> {
 
   const i18n = await loadI18n(config.lang);
   document.documentElement.lang = config.lang;
+
+  // Flush any pending scan telemetry queue on startup
+  import('./food/scan-telemetry').then((m) => m.flushQueueOnStartup()).catch(() => {});
   let errors: ValidationErrors = validate(config);
   const walkiesTouched: Record<'dob' | 'months' | 'start', boolean> = {
     dob: Boolean(config.dob),
@@ -767,6 +770,11 @@ export async function runApp(container: HTMLElement): Promise<void> {
       }
       <div class="lg:grid lg:grid-cols-2 lg:gap-10 lg:items-start">
         <div>
+          <button type="button" id="btn-scan-food"
+            class="w-full mb-4 py-2.5 rounded-lg border-2 border-dashed border-primary/30 text-sm font-medium text-primary hover:bg-primary/5 hover:border-primary/50 transition-colors flex items-center justify-center gap-2">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 012-2h2"/><path d="M17 3h2a2 2 0 012 2v2"/><path d="M21 17v2a2 2 0 01-2 2h-2"/><path d="M7 21H5a2 2 0 01-2-2v-2"/><line x1="7" y1="12" x2="17" y2="12"/></svg>
+            ${t('scan_button_label')}
+          </button>
           ${dogHintCard}
           <form id="food-form" class="space-y-3" novalidate>
             ${ageField}
@@ -1172,6 +1180,10 @@ export async function runApp(container: HTMLElement): Promise<void> {
         });
       });
     } else if (activeTab === 'food') {
+      container.querySelector('#btn-scan-food')?.addEventListener('click', async () => {
+        const { openScannerModal } = await import('./scanner');
+        void openScannerModal(i18n, render);
+      });
       container.querySelector('#btn-go-dog-tab')?.addEventListener('click', () => {
         activeTab = 'dog';
         applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
