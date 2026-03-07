@@ -20,6 +20,8 @@ export interface FeedingGuide {
   reference: string;
 }
 
+export type FoodSource = 'curated' | 'scan';
+
 export interface FoodEntry {
   id: string;
   supplier: string;
@@ -36,6 +38,7 @@ export interface FoodEntry {
   calories?: Calories;
   sourceUrl: string;
   sourceDate: string;
+  source?: FoodSource;
 }
 
 export interface PortionInputs {

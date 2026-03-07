@@ -20,40 +20,56 @@ function isIsoDate(value: string): boolean {
 
 export function validateFoodEntry(entry: FoodEntry): string[] {
   const errors: string[] = [];
+  const isScan = entry.source === 'scan';
 
   if (!isNonEmptyString(entry.id)) errors.push('id is required');
   if (!isNonEmptyString(entry.supplier)) errors.push('supplier is required');
   if (!isNonEmptyString(entry.brand)) errors.push('brand is required');
   if (!isNonEmptyString(entry.productName)) errors.push('productName is required');
   if (typeof entry.isPuppy !== 'boolean') errors.push('isPuppy must be boolean');
-  if (!isNonEmptyString(entry.lifeStage)) errors.push('lifeStage is required');
-  if (!isNonEmptyString(entry.breedSizeTarget)) errors.push('breedSizeTarget is required');
+
+  // Fields relaxed for scan-sourced entries
+  if (!isScan) {
+    if (!isNonEmptyString(entry.lifeStage)) errors.push('lifeStage is required');
+    if (!isNonEmptyString(entry.breedSizeTarget)) errors.push('breedSizeTarget is required');
+    if (!isNonEmptyString(entry.packageSize)) errors.push('packageSize is required');
+  }
+
   if (entry.foodType !== 'dry' && entry.foodType !== 'wet') {
     errors.push('foodType must be dry or wet');
   }
-  if (!isNonEmptyString(entry.packageSize)) errors.push('packageSize is required');
+
   if (!Array.isArray(entry.ingredients) || entry.ingredients.length === 0) {
-    errors.push('ingredients must contain at least one item');
-  }
-  if (!entry.guaranteedAnalysis) {
-    errors.push('guaranteedAnalysis is required');
-  } else {
-    if (!isPositiveNumber(entry.guaranteedAnalysis.proteinMinPercent)) {
-      errors.push('guaranteedAnalysis.proteinMinPercent must be > 0');
-    }
-    if (!isPositiveNumber(entry.guaranteedAnalysis.fatMinPercent)) {
-      errors.push('guaranteedAnalysis.fatMinPercent must be > 0');
-    }
-    if (!isNonNegativeNumber(entry.guaranteedAnalysis.fiberMaxPercent)) {
-      errors.push('guaranteedAnalysis.fiberMaxPercent must be >= 0');
-    }
-    if (!isPositiveNumber(entry.guaranteedAnalysis.moistureMaxPercent)) {
-      errors.push('guaranteedAnalysis.moistureMaxPercent must be > 0');
+    if (!isScan) {
+      errors.push('ingredients must contain at least one item');
     }
   }
 
-  if (!entry.feedingGuide || !isNonEmptyString(entry.feedingGuide.reference)) {
-    errors.push('feedingGuide.reference is required');
+  if (!entry.guaranteedAnalysis) {
+    if (!isScan) {
+      errors.push('guaranteedAnalysis is required');
+    }
+  } else {
+    if (!isScan) {
+      if (!isPositiveNumber(entry.guaranteedAnalysis.proteinMinPercent)) {
+        errors.push('guaranteedAnalysis.proteinMinPercent must be > 0');
+      }
+      if (!isPositiveNumber(entry.guaranteedAnalysis.fatMinPercent)) {
+        errors.push('guaranteedAnalysis.fatMinPercent must be > 0');
+      }
+      if (!isNonNegativeNumber(entry.guaranteedAnalysis.fiberMaxPercent)) {
+        errors.push('guaranteedAnalysis.fiberMaxPercent must be >= 0');
+      }
+      if (!isPositiveNumber(entry.guaranteedAnalysis.moistureMaxPercent)) {
+        errors.push('guaranteedAnalysis.moistureMaxPercent must be > 0');
+      }
+    }
+  }
+
+  if (!isScan) {
+    if (!entry.feedingGuide || !isNonEmptyString(entry.feedingGuide.reference)) {
+      errors.push('feedingGuide.reference is required');
+    }
   }
 
   // Required by design/spec: source traceability is mandatory.
