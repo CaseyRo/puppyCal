@@ -3,6 +3,9 @@
  */
 
 import { isSafeDataUrl } from './share-utils';
+import type { I18nData } from './i18n';
+import { tr } from './i18n';
+import { haptic } from './haptics';
 
 const STORAGE_KEY = 'puppycal-dog-photo';
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
@@ -57,7 +60,9 @@ function cropImageWithCanvas(
   return canvas.toDataURL('image/jpeg', JPEG_QUALITY);
 }
 
-export function openPhotoCropModal(onSave: (dataUrl: string) => void): void {
+export function openPhotoCropModal(onSave: (dataUrl: string) => void, i18nData?: I18nData): void {
+  const t = (key: string, params?: Record<string, string | number>) =>
+    i18nData ? tr(i18nData, key, params) : key;
   // Remove existing dialog if any
   document.querySelector('.photo-crop-dialog')?.remove();
 
@@ -69,35 +74,39 @@ export function openPhotoCropModal(onSave: (dataUrl: string) => void): void {
 
   dialog.innerHTML = `
     <div class="share-dialog-header">
-      <p class="share-dialog-title">Dog photo</p>
-      <button type="button" class="share-dialog-close" aria-label="Close">&times;</button>
+      <p class="share-dialog-title">${t('photo_title')}</p>
+      <button type="button" class="share-dialog-close" aria-label="${t('photo_cancel')}">&times;</button>
     </div>
     <div class="share-dialog-body">
       <div class="photo-crop-area" id="photo-crop-area">
         ${
           existingPhoto
             ? `<div class="photo-crop-current">
-                <img src="${existingPhoto}" alt="Current dog photo" class="photo-crop-current-img" />
+                <img src="${existingPhoto}" alt="${t('photo_title')}" class="photo-crop-current-img" />
               </div>`
-            : '<p class="text-sm text-gray-400">No photo yet</p>'
+            : `<p class="text-sm text-gray-400">${t('photo_no_photo')}</p>`
         }
       </div>
       <div id="photo-crop-controls" style="display:none;width:100%;text-align:center">
         <div class="photo-crop-preview-wrap">
-          <img id="photo-crop-img" alt="Crop preview" style="max-width:100%;display:block" />
+          <img id="photo-crop-img" alt="${t('photo_title')}" style="max-width:100%;display:block" />
         </div>
         <div style="display:flex;gap:8px;margin-top:12px;justify-content:center">
-          <button type="button" id="photo-crop-cancel" class="share-format-btn">Cancel</button>
-          <button type="button" id="photo-crop-confirm" class="share-download-btn" style="width:auto;padding:8px 24px">Save</button>
+          <button type="button" id="photo-crop-cancel" class="share-format-btn">${t('photo_cancel')}</button>
+          <button type="button" id="photo-crop-confirm" class="share-download-btn" style="width:auto;padding:8px 24px">${t('photo_save')}</button>
         </div>
+      </div>
+      <div id="photo-crop-loading" style="display:none;width:100%;text-align:center;padding:24px 0">
+        <div class="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent mx-auto"></div>
+        <p class="text-sm text-gray-500 mt-3">${t('photo_loading')}</p>
       </div>
       <div id="photo-initial-buttons" style="display:flex;gap:8px;width:100%">
         <label class="share-download-btn" style="cursor:pointer;flex:1;text-align:center">
           <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-          ${existingPhoto ? 'Change photo' : 'Upload photo'}
+          ${existingPhoto ? t('photo_change') : t('photo_upload')}
           <input type="file" id="photo-file-input" accept="image/jpeg,image/png,image/webp" style="display:none" />
         </label>
-        ${existingPhoto ? '<button type="button" id="photo-remove-btn" class="share-format-btn" style="padding:8px 16px;color:#dc2626">Remove</button>' : ''}
+        ${existingPhoto ? `<button type="button" id="photo-remove-btn" class="share-format-btn" style="padding:8px 16px;color:#dc2626">${t('photo_remove')}</button>` : ''}
       </div>
       <p id="photo-error-msg" class="text-xs text-red-500" style="min-height:16px"></p>
     </div>`;
@@ -143,13 +152,13 @@ export function openPhotoCropModal(onSave: (dataUrl: string) => void): void {
 
     // Validate type
     if (!ACCEPTED_TYPES.includes(file.type)) {
-      showError('Please select a JPEG, PNG, or WebP image.');
+      showError(t('photo_error_type'));
       return;
     }
 
     // Validate size
     if (file.size > MAX_FILE_SIZE) {
-      showError('Image must be under 10 MB.');
+      showError(t('photo_error_size'));
       return;
     }
 
@@ -157,7 +166,7 @@ export function openPhotoCropModal(onSave: (dataUrl: string) => void): void {
     try {
       await createImageBitmap(file);
     } catch {
-      showError('Could not read this file as an image.');
+      showError(t('photo_error_read'));
       return;
     }
 
@@ -170,13 +179,26 @@ export function openPhotoCropModal(onSave: (dataUrl: string) => void): void {
       cropImg.src = url;
       cropArea.style.display = 'none';
       initialButtons.style.display = 'none';
-      cropControls.style.display = 'block';
+      const loadingEl = dialog.querySelector('#photo-crop-loading') as HTMLElement;
+      if (loadingEl) loadingEl.style.display = 'block';
 
       // Dynamic import of cropperjs + its CSS
-      const [{ default: Cropper }] = await Promise.all([
-        import('cropperjs'),
-        import('cropperjs/dist/cropper.css'),
-      ]);
+      let Cropper: typeof import('cropperjs').default;
+      try {
+        const [cropperModule] = await Promise.all([
+          import('cropperjs'),
+          import('cropperjs/dist/cropper.css'),
+        ]);
+        Cropper = cropperModule.default;
+      } catch {
+        if (loadingEl) loadingEl.style.display = 'none';
+        cropArea.style.display = '';
+        initialButtons.style.display = 'flex';
+        showError(t('photo_error_read'));
+        return;
+      }
+      if (loadingEl) loadingEl.style.display = 'none';
+      cropControls.style.display = 'block';
 
       cropperInstance = new Cropper(cropImg, {
         aspectRatio: 1,
@@ -212,9 +234,10 @@ export function openPhotoCropModal(onSave: (dataUrl: string) => void): void {
       const dataUrl = cropImageWithCanvas(img, cropData);
       const saved = saveDogPhoto(dataUrl);
       if (!saved) {
-        showError("Couldn't save photo — storage full.");
+        showError(t('photo_error_storage'));
         return;
       }
+      haptic('success');
       onSave(dataUrl);
       cropperInstance?.destroy();
       dialog.close();

@@ -240,7 +240,27 @@
     "scan_retry": "Try again",
     "scan_scanned_on": "Scanned on {date}",
     "scan_queue_pending": "Contribution pending — will sync when connected",
-    "scan_badge_scanned": "Scanned"
+    "scan_badge_scanned": "Scanned",
+    "share_as_image": "Share as image",
+    "photo_title": "Dog photo",
+    "photo_no_photo": "No photo yet",
+    "photo_cancel": "Cancel",
+    "photo_save": "Save",
+    "photo_change": "Change photo",
+    "photo_upload": "Upload photo",
+    "photo_remove": "Remove",
+    "photo_error_type": "Please select a JPEG, PNG, or WebP image.",
+    "photo_error_size": "Image must be under 10 MB.",
+    "photo_error_read": "Could not read this file as an image.",
+    "photo_error_storage": "Couldn't save photo — storage full.",
+    "photo_loading": "Loading...",
+    "preview_feeding": "{grams}g × {meals}",
+    "setup_weight_estimated": "Weight estimated at {weight} kg — update it in the Dog tab.",
+    "setup_weight_placeholder": "e.g. 3.5",
+    "dog_avatar_change": "Change dog photo",
+    "dog_avatar_add": "Add dog photo",
+    "walkies_from_profile": "From your dog profile",
+    "result_empty_hint_neutral": "Select a food and fill in your dog's details"
   },
   "facts": {
     "generic": [

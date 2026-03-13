@@ -8,6 +8,7 @@ import type { FoodPlannerState } from './config';
 import type { FoodEntry, PortionResult } from './food/types';
 import { ANALYTICS_EVENTS, trackEvent } from './analytics';
 import { getDogPhoto } from './dog-photo';
+import { haptic } from './haptics';
 import { isSafeDataUrl, buildFilename, getSeasonalPalette } from './share-utils';
 import type { SeasonalPalette } from './share-utils';
 import {
@@ -1512,6 +1513,7 @@ export function openShareModal(cardType: ShareCardType, deps: ShareModalDeps): v
     dialog.querySelector('#share-copy-link-btn')?.addEventListener('click', () => {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         void navigator.clipboard.writeText(canonicalUrl).then(() => {
+          haptic('light');
           showToast(t('link_copied'));
         });
       }
@@ -1550,6 +1552,7 @@ export function openShareModal(cardType: ShareCardType, deps: ShareModalDeps): v
           const context = birthday ? 'birthday' : cardType === 'food' ? 'food' : null;
           const filename = buildFilename(config.name, ageShort, context, currentFormat);
           triggerDownload(blob, filename);
+          haptic('light');
           trackEvent(ANALYTICS_EVENTS.SHARE_IMAGE_DOWNLOADED, {
             tab: cardType,
             format: currentFormat,

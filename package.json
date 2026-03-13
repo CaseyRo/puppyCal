@@ -1,6 +1,6 @@
 {
   "name": "puppy-ics",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "private": true,
   "scripts": {
     "build": "webpack --mode production",
@@ -60,6 +60,7 @@
     "@vercel/analytics": "^1.6.1",
     "@vercel/speed-insights": "^1.3.1",
     "cropperjs": "^1.6.2",
-    "html5-qrcode": "^2.3.8"
+    "html5-qrcode": "^2.3.8",
+    "web-haptics": "^0.0.6"
   }
 }

@@ -41,6 +41,7 @@ import { initCustomSelect } from './custom-select';
 import type { FoodEntry } from './food/types';
 import { openShareModal } from './share-image';
 import { getDogPhoto, openPhotoCropModal } from './dog-photo';
+import { haptic } from './haptics';
 import { getShareText } from './share-captions';
 import { formatAge, formatAgeShort, dobToAgeWeeks } from './share-milestones';
 import { getBirthdayContext } from './share-birthday';
@@ -220,19 +221,20 @@ export async function runApp(container: HTMLElement): Promise<void> {
     render();
   }
 
-  let feedback: string | null = null;
   let feedbackTimer: ReturnType<typeof setTimeout> | null = null;
   let sharePickerOpen = false;
   let dogProfileCompletedThisSession = false;
 
+  const toastContainer = document.getElementById('toast-container');
+
   function showFeedback(msg: string): void {
     if (feedbackTimer) clearTimeout(feedbackTimer);
-    feedback = msg;
-    render();
+    if (toastContainer) {
+      toastContainer.innerHTML = `<p class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-sm font-medium px-4 py-2 rounded-full shadow-lg z-50" role="status">${msg}</p>`;
+    }
     feedbackTimer = setTimeout(() => {
-      feedback = null;
       feedbackTimer = null;
-      render();
+      if (toastContainer) toastContainer.innerHTML = '';
     }, 2500);
   }
 
@@ -254,7 +256,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
     const visibleMonthsError = walkiesTouched.months ? errors.months : undefined;
     const visibleStartError = walkiesTouched.start ? errors.start : undefined;
     const infoIcon = (text: string): string =>
-      `<span class="inline-flex items-center justify-center w-4 h-4 rounded-full border border-gray-300 text-[10px] text-gray-500 ml-1" title="${text}" aria-label="${text}">i</span>`;
+      `<span class="inline-flex items-center justify-center w-4 h-4 rounded-full border border-gray-300 text-[10px] text-gray-500 ml-1" title="${text}" role="img" aria-hidden="true">i</span>`;
 
     const sharePicker = `
       <div id="social-share-picker" class="${sharePickerOpen ? '' : 'hidden '}mt-2">
@@ -320,7 +322,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
               <label for="dob" class="block text-sm font-medium mb-1">${t('label_dob')} ${infoIcon(t('hint_dob'))}</label>
               <input type="date" id="dob" value="${config.dob}" aria-describedby="dob-err" aria-invalid="${visibleDobError ? 'true' : 'false'}"
                 class="w-full border rounded px-3 py-2 ${visibleDobError ? 'border-red-600 ring-1 ring-red-600' : 'border-gray-300'}"/>
-              ${visibleDobError ? `<p id="dob-err" class="text-red-600 text-sm mt-1" role="alert">${t(visibleDobError)}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_dob')}</p>`}
+              ${visibleDobError ? `<p id="dob-err" class="text-red-600 text-sm mt-1" role="alert">${t(visibleDobError)}</p>` : config.dob ? `<p class="text-xs text-gray-400 mt-1 italic">${t('walkies_from_profile')}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_dob')}</p>`}
             </div>
             <div>
               <label for="months" class="block text-sm font-medium mb-1">${t('label_months')} ${infoIcon(t('hint_months'))}</label>
@@ -345,7 +347,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
               <label for="name" class="block text-sm font-medium mb-1">${t('label_name')} ${infoIcon(t('hint_name'))}</label>
               <input type="text" id="name" value="${escapeHtml(config.name)}" placeholder=""
                 class="w-full border border-gray-300 rounded px-3 py-2"/>
-              <p class="text-xs text-gray-500 mt-1">${t('hint_name')}</p>
+              ${config.name ? `<p class="text-xs text-gray-400 mt-1 italic">${t('walkies_from_profile')}</p>` : `<p class="text-xs text-gray-500 mt-1">${t('hint_name')}</p>`}
             </div>
             <div class="flex items-center gap-2">
               <input type="checkbox" id="birthday" ${config.birthday ? 'checked' : ''}
@@ -366,7 +368,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
 
   function renderDog(): string {
     const infoIcon = (text: string): string =>
-      `<span class="inline-flex items-center justify-center w-4 h-4 rounded-full border border-gray-300 text-[10px] text-gray-500 ml-1" title="${text}" aria-label="${text}">i</span>`;
+      `<span class="inline-flex items-center justify-center w-4 h-4 rounded-full border border-gray-300 text-[10px] text-gray-500 ml-1" title="${text}" role="img" aria-hidden="true">i</span>`;
 
     const isPuppy = foodState.ageMonths < 6;
 
@@ -381,10 +383,10 @@ export async function runApp(container: HTMLElement): Promise<void> {
 
     const dogPhoto = getDogPhoto();
     const dogAvatarHtml = dogPhoto
-      ? `<button type="button" id="btn-dog-photo" class="dog-avatar-btn" aria-label="Change dog photo">
-           <img src="${dogPhoto}" alt="${config.name ? escapeHtml(config.name) : 'Dog'}" class="dog-avatar-img" />
+      ? `<button type="button" id="btn-dog-photo" class="dog-avatar-btn" aria-label="${t('dog_avatar_change')}">
+           <img src="${dogPhoto}" alt="${config.name ? escapeHtml(config.name) : t('dog_profile_title')}" class="dog-avatar-img" />
          </button>`
-      : `<button type="button" id="btn-dog-photo" class="dog-avatar-btn dog-avatar-empty" aria-label="Add dog photo">
+      : `<button type="button" id="btn-dog-photo" class="dog-avatar-btn dog-avatar-empty" aria-label="${t('dog_avatar_add')}">
            <svg class="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
          </button>`;
 
@@ -410,9 +412,9 @@ export async function runApp(container: HTMLElement): Promise<void> {
           <div class="flex gap-2 mt-4">
             <button type="button" id="btn-share-dog-image"
               class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 rounded-full border border-muted bg-white/60 hover:bg-white hover:text-primary transition-colors"
-              aria-label="Share as image">
+              aria-label="${t('share_as_image')}">
               <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              Share as image
+              ${t('share_as_image')}
             </button>
             <button type="button" id="btn-share-profile-link"
               class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 rounded-full border border-muted bg-white/60 hover:bg-white hover:text-primary transition-colors"
@@ -444,7 +446,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
             <div>
               <label for="dog-weight" class="block text-sm font-medium mb-1">${t('label_weight_kg')}</label>
               <div class="flex items-center gap-1.5">
-                <input type="number" id="dog-weight" inputmode="decimal" step="0.1" min="0.5" max="80" value="${foodState.weightKg.toFixed(1)}"
+                <input type="text" id="dog-weight" inputmode="decimal" value="${foodState.weightKg.toFixed(1)}"
                   class="w-28 border border-gray-300 rounded px-3 py-2"/>
                 <span class="text-sm text-gray-600">kg</span>
               </div>
@@ -485,9 +487,9 @@ export async function runApp(container: HTMLElement): Promise<void> {
                 ${[1, 2, 3, 4].map((n) => `<option value="${n}" ${config.meals === n ? 'selected' : ''}>${n}×</option>`).join('')}
               </select>
             </div>
-            <fieldset class="space-y-4 rounded-lg border border-gray-200 p-4 ${isPuppy ? 'opacity-50' : ''}" ${isPuppy ? 'disabled' : ''}>
+            <fieldset class="space-y-4 rounded-lg border border-gray-200 p-4 ${isPuppy ? 'opacity-50' : ''}" ${isPuppy ? 'disabled aria-describedby="adult-hint"' : ''}>
               <legend class="text-xs font-medium text-gray-500 px-1">${t('adult_settings_group')}</legend>
-              ${isPuppy ? `<p class="text-xs text-gray-400 -mt-2">${t('puppy_adult_fields_disabled')}</p>` : ''}
+              ${isPuppy ? `<p id="adult-hint" class="text-xs text-gray-400 -mt-2">${t('puppy_adult_fields_disabled')}</p>` : ''}
               <div>
                 <label for="dog-activity" class="block text-sm font-medium mb-1">${t('label_activity')}</label>
                 <select id="dog-activity" class="w-full border border-gray-300 rounded px-3 py-2">
@@ -565,7 +567,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
       }
     }
     const infoIcon = (text: string): string =>
-      `<span class="inline-flex items-center justify-center w-4 h-4 rounded-full border border-gray-300 text-[10px] text-gray-500 ml-1" title="${text}" aria-label="${text}">i</span>`;
+      `<span class="inline-flex items-center justify-center w-4 h-4 rounded-full border border-gray-300 text-[10px] text-gray-500 ml-1" title="${text}" role="img" aria-hidden="true">i</span>`;
 
     const copyBtn = `
       <div class="flex justify-center gap-2 mt-4">
@@ -577,9 +579,9 @@ export async function runApp(container: HTMLElement): Promise<void> {
         </button>
         <button type="button" id="btn-share-food-image"
           class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 rounded-full border border-muted bg-white/60 hover:bg-white hover:text-primary transition-colors"
-          aria-label="Share as image">
+          aria-label="${t('share_as_image')}">
           <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          Share as image
+          ${t('share_as_image')}
         </button>
       </div>`;
 
@@ -665,7 +667,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
           <p class="font-display text-5xl font-semibold text-muted mt-3 leading-tight select-none" aria-hidden="true">
             --<span class="text-2xl ml-1">g</span>
           </p>
-          <p class="text-sm text-gray-400 mt-2">${t('result_empty_hint')}</p>
+          <p class="text-sm text-gray-400 mt-2">${t('result_empty_hint_neutral')}</p>
           </div>
         </div>`;
     }
@@ -887,11 +889,12 @@ export async function runApp(container: HTMLElement): Promise<void> {
           <div>
             <label for="setup-breed" class="block text-sm font-medium mb-1">${t('label_breed')}</label>
             <select id="setup-breed" class="w-full border border-gray-300 rounded px-3 py-2">
+              <option value="other" selected>${t('breed_other')}</option>
               <optgroup label="${t('breed_group_dutch')}">
                 ${BREEDS.filter((b) => b.isNativeDutch)
                   .map(
                     (b) =>
-                      `<option value="${b.id}" ${b.id === 'stabyhoun' ? 'selected' : ''}>${t('breed_' + b.id.replace(/-/g, '_'))}</option>`
+                      `<option value="${b.id}">${t('breed_' + b.id.replace(/-/g, '_'))}</option>`
                   )
                   .join('')}
               </optgroup>
@@ -908,7 +911,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
           <div>
             <label for="setup-weight" class="block text-sm font-medium mb-1">${t('label_weight_kg')}</label>
             <div class="flex items-center gap-1.5">
-              <input type="number" id="setup-weight" inputmode="decimal" step="0.1" min="0.5" max="80" placeholder=""
+              <input type="text" id="setup-weight" inputmode="decimal" placeholder="${t('setup_weight_placeholder')}"
                 class="w-28 border border-gray-300 rounded px-3 py-2"/>
               <span class="text-sm text-gray-600">kg</span>
             </div>
@@ -968,14 +971,18 @@ export async function runApp(container: HTMLElement): Promise<void> {
         foodState = { ...foodState, ageMonths: derived };
       }
 
-      const weightVal = parseFloat(weightInput?.value ?? '');
+      const weightRaw = (weightInput?.value ?? '').replace(',', '.');
+      const weightVal = parseFloat(weightRaw);
+      let weightWasEstimated = false;
       if (Number.isFinite(weightVal) && weightVal >= 0.5) {
         foodState = { ...foodState, weightKg: weightVal };
       } else {
+        const estimated = estimateWeightFromAge(foodState.ageMonths, foodState.breedSize);
         foodState = {
           ...foodState,
-          weightKg: estimateWeightFromAge(foodState.ageMonths, foodState.breedSize),
+          weightKg: estimated,
         };
+        weightWasEstimated = true;
       }
 
       activeTab = 'food';
@@ -986,7 +993,13 @@ export async function runApp(container: HTMLElement): Promise<void> {
         size: foodState.breedSize,
       });
       dogProfileCompletedThisSession = true;
+      haptic('success');
       render();
+      if (weightWasEstimated) {
+        showFeedback(
+          t('setup_weight_estimated', { weight: String(foodState.weightKg.toFixed(1)) })
+        );
+      }
     });
   }
 
@@ -997,6 +1010,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
       return;
     }
 
+    const scrollY = window.scrollY;
     const valid = isValid(errors);
     const titleText = config.name ? t('title_for', { name: escapeHtml(config.name) }) : t('title');
 
@@ -1007,8 +1021,8 @@ export async function runApp(container: HTMLElement): Promise<void> {
           <h1 class="text-2xl font-display font-semibold text-gray-900 leading-tight mt-3">${titleText}</h1>
         </header>
         <div class="mb-4 flex items-center justify-between flex-wrap gap-2">
-        <div class="inline-flex rounded-lg border border-gray-200 overflow-hidden" role="tablist" aria-label="Planner tabs">
-          <button type="button" id="tab-food" role="tab" aria-selected="${activeTab === 'food'}"
+        <div class="inline-flex rounded-lg border border-gray-200 overflow-hidden" role="tablist" aria-label="Planner tabs" aria-orientation="horizontal">
+          <button type="button" id="tab-food" role="tab" aria-selected="${activeTab === 'food'}" aria-controls="tab-panel"
             class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium transition-colors ${
               activeTab === 'food'
                 ? 'bg-primary text-white'
@@ -1016,7 +1030,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
             }">
             <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true"><path d="M2 8h12M3 8a5 5 0 0 1 10 0M5.5 12h5"/></svg>
             ${t('tab_food')}</button>
-          <button type="button" id="tab-walkies" role="tab" aria-selected="${activeTab === 'walkies'}"
+          <button type="button" id="tab-walkies" role="tab" aria-selected="${activeTab === 'walkies'}" aria-controls="tab-panel"
             class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium transition-colors ${
               activeTab === 'walkies'
                 ? 'bg-primary text-white'
@@ -1024,7 +1038,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
             }">
             <svg class="w-3.5 h-3.5" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><circle cx="4" cy="4" r="1.5"/><circle cx="7" cy="2" r="1.5"/><circle cx="9" cy="2" r="1.5"/><circle cx="12" cy="4" r="1.5"/><path d="M8 6.5c-2.5 0-4.5 1.8-4.5 4.5 0 1.2.9 2 2 2 .7 0 1.5-.5 2.5-.5s1.8.5 2.5.5c1.1 0 2-.8 2-2 0-2.7-2-4.5-4.5-4.5z"/></svg>
             ${t('tab_walkies')}</button>
-          <button type="button" id="tab-dog" role="tab" aria-selected="${activeTab === 'dog'}"
+          <button type="button" id="tab-dog" role="tab" aria-selected="${activeTab === 'dog'}" aria-controls="tab-panel"
             class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium transition-colors ${
               activeTab === 'dog'
                 ? 'bg-primary text-white'
@@ -1045,37 +1059,31 @@ export async function runApp(container: HTMLElement): Promise<void> {
         </div>
         </div>
 
+        <div id="tab-panel" role="tabpanel" tabindex="0" aria-labelledby="tab-${activeTab}">
         ${activeTab === 'walkies' ? renderWalkies(valid) : activeTab === 'dog' ? renderDog() : renderFood()}
+        </div>
 
       </div>
-      ${feedback ? `<p class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-sm font-medium px-4 py-2 rounded-full shadow-lg z-50" role="status">${feedback}</p>` : ''}
     `;
+    window.scrollTo(0, scrollY);
     applyPlannerMetadata({
       activeTab,
       canonicalUrl: currentCanonicalUrl(),
     });
 
-    container.querySelector('#tab-food')?.addEventListener('click', () => {
-      activeTab = 'food';
+    function switchTab(tab: PlannerTab): void {
+      activeTab = tab;
       sharePickerOpen = false;
-      trackEvent(ANALYTICS_EVENTS.TAB_VIEWED, { tab: 'food' });
+      haptic('selection');
+      trackEvent(ANALYTICS_EVENTS.TAB_VIEWED, { tab });
       applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
       render();
-    });
-    container.querySelector('#tab-walkies')?.addEventListener('click', () => {
-      activeTab = 'walkies';
-      sharePickerOpen = false;
-      trackEvent(ANALYTICS_EVENTS.TAB_VIEWED, { tab: 'walkies' });
-      applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
-      render();
-    });
-    container.querySelector('#tab-dog')?.addEventListener('click', () => {
-      activeTab = 'dog';
-      sharePickerOpen = false;
-      trackEvent(ANALYTICS_EVENTS.TAB_VIEWED, { tab: 'dog' });
-      applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
-      render();
-    });
+      document.getElementById('tab-panel')?.focus();
+    }
+
+    container.querySelector('#tab-food')?.addEventListener('click', () => switchTab('food'));
+    container.querySelector('#tab-walkies')?.addEventListener('click', () => switchTab('walkies'));
+    container.querySelector('#tab-dog')?.addEventListener('click', () => switchTab('dog'));
 
     if (activeTab === 'walkies') {
       const form = container.querySelector('#walkies-form');
@@ -1112,6 +1120,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
         if (!ics) return;
         const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
         triggerDownload(blob, 'puppy-schedule.ics');
+        haptic('success');
         trackEvent(ANALYTICS_EVENTS.CALENDAR_DOWNLOADED, { tab: 'walkies' });
         showFeedback(
           tr(i18n, 'success', { filename: 'puppy-schedule.ics' }) || t('calendar_ready')
@@ -1166,6 +1175,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
 
           const fallbackOk = await fallbackShare(url, shareText);
           if (fallbackOk) {
+            haptic('light');
             trackEvent(ANALYTICS_EVENTS.SHARE_SENT, {
               tab: activeTab,
               platform,
@@ -1235,6 +1245,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
 
       if (productWrapper) {
         initCustomSelect(productWrapper, (value) => {
+          haptic('selection');
           const currentSelectedFood = findFoodById(foodState.selectedFoodId) ?? null;
           const nextSelectedFood = findFoodById(value) ?? null;
           const before = getFoodProfile(currentSelectedFood);
@@ -1392,6 +1403,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
         const url = currentCanonicalUrl();
         const ok = await fallbackShare(url, t('share_message'));
         if (ok) {
+          haptic('light');
           trackEvent(ANALYTICS_EVENTS.SHARE_SENT, {
             tab: activeTab,
             platform: 'copy_link',
@@ -1478,7 +1490,10 @@ export async function runApp(container: HTMLElement): Promise<void> {
         config.meals = Math.max(1, Math.min(4, parseInt(dogMealsInput?.value ?? '3', 10) || 3));
         foodState = {
           ...foodState,
-          weightKg: Math.max(0.5, Math.min(80, parseFloat(dogWeightInput?.value ?? '0') || 0)),
+          weightKg: Math.max(
+            0.5,
+            Math.min(80, parseFloat((dogWeightInput?.value ?? '0').replace(',', '.')) || 0)
+          ),
           breedSize: (dogBreedSizeInput?.value as BreedSize) || foodState.breedSize,
           activityLevel: (dogActivityInput?.value as ActivityLevel) || foodState.activityLevel,
           neutered: dogNeuteredInput?.checked ?? foodState.neutered,
@@ -1530,6 +1545,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
         const url = currentCanonicalUrl();
         const ok = await fallbackShare(url, t('share_message'));
         if (ok) {
+          haptic('light');
           showFeedback(t('link_copied'));
         }
       });
@@ -1537,7 +1553,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
       container.querySelector('#btn-dog-photo')?.addEventListener('click', () => {
         openPhotoCropModal(() => {
           render();
-        });
+        }, i18n);
       });
     }
 

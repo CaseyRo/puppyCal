@@ -240,7 +240,27 @@
     "scan_retry": "Opnieuw proberen",
     "scan_scanned_on": "Gescand op {date}",
     "scan_queue_pending": "Bijdrage in wachtrij — wordt gesynchroniseerd bij verbinding",
-    "scan_badge_scanned": "Gescand"
+    "scan_badge_scanned": "Gescand",
+    "share_as_image": "Delen als afbeelding",
+    "photo_title": "Hondenfoto",
+    "photo_no_photo": "Nog geen foto",
+    "photo_cancel": "Annuleren",
+    "photo_save": "Opslaan",
+    "photo_change": "Foto wijzigen",
+    "photo_upload": "Foto uploaden",
+    "photo_remove": "Verwijderen",
+    "photo_error_type": "Selecteer een JPEG-, PNG- of WebP-afbeelding.",
+    "photo_error_size": "Afbeelding moet kleiner zijn dan 10 MB.",
+    "photo_error_read": "Kon dit bestand niet als afbeelding lezen.",
+    "photo_error_storage": "Kon foto niet opslaan — opslag vol.",
+    "photo_loading": "Laden...",
+    "preview_feeding": "{grams}g × {meals}",
+    "setup_weight_estimated": "Gewicht geschat op {weight} kg — pas aan in het Hond-tabblad.",
+    "setup_weight_placeholder": "bijv. 3,5",
+    "dog_avatar_change": "Hondenfoto wijzigen",
+    "dog_avatar_add": "Hondenfoto toevoegen",
+    "walkies_from_profile": "Vanuit je hondprofiel",
+    "result_empty_hint_neutral": "Kies een voer en vul de gegevens van je hond in"
   },
   "facts": {
     "generic": [

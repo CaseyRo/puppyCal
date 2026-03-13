@@ -14,6 +14,7 @@ import {
 } from './food/toxic-ingredients';
 import { submitScan, getQueueSize, type TelemetryResponse } from './food/scan-telemetry';
 import { saveScannedFood } from './food/scan-storage';
+import { haptic } from './haptics';
 
 const SCAN_TIMEOUT_MS = 60_000;
 
@@ -231,13 +232,13 @@ function renderNotFound(
       <a href="https://world.openfoodfacts.org/cgi/product.pl?code=${barcode}" target="_blank" rel="noreferrer"
         class="inline-block text-xs text-primary underline hover:opacity-80">${t('scan_contribute_off')}</a>
       <div class="flex gap-2 mt-2">
-        <button type="button" id="scan-btn-another"
-          class="flex-1 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors">
-          ${t('scan_another')}
-        </button>
         <button type="button" id="scan-btn-dismiss"
-          class="flex-1 py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors">
+          class="flex-1 py-2 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors">
           ${t('scan_dismiss')}
+        </button>
+        <button type="button" id="scan-btn-another"
+          class="flex-1 py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors">
+          ${t('scan_another')}
         </button>
       </div>
     </div>`;
@@ -268,7 +269,10 @@ function renderTimeout(
   t: (key: string, params?: Record<string, string | number>) => string
 ): string {
   return `
-    <div class="p-6 text-center space-y-4">
+    <div class="p-6 text-center space-y-4 animate-scale-in">
+      <div class="mx-auto w-12 h-12 rounded-full bg-amber-50 flex items-center justify-center">
+        <svg class="w-6 h-6 text-amber-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
       <p class="text-sm text-gray-500">${t('scan_timeout')}</p>
       <button type="button" id="scan-btn-retry"
         class="py-2 px-6 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors">
@@ -405,6 +409,7 @@ async function handleBarcodeDetected(
     const result = await lookupBarcode(barcode);
 
     if (!result.found || !result.product) {
+      haptic('error');
       showContent(renderNotFound(barcode, t), i18nData, onRerender);
       return;
     }
@@ -435,6 +440,19 @@ async function handleBarcodeDetected(
     contentEl.setAttribute('data-entry', JSON.stringify(entry));
     showContent(html, i18nData, onRerender);
 
+    // Haptic feedback based on safety verdict
+    if (safety.verdict === 'safe') {
+      haptic('success');
+    } else if (
+      safety.verdict === 'danger' ||
+      safety.verdict === 'warning' ||
+      safety.verdict === 'incomplete'
+    ) {
+      haptic('warning');
+    } else {
+      haptic('error');
+    }
+
     // Trigger animation with delay (verdict-first sequencing)
     setTimeout(() => {
       const animTarget = document.getElementById('scan-anim-target');
@@ -443,6 +461,7 @@ async function handleBarcodeDetected(
       }
     }, 1500);
   } catch {
+    haptic('error');
     showContent(renderError(t), i18nData, onRerender);
   }
 }

@@ -8,6 +8,20 @@ export function initCustomSelect(wrapper: HTMLElement, onChange: (value: string)
   const listbox = wrapper.querySelector('[role="listbox"]') as HTMLElement | null;
   if (!trigger || !listbox) return;
 
+  // Assign IDs to options for aria-activedescendant
+  const selectId = wrapper.getAttribute('data-select-id') ?? 'cs';
+  const allOpts = Array.from(listbox.querySelectorAll('[role="option"]')) as HTMLElement[];
+  allOpts.forEach((opt, i) => {
+    if (!opt.id) opt.id = `${selectId}-opt-${i}`;
+  });
+
+  // Wire aria-labelledby: find the label element that precedes this wrapper
+  const label = wrapper.parentElement?.querySelector('label');
+  if (label) {
+    if (!label.id) label.id = `${selectId}-label`;
+    listbox.setAttribute('aria-labelledby', label.id);
+  }
+
   const options = () => Array.from(listbox.querySelectorAll('[role="option"]')) as HTMLElement[];
 
   function open(): void {
@@ -25,6 +39,7 @@ export function initCustomSelect(wrapper: HTMLElement, onChange: (value: string)
     trigger!.setAttribute('aria-expanded', 'false');
     listbox!.classList.add('hidden');
     clearActive();
+    trigger!.removeAttribute('aria-activedescendant');
   }
 
   function isOpen(): boolean {
@@ -35,6 +50,7 @@ export function initCustomSelect(wrapper: HTMLElement, onChange: (value: string)
     clearActive();
     el.setAttribute('data-active', '');
     el.classList.add('bg-gray-100');
+    if (el.id) trigger!.setAttribute('aria-activedescendant', el.id);
   }
 
   function clearActive(): void {

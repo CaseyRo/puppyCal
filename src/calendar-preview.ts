@@ -124,7 +124,7 @@ export function generatePreviewDays(
       const perMeal = Math.round(gramsPerDay / config.meals);
       events.push({
         type: 'feeding',
-        label: `${perMeal}g × ${config.meals}`,
+        label: tr(i18n, 'preview_feeding', { grams: String(perMeal), meals: String(config.meals) }),
       });
     }
 
