@@ -158,21 +158,58 @@ function triggerDownload(blob: Blob, filename: string): void {
   URL.revokeObjectURL(a.href);
 }
 
+const PROFILE_KEY = 'puppycal-profile';
+
+interface SavedProfile {
+  name: string;
+  dob: string;
+  breed: string;
+  weight: number | null;
+  lang: string;
+}
+
+function saveProfile(profile: SavedProfile): void {
+  try {
+    localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+  } catch {
+    // localStorage full or unavailable — non-fatal
+  }
+}
+
+function loadProfile(): SavedProfile | null {
+  try {
+    const raw = localStorage.getItem(PROFILE_KEY);
+    if (!raw) return null;
+    const p = JSON.parse(raw) as SavedProfile;
+    if (!p.dob) return null;
+    return p;
+  } catch {
+    return null;
+  }
+}
+
 export async function runApp(container: HTMLElement): Promise<void> {
   const supplierCatalog = getSupplierCatalog();
   const allFoods = getAllFoods();
   const catalogValidation = validateCatalog();
   const fallbackFoodState = defaultFoodState(allFoods);
+
+  // URL params win; otherwise try localStorage; otherwise defaults
+  const hasUrlParams = window.location.search.length > 1;
+  const savedProfile = !hasUrlParams ? loadProfile() : null;
+
   const initialSearch =
     window.location.search ||
-    serializePlannerStateToSearch(
-      {
-        config: getDefaults(),
-        food: fallbackFoodState,
-        activeTab: 'food',
-      },
-      fallbackFoodState
-    );
+    (savedProfile
+      ? `?dob=${savedProfile.dob}&name=${encodeURIComponent(savedProfile.name || '')}&breed=${encodeURIComponent(savedProfile.breed || 'stabyhoun')}&lang=${savedProfile.lang || 'nl'}`
+      : serializePlannerStateToSearch(
+          {
+            config: getDefaults(),
+            food: fallbackFoodState,
+            activeTab: 'food',
+          },
+          fallbackFoodState
+        ));
   const parsed = parsePlannerStateFromSearch(initialSearch, fallbackFoodState);
   const normalizedSelection = normalizeFoodSelection(
     parsed.state.food,
@@ -191,6 +228,11 @@ export async function runApp(container: HTMLElement): Promise<void> {
     if (derived !== null) {
       foodState = { ...foodState, ageMonths: derived };
     }
+  }
+
+  // Restore weight from saved profile when loaded from localStorage
+  if (savedProfile?.weight && !hasUrlParams) {
+    foodState = { ...foodState, weightKg: savedProfile.weight };
   }
 
   applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
@@ -224,6 +266,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
   let feedbackTimer: ReturnType<typeof setTimeout> | null = null;
   let sharePickerOpen = false;
   let dogProfileCompletedThisSession = false;
+  let editingProfile: SavedProfile | null = null;
 
   const toastContainer = document.getElementById('toast-container');
 
@@ -865,6 +908,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
   }
 
   function renderSetup(): string {
+    const prefill = editingProfile || loadProfile();
     return `
       <div class="min-h-screen bg-background text-gray-800 font-sans px-4 py-6 max-w-lg mx-auto flex flex-col items-center justify-center">
         <img src="/icons/icon-original.png" alt="PuppyCal" class="h-28 w-auto mx-auto animate-mascot-in" width="104" height="112" />
@@ -879,22 +923,22 @@ export async function runApp(container: HTMLElement): Promise<void> {
         <form id="setup-form" class="w-full space-y-4 mt-6" novalidate>
           <div>
             <label for="setup-name" class="block text-sm font-medium mb-1">${t('label_name')}</label>
-            <input type="text" id="setup-name" placeholder="" autocomplete="off" class="w-full border border-gray-300 rounded px-3 py-2"/>
+            <input type="text" id="setup-name" placeholder="" autocomplete="off" class="w-full border border-gray-300 rounded px-3 py-2" value="${escapeHtml(prefill?.name || '')}"/>
           </div>
           <div>
             <label for="setup-dob" class="block text-sm font-medium mb-1">${t('label_dob')} <span class="text-red-500">*</span></label>
-            <input type="date" id="setup-dob" autocomplete="off" class="w-full border border-gray-300 rounded px-3 py-2" required/>
+            <input type="date" id="setup-dob" autocomplete="off" class="w-full border border-gray-300 rounded px-3 py-2" required value="${prefill?.dob || ''}"/>
             <p id="setup-dob-hint" class="text-xs text-gray-500 mt-1">${t('setup_dob_required')}</p>
           </div>
           <div>
             <label for="setup-breed" class="block text-sm font-medium mb-1">${t('label_breed')}</label>
             <select id="setup-breed" class="w-full border border-gray-300 rounded px-3 py-2">
-              <option value="other" selected>${t('breed_other')}</option>
+              <option value="other" ${!prefill?.breed || prefill.breed === 'other' ? 'selected' : ''}>${t('breed_other')}</option>
               <optgroup label="${t('breed_group_dutch')}">
                 ${BREEDS.filter((b) => b.isNativeDutch)
                   .map(
                     (b) =>
-                      `<option value="${b.id}">${t('breed_' + b.id.replace(/-/g, '_'))}</option>`
+                      `<option value="${b.id}" ${prefill?.breed === b.id ? 'selected' : ''}>${t('breed_' + b.id.replace(/-/g, '_'))}</option>`
                   )
                   .join('')}
               </optgroup>
@@ -902,7 +946,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
                 ${BREEDS.filter((b) => !b.isNativeDutch)
                   .map(
                     (b) =>
-                      `<option value="${b.id}">${t('breed_' + b.id.replace(/-/g, '_'))}</option>`
+                      `<option value="${b.id}" ${prefill?.breed === b.id ? 'selected' : ''}>${t('breed_' + b.id.replace(/-/g, '_'))}</option>`
                   )
                   .join('')}
               </optgroup>
@@ -912,12 +956,12 @@ export async function runApp(container: HTMLElement): Promise<void> {
             <label for="setup-weight" class="block text-sm font-medium mb-1">${t('label_weight_kg')}</label>
             <div class="flex items-center gap-1.5">
               <input type="number" id="setup-weight" inputmode="decimal" step="0.1" min="0" autocomplete="off" placeholder="${t('setup_weight_placeholder')}"
-                class="w-28 border border-gray-300 rounded px-3 py-2"/>
+                class="w-28 border border-gray-300 rounded px-3 py-2" ${prefill?.weight ? `value="${prefill.weight}"` : ''}/>
               <span class="text-sm text-gray-600">kg</span>
             </div>
           </div>
           <button type="submit" id="setup-start" aria-describedby="setup-dob-hint"
-            class="w-full mt-2 px-4 py-3 text-sm font-semibold text-white bg-primary rounded-lg hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed" disabled>
+            class="w-full mt-2 px-4 py-3 text-sm font-semibold text-white bg-primary rounded-lg hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed" ${prefill?.dob ? '' : 'disabled'}>
             ${t('setup_btn_start')}
           </button>
         </form>
@@ -988,6 +1032,16 @@ export async function runApp(container: HTMLElement): Promise<void> {
       activeTab = 'food';
       errors = validate(config);
       applyPlannerStateToUrl(config, foodState, activeTab, fallbackFoodState);
+
+      saveProfile({
+        name: config.name,
+        dob: config.dob,
+        breed: config.breed,
+        weight: foodState.weightKg,
+        lang: config.lang,
+      });
+      editingProfile = null;
+
       trackEvent(ANALYTICS_EVENTS.DOG_PROFILE_COMPLETED, {
         breed: config.breed,
         size: foodState.breedSize,
@@ -1019,6 +1073,7 @@ export async function runApp(container: HTMLElement): Promise<void> {
         <header class="text-center mb-8">
           <img src="/icons/icon-original.png" alt="PuppyCal" class="h-28 w-auto mx-auto animate-mascot-in lg:hidden" width="104" height="112" />
           <h1 class="text-2xl font-display font-semibold text-gray-900 leading-tight mt-3">${titleText}</h1>
+          <button type="button" id="edit-profile-btn" class="mt-2 text-xs text-gray-500 hover:text-primary transition-colors underline underline-offset-2 cursor-pointer">${t('edit_profile')}</button>
         </header>
         <div class="mb-4 flex items-center justify-between flex-wrap gap-2">
         <div class="inline-flex rounded-lg border border-gray-200 overflow-hidden" role="tablist" aria-label="Planner tabs" aria-orientation="horizontal">
@@ -1084,6 +1139,18 @@ export async function runApp(container: HTMLElement): Promise<void> {
     container.querySelector('#tab-food')?.addEventListener('click', () => switchTab('food'));
     container.querySelector('#tab-walkies')?.addEventListener('click', () => switchTab('walkies'));
     container.querySelector('#tab-dog')?.addEventListener('click', () => switchTab('dog'));
+
+    container.querySelector('#edit-profile-btn')?.addEventListener('click', () => {
+      editingProfile = {
+        name: config.name,
+        dob: config.dob,
+        breed: config.breed,
+        weight: foodState.weightKg,
+        lang: config.lang,
+      };
+      config = { ...config, dob: '' };
+      render();
+    });
 
     if (activeTab === 'walkies') {
       const form = container.querySelector('#walkies-form');
