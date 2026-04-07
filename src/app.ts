@@ -872,18 +872,18 @@ export async function runApp(container: HTMLElement): Promise<void> {
         <p class="text-sm text-gray-500 mt-2 text-center">${t('setup_subtitle')}</p>
         <div class="inline-flex rounded-lg border border-gray-200 overflow-hidden mt-4">
           <button type="button" id="setup-lang-en"
-            class="px-3 py-1.5 text-xs font-medium transition-colors ${config.lang === 'en' ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}">EN</button>
+            class="px-4 py-2.5 text-sm min-w-[44px] min-h-[44px] font-medium transition-colors ${config.lang === 'en' ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}">EN</button>
           <button type="button" id="setup-lang-nl"
-            class="px-3 py-1.5 text-xs font-medium transition-colors ${config.lang === 'nl' ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}">NL</button>
+            class="px-4 py-2.5 text-sm min-w-[44px] min-h-[44px] font-medium transition-colors ${config.lang === 'nl' ? 'bg-primary text-white' : 'bg-white text-gray-700 hover:bg-gray-50'}">NL</button>
         </div>
         <form id="setup-form" class="w-full space-y-4 mt-6" novalidate>
           <div>
             <label for="setup-name" class="block text-sm font-medium mb-1">${t('label_name')}</label>
-            <input type="text" id="setup-name" placeholder="" class="w-full border border-gray-300 rounded px-3 py-2"/>
+            <input type="text" id="setup-name" placeholder="" autocomplete="off" class="w-full border border-gray-300 rounded px-3 py-2"/>
           </div>
           <div>
             <label for="setup-dob" class="block text-sm font-medium mb-1">${t('label_dob')} <span class="text-red-500">*</span></label>
-            <input type="date" id="setup-dob" class="w-full border border-gray-300 rounded px-3 py-2" required/>
+            <input type="date" id="setup-dob" autocomplete="off" class="w-full border border-gray-300 rounded px-3 py-2" required/>
             <p id="setup-dob-hint" class="text-xs text-gray-500 mt-1">${t('setup_dob_required')}</p>
           </div>
           <div>
@@ -911,12 +911,12 @@ export async function runApp(container: HTMLElement): Promise<void> {
           <div>
             <label for="setup-weight" class="block text-sm font-medium mb-1">${t('label_weight_kg')}</label>
             <div class="flex items-center gap-1.5">
-              <input type="text" id="setup-weight" inputmode="decimal" placeholder="${t('setup_weight_placeholder')}"
+              <input type="number" id="setup-weight" inputmode="decimal" step="0.1" min="0" autocomplete="off" placeholder="${t('setup_weight_placeholder')}"
                 class="w-28 border border-gray-300 rounded px-3 py-2"/>
               <span class="text-sm text-gray-600">kg</span>
             </div>
           </div>
-          <button type="submit" id="setup-start"
+          <button type="submit" id="setup-start" aria-describedby="setup-dob-hint"
             class="w-full mt-2 px-4 py-3 text-sm font-semibold text-white bg-primary rounded-lg hover:opacity-90 transition-opacity disabled:opacity-40 disabled:cursor-not-allowed" disabled>
             ${t('setup_btn_start')}
           </button>

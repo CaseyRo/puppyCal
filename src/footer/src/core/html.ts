@@ -81,8 +81,10 @@ export function renderFooterHtml(config: FooterConfig, options: ResolvedFooterOp
   if (config.colors?.focusRing) colorParts.push(`--footer-focus: ${config.colors.focusRing}`);
   const colorStyle = colorParts.join('; ');
 
-  // Background image style
-  const bgImageStyle = bgImageUrl ? `url(${bgImageUrl})` : null;
+  // Background image style (with gradient fallback so background isn't white while image loads)
+  const bgImageStyle = bgImageUrl
+    ? `url(${bgImageUrl}) center/cover no-repeat, linear-gradient(to bottom, #e8e0d4, #c5cba3)`
+    : null;
 
   // Glass overlay style
   const overlayStrength = config.visuals?.overlayStrength ?? 0.15;
@@ -143,7 +145,7 @@ export function renderFooterHtml(config: FooterConfig, options: ResolvedFooterOp
   const versionAttr = config.version ? ` data-version="${escapeHtml(config.version)}"` : '';
 
   return `<footer class="cdit-footer" role="contentinfo"${versionAttr}${colorStyle ? ` style="${escapeHtml(colorStyle)}"` : ''}>
-  ${bgImageStyle ? `<div class="cdit-footer__bg" style="background-image: ${bgImageStyle}" aria-hidden="true"></div>` : ''}
+  ${bgImageStyle ? `<div class="cdit-footer__bg" style="background: ${bgImageStyle}" aria-hidden="true"></div>` : ''}
   <div class="cdit-footer__glass" style="${glassOverlayStyle}" aria-hidden="true"></div>
   <div class="cdit-footer__content">
     <div class="cdit-footer__grid">

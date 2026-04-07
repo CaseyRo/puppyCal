@@ -82,6 +82,7 @@ export function renderFooter(
     script.setAttribute('defer', '');
     script.setAttribute('src', 'https://ubuntu-smurf.onca-blenny.ts.net/umami/script.js');
     script.setAttribute('data-website-id', config.analytics.websiteId);
+    script.onerror = () => script.remove();
     document.head.appendChild(script);
   }
 }

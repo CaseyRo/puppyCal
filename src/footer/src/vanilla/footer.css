@@ -38,6 +38,7 @@
 .cdit-footer__bg {
   position: absolute;
   inset: 0;
+  background: linear-gradient(to bottom, #e8e0d4, #c5cba3); /* fallback while image loads */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

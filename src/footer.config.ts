@@ -13,10 +13,7 @@ export const footerConfig: FooterConfig = {
   columns: {
     primary: {
       title: 'Connect',
-      items: [
-        { label: 'CDIT', href: 'https://casey.berlin/DIT' },
-        { label: 'Buy me a coffee', href: 'https://buymeacoffee.com/caseyberlin' },
-      ],
+      items: [],
       social: [
         {
           label: 'Buy me a coffee',
