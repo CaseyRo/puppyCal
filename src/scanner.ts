@@ -478,8 +478,18 @@ async function startScanning(i18nData: I18nData, onRerender: () => void): Promis
     <p class="text-xs text-gray-400 text-center mt-2">${t('scan_point_camera')}</p>`;
 
   try {
-    const { Html5Qrcode } = await import('html5-qrcode');
-    const scanner = new Html5Qrcode('scanner-viewfinder');
+    const { Html5Qrcode, Html5QrcodeSupportedFormats } = await import('html5-qrcode');
+    const scanner = new Html5Qrcode('scanner-viewfinder', {
+      verbose: false,
+      formatsToSupport: [
+        Html5QrcodeSupportedFormats.EAN_13,
+        Html5QrcodeSupportedFormats.EAN_8,
+        Html5QrcodeSupportedFormats.UPC_A,
+        Html5QrcodeSupportedFormats.UPC_E,
+        Html5QrcodeSupportedFormats.CODE_128,
+      ],
+      experimentalFeatures: { useBarCodeDetectorIfSupported: true },
+    });
 
     state = {
       scanner,
@@ -516,9 +526,11 @@ async function startScanning(i18nData: I18nData, onRerender: () => void): Promis
 
     await scanner.start(
       { facingMode: 'environment' },
-      { fps: 10, qrbox: { width: 250, height: 150 } },
+      { fps: 10, qrbox: { width: 280, height: 100 }, aspectRatio: 1.7778 },
       async (decodedText: string) => {
         if (state?.locked) return;
+        // Only accept numeric barcodes (EAN/UPC: 8-14 digits)
+        if (!/^\d{8,14}$/.test(decodedText)) return;
         if (state) state.locked = true;
 
         try {

@@ -17,9 +17,7 @@ export interface OffLookupResult {
 }
 
 export async function lookupBarcode(barcode: string): Promise<OffLookupResult> {
-  const response = await fetch(`${OFF_API_BASE}/${barcode}.json`, {
-    headers: { 'User-Agent': 'PuppyCal/1.0 (https://github.com/puppycal)' },
-  });
+  const response = await fetch(`${OFF_API_BASE}/${barcode}.json`);
 
   if (!response.ok) {
     throw new Error(`Open Food Facts API returned ${response.status}`);
