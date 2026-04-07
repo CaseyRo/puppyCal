@@ -719,8 +719,9 @@ export async function runApp(container: HTMLElement): Promise<void> {
       selectedFood && result
         ? `<details class="mt-3">
             <summary class="text-xs font-medium text-gray-500 cursor-pointer select-none hover:text-gray-700">${t('result_assumptions')}</summary>
-            <ul class="text-xs list-disc pl-5 mt-1 text-gray-500">
+            <ul class="text-xs list-disc pl-5 mt-1 text-gray-500 space-y-1">
               <li>${t('assumption_model')}</li>
+              <li>${t('assumption_method')}</li>
               <li>${result.usedFallbackKcal ? t('assumption_kcal_fallback', { density: String(result.densityKcalPerKg) }) : t('assumption_kcal', { density: String(result.densityKcalPerKg) })}</li>
               <li>${t('assumption_advisory')}</li>
             </ul>

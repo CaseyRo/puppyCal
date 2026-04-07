@@ -142,20 +142,20 @@ describe('getBreedComparison', () => {
   });
 
   it('returns on-track for normal weight', () => {
-    // 4 months medium = ~7kg expected, 7kg actual = 1.0 ratio
-    const result = getBreedComparison(4, 7, 'medium', 'Stabyhoun', t);
+    // 4 months medium = ~9kg expected, 9kg actual = 1.0 ratio
+    const result = getBreedComparison(4, 9, 'medium', 'Stabyhoun', t);
     expect(result).toBe('Right on track for a Stabyhoun');
   });
 
   it('returns growing fast for heavy puppy', () => {
-    // 4 months medium = ~7kg expected, 12kg actual = 1.7 ratio
-    const result = getBreedComparison(4, 12, 'medium', 'Stabyhoun', t);
+    // 4 months medium = ~9kg expected, 15kg actual = 1.67 ratio
+    const result = getBreedComparison(4, 15, 'medium', 'Stabyhoun', t);
     expect(result).toBe('Growing fast!');
   });
 
   it('returns lightweight for underweight puppy', () => {
-    // 4 months medium = ~7kg expected, 3kg actual = 0.43 ratio
-    const result = getBreedComparison(4, 3, 'medium', 'Stabyhoun', t);
+    // 4 months medium = ~9kg expected, 4kg actual = 0.44 ratio
+    const result = getBreedComparison(4, 4, 'medium', 'Stabyhoun', t);
     expect(result).toBe('A little lightweight — perfectly healthy');
   });
 });

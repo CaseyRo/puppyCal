@@ -62,38 +62,44 @@ describe('dobToAgeMonths', () => {
 
 describe('estimateWeightFromAge', () => {
   it('returns small breed weight at 2 months', () => {
-    // medium = 3, scale small = 0.4 → 1.2
-    expect(estimateWeightFromAge(2, 'small')).toBe(1.2);
+    // adult=7kg, 30% at 2mo → 2.1
+    expect(estimateWeightFromAge(2, 'small')).toBe(2.1);
   });
 
   it('returns medium breed weight at 6 months', () => {
-    // medium = 11, scale = 1 → 11
-    expect(estimateWeightFromAge(6, 'medium')).toBe(11);
+    // adult=20kg, 65% at 6mo → 13.0
+    expect(estimateWeightFromAge(6, 'medium')).toBe(13);
   });
 
   it('returns large breed weight at 12 months', () => {
-    // medium = 18, scale = 1.75 → 31.5
-    expect(estimateWeightFromAge(12, 'large')).toBe(31.5);
+    // adult=35kg, 88% at 12mo → 30.8
+    expect(estimateWeightFromAge(12, 'large')).toBe(30.8);
   });
 
-  it('returns giant breed weight at adult (>12 months)', () => {
-    // medium = 20, scale = 2.75 → 55
-    expect(estimateWeightFromAge(18, 'giant')).toBe(55);
+  it('returns giant breed weight at 18 months', () => {
+    // adult=55kg, interpolated between 16mo(88%) and 20mo(95%) → ~91.5% → ~50.3
+    const weight = estimateWeightFromAge(18, 'giant');
+    expect(weight).toBeGreaterThan(49);
+    expect(weight).toBeLessThan(53);
   });
 
-  it('returns medium adult weight for age > 12', () => {
+  it('returns full adult weight past maturity', () => {
     expect(estimateWeightFromAge(24, 'medium')).toBe(20);
+    expect(estimateWeightFromAge(30, 'small')).toBe(7);
   });
 
-  it('handles all age breakpoints for medium', () => {
-    expect(estimateWeightFromAge(2, 'medium')).toBe(3);
-    expect(estimateWeightFromAge(3, 'medium')).toBe(5);
-    expect(estimateWeightFromAge(4, 'medium')).toBe(7);
-    expect(estimateWeightFromAge(5, 'medium')).toBe(9);
-    expect(estimateWeightFromAge(6, 'medium')).toBe(11);
-    expect(estimateWeightFromAge(8, 'medium')).toBe(14);
-    expect(estimateWeightFromAge(12, 'medium')).toBe(18);
-    expect(estimateWeightFromAge(13, 'medium')).toBe(20);
+  it('interpolates between anchor points', () => {
+    // 7 months medium: between 6mo(65%) and 8mo(80%) → 72.5% of 20kg = 14.5
+    expect(estimateWeightFromAge(7, 'medium')).toBe(14.5);
+  });
+
+  it('weight increases monotonically with age', () => {
+    const ages = [2, 3, 4, 5, 6, 8, 10, 12, 14];
+    for (let i = 0; i < ages.length - 1; i++) {
+      expect(estimateWeightFromAge(ages[i], 'medium')).toBeLessThanOrEqual(
+        estimateWeightFromAge(ages[i + 1], 'medium')
+      );
+    }
   });
 });
 
