@@ -17,7 +17,7 @@ if ('serviceWorker' in navigator) {
   });
 
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch(() => {
+    navigator.serviceWorker.register('/service-worker.js').catch(() => {
       // SW registration failure is non-fatal — app works without it
     });
   });

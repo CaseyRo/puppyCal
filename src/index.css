@@ -1,22 +1,19 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-:root {
+@theme {
   --color-background: #faf8f5;
   --color-primary: #2d5a3d;
   --color-surface: #f5f0e8;
   --color-muted: #e8e2d6;
+
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
 }
 
 body {
-  font-family: 'DM Sans', system-ui, sans-serif;
+  font-family: var(--font-sans);
   background-color: var(--color-background);
   background-image: radial-gradient(ellipse at 50% 0%, rgba(45, 90, 61, 0.07) 0%, transparent 60%);
-}
-
-.font-display {
-  font-family: 'Fraunces', Georgia, serif;
 }
 
 @import './footer/src/vanilla/footer.css';

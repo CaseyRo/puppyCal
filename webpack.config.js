@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const { GenerateSW } = require('workbox-webpack-plugin');
 require('dotenv').config();
 
 const pkg = require('./package.json');
@@ -53,15 +54,35 @@ module.exports = {
         {
           from: 'public',
           to: '.',
-          globOptions: { ignore: ['**/icon-master-square.png', '**/icon-original-full.png'] },
-          transform: {
-            transformer(content, absoluteFrom) {
-              if (absoluteFrom.endsWith('sw.js')) {
-                return content.toString().replace('__VERSION__', pkg.version);
-              }
-              return content;
-            },
+          globOptions: {
+            ignore: ['**/icon-master-square.png', '**/icon-original-full.png', '**/sw.js'],
           },
+        },
+      ],
+    }),
+    new GenerateSW({
+      clientsClaim: true,
+      skipWaiting: true,
+      navigateFallback: '/index.html',
+      maximumFileSizeToCacheInBytes: 512 * 1024,
+      exclude: [/\.map$/, /^icons\/share-/, /bg-puppycal\.png$/],
+      runtimeCaching: [
+        {
+          urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\//,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'google-fonts',
+            expiration: { maxEntries: 10, maxAgeSeconds: 31536000 },
+          },
+        },
+        {
+          urlPattern: /\/i18n\/.*\.json$/,
+          handler: 'StaleWhileRevalidate',
+          options: { cacheName: 'i18n' },
+        },
+        {
+          urlPattern: /\/api\//,
+          handler: 'NetworkOnly',
         },
       ],
     }),
