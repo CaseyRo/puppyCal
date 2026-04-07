@@ -526,7 +526,7 @@ async function startScanning(i18nData: I18nData, onRerender: () => void): Promis
 
     await scanner.start(
       { facingMode: 'environment' },
-      { fps: 10, qrbox: { width: 280, height: 100 }, aspectRatio: 1.7778 },
+      { fps: 10, qrbox: { width: 400, height: 150 }, aspectRatio: 1.777778, disableFlip: true },
       async (decodedText: string) => {
         if (state?.locked) return;
         // Only accept numeric barcodes (EAN/UPC: 8-14 digits)
